@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/19 12:14:11 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:17:13 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	pwd()
 	char	buffer[PATH_MAX];
 	char	*path;
 
-	rl_clear_history();
 	if (ft_strlen() > PATH_MAX)
 		//error;
 	if (ft_strlen() == PATH_MAX)
