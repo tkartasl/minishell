@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/21 11:52:07 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/19 14:59:14 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,4 @@ void	parse_line(char	*line)
 		struct_array[i] = get_pipelines(cmd_lines[i]);
 		i++;
 	}
-	a
 }
