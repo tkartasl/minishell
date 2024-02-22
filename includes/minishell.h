@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/22 12:36:03 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/02/22 12:38:01 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <fcntl.h>
 
 typedef struct s_redir
 {
