@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	ft_lstadd_back(t_redir **lst, t_redir *new)
+void	redir_lstadd_back(t_redir **lst, t_redir *new)
 {
 	t_redir	*current;
 	t_redir	*last;
@@ -22,7 +22,7 @@ void	ft_lstadd_back(t_redir **lst, t_redir *new)
 	last->next = new;
 }
 
-t_redir	*ft_lstnew(void *content)
+t_redir	*redir_lstnew(char *filename, char redir, int index)
 {
 	t_redir	*new;
 
@@ -30,7 +30,9 @@ t_redir	*ft_lstnew(void *content)
 	new = (t_redir *)malloc(sizeof(t_redir));
 	if (new == 0)
 		return (0);
-	new->content = content;
+	new->filename = filename;
+	new->arrow = redir;
+	new->index = index;
 	new->next = NULL;
 	return (new);
 }
