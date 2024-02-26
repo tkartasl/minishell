@@ -1,16 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_redirections.c                             :+:      :+:    :+:   */
+/*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/26 11:42:48 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:45:59 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void    put_arrow_lst(char *line, t_redir **new, int j)
+{
+    while(line[j] != '\0')
+    {
+        if (line[j] == '<' && line[j + 1] == '<')
+            j = j + 2;
+        if (line[j] == '<')
+        {
+            (*new)->arrow = '<';
+            (*new) = (*new)->next;
+        }
+        else if (line[j] == '>')
+        {
+            if (line[j + 1] == '>')
+            {
+                (*new)->arrow = '!';
+                j++;
+            }
+            else
+                (*new)->arrow = '>';
+            (*new) = (*new)->next;
+        }
+        j++;
+    }
+}
 
 void    add_redirs(t_redir **redirs, char **cmd_lines)
 {
@@ -20,31 +46,10 @@ void    add_redirs(t_redir **redirs, char **cmd_lines)
 
     new = *redirs;
     i =    0;
-    while(i < 4)
+    while(cmd_lines[i] != 0)
     {
         j = 0;
-        while(cmd_lines[i][j] != '\0')
-        {
-			if (cmd_lines[i][j] == '<' && cmd_lines[i][j +1] == '<')
-				j = j + 2;
-            if (cmd_lines[i][j] == '<')
-			{
-                new->arrow = '<';
-                new = new->next;
-            }
-            else if (cmd_lines[i][j] == '>')
-            {
-                if (cmd_lines[i][j + 1] == '>')
-                {
-                    new->arrow = '!';
-                    j++;
-                }
-                else
-                    new->arrow = '>';
-                new = new->next;
-            }
-            j++;
-        }
+        put_arrow_lst(cmd_lines[i], &new, j);
         i++;
     }
 }
