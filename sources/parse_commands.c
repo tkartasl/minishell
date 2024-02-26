@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_commands.c                                 :+:      :+:    :+:   */
+/*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/26 12:36:25 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:46:29 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,17 @@ t_cmd_args	*get_structs(t_redir **redir, t_redir **hdoc, char *line, int pipe)
 {
 	t_cmd_args	*line;
 	char		*temp;
-
+	int			len;
+	
+	len = ft_strlen(line);
 	temp = line;
 	ft_memset(line, 0, sizeof(t_cmd_args));
 	line->head_hdocs = hdoc;
 	line->head_redir = redir;
 	line->pipe_count = pipe;
-	line->cmd = parse_command(line);
+	line->cmd = parse_command(temp);
+	temp = ft_strnstr(line, line->cmd, len);
+	line->args = parse_arguments(temp);
 	return (line);	
 }
 
@@ -82,8 +86,7 @@ create_array(t_redir **redir, t_redir **hdoc, char **lines, int pipes)
 	while (lines[i] != 0)
 	{
 		array[i] = get_structs(redir, hdoc, &lines[i], pipes);
-	
+		i++;
 	}
-
 	
 }
