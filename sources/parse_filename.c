@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:20:57 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/22 12:21:27 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:09:14 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,25 @@ char	*find_limiter(char *str)
     return (str);
 }
 
-char	*find_redir(char *str)
+char    *find_redir(char *str)
 {
     while (*str != 0)
-    {    
-       if (*str == '>' && *(str + 1) == '>')
-		{
+    {
+		if (*str == '<' && *(str +1) == '<')
 			str = str + 2;
+		if (*str == '>' && *(str + 1) == '>')
+        {
+            str = str + 2;
             str = ft_skip_whitespace(str);
-				return (str); 
-		}
-	   else if (*str == '<' || *str == '>')
-        {    
+                return (str); 
+        }
+		else if (*str == '<' || *str == '>')
+        {
             str = str + 1;
             str = ft_skip_whitespace(str);
-				return (str); 
+                return (str); 
         }
-		
+
         if (*str != 0)
             str++;
     }
