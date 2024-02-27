@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/26 11:45:59 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/02/27 15:05:13 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	get_redirs(t_redir **redirs, char **cmd_lines)
 			temp = find_redir(temp);
 			if (*temp != 0)
 			{
-				len = get_len(temp);
+				len = get_len_check_error(temp);
 				file = ft_strndup(temp, len);
 				if (file == 0)
 					printf("Error\n");
@@ -118,6 +118,7 @@ void	parse_line(char	*line)
 	int			pipe_count;
 	t_redir		*heredocs;
 	t_redir		*redirs;
+	t_cmd_args	**cmd_args;
 	
 	pipe_count = 0;
 	cmd_lines = ft_split(line, '|');
@@ -126,5 +127,6 @@ void	parse_line(char	*line)
 	get_heredocs(&heredocs, cmd_lines);
 	get_redirs(&redirs, cmd_lines);
 	add_redirs(&redirs, cmd_lines);
-	parse_command(&redirs, &heredocs, cmd_lines, pipe_count);
+	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
+	
 }

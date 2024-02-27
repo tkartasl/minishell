@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/26 16:46:29 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/27 15:06:38 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_cmd_args	*get_structs(t_redir **redir, t_redir **hdoc, char *line, int pipe)
 	t_cmd_args	*line;
 	char		*temp;
 	int			len;
+	char		*temp2;
 	
 	len = ft_strlen(line);
 	temp = line;
@@ -71,22 +72,27 @@ t_cmd_args	*get_structs(t_redir **redir, t_redir **hdoc, char *line, int pipe)
 	line->pipe_count = pipe;
 	line->cmd = parse_command(temp);
 	temp = ft_strnstr(line, line->cmd, len);
-	line->args = parse_arguments(temp);
+	temp2 = temp;
+	while(*temp != ' ' && *temp != 0)
+			temp++;
+	temp = ft_skip_whitespace(temp);
+	line->args = parse_arguments(temp, temp2);
 	return (line);	
 }
 
-create_array(t_redir **redir, t_redir **hdoc, char **lines, int pipes)
+t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)
 {
 	t_cmd_args	**array;
 	int			i;
 	
-	line = malloc((pipes + 1) * sizeof(t_cmd_args *))
+	array = malloc((pipe + 1) * sizeof(t_cmd_args *))
 	if (line == 0)
 		//Error
-	while (lines[i] != 0)
+	while (line[i] != 0)
 	{
-		array[i] = get_structs(redir, hdoc, &lines[i], pipes);
+		array[i] = get_structs(redir, hdoc, &line[i], pipe);
 		i++;
 	}
 	
+	return (array);
 }
