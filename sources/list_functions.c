@@ -36,3 +36,13 @@ t_redir	*redir_lstnew(char *filename, char redir, int index)
 	new->next = NULL;
 	return (new);
 }
+
+void	build_list(t_redir **heredocs, char *lim, int index)
+{
+	t_redir	*new;
+
+	new = redir_lstnew(lim, 0, index);
+	if (new == 0)
+		printf("Error\n");
+	redir_lstadd_back(heredocs, new);
+}
