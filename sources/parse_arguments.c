@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:15:41 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/28 12:20:05 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:08:12 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,6 @@ void	get_arg_count(char *cmd_line, int *count)
 			}
 		}
 	}
-}
-
-char	*skip_redirs(char *cmd_line)
-{
-	if ((*cmd_line == '<' || *cmd_line == '>') && (*(cmd_line + 1) == '<'
-		|| *(cmd_line + 1) == '>'))
-		cmd_line = cmd_line + 2;
-	if (*cmd_line == '<' || *cmd_line == '>')
-		cmd_line++;
-	cmd_line = ft_skip_whitespace(cmd_line);
-	return (cmd_line);
 }
 
 char	*get_args(char *cmd_line)
