@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/27 15:06:38 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/28 09:25:14 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ char *find_cmd(char *cmd_line)
 	len = 0;
 	while (1)
 	{
-		while(*cmd_line != ' ' && cmd_line != 0)
-			cmd_line++;
-		cmd_line = ft_skip_whitespace(cmd_line);
+		cmd_line = skip_redirs(cmd_line);
 		while(*cmd_line != ' ' && cmd_line != 0)
 			cmd_line++;
 		cmd_line = ft_skip_whitespace(cmd_line);
