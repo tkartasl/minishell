@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/28 12:11:34 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:51:47 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,29 @@ char	*parse_command(char *cmd_line)
 	return (cmd);	
 }
 
-t_cmd_args	*get_structs(t_redir **redir, t_redir **hdoc, char *cmd_line, int pipe)
+t_cmd_args    get_structs(t_redir redir, t_redir hdoc, charcmd_line, int pipe)
 {
-	t_cmd_args	*line;
-	char		*temp;
-	int			len;
-	char		*temp2;
-	
-	len = ft_strlen(cmd_line);
-	line = 0;
-	temp = cmd_line;
-	ft_memset(line, 0, sizeof(t_cmd_args));
-	line->head_hdocs = hdoc;
-	line->head_redir = redir;
-	line->pipe_count = pipe;
-	line->cmd = parse_command(temp);
-	temp = ft_strnstr(cmd_line, line->cmd, len);
-	temp2 = temp;
-	while(*temp != ' ' && *temp != 0)
-			temp++;
-	temp = ft_skip_whitespace(temp);
-	line->args = parse_arguments(temp, temp2);
-	return (line);	
+    t_cmd_args    *new;
+    char        *temp;
+    int            len;
+    char        temp2;
+
+    new = malloc(sizeof(t_cmd_args));
+    if (new == 0)
+        printf("error\n");
+    len = ft_strlen(cmd_line);
+    temp = cmd_line;
+    new->pipe_count = pipe;
+    new->head_hdocs = hdoc;
+    new->head_redir = redir;
+    new->cmd = parse_command(temp);
+    temp = ft_strnstr(cmd_line, new->cmd, len);
+    temp2 = temp;
+    while(temp != ' ' && *temp != 0)
+            temp++;
+    temp = ft_skip_whitespace(temp);
+    new->args = parse_arguments(temp, temp2);
+    return (new);
 }
 
 t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)

@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/27 15:05:13 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:51:51 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,10 @@ void	parse_line(char	*line)
 	t_redir		*redirs;
 	t_cmd_args	**cmd_args;
 	
-	pipe_count = 0;
+	heredocs = 0;
+	redirs = 0;
 	cmd_lines = ft_split(line, '|');
-	while (cmd_lines[pipe_count] != 0)
-		pipe_count++;
+	pipe_count = check_empty_line(cmd_lines);
 	get_heredocs(&heredocs, cmd_lines);
 	get_redirs(&redirs, cmd_lines);
 	add_redirs(&redirs, cmd_lines);
