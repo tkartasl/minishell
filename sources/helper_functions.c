@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:52:10 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/28 13:37:17 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:16:52 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ char	*skip_redirs(char *cmd_line)
 
 void	check_syntax_error(char *str)
 {
-	if (*str == '|' || *str == '&' || *str == 0) || *str == '>' || *str == '<')
+	if (*str == '|' || *str == '&' || *str == 0 || *str == '>' || *str == '<')
 				printf("syntax error");
 }

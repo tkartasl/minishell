@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/28 15:56:36 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:17:51 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *cmd_line, int 
     t_cmd_args    *new;
     char        *temp;
     int            len;
-    char        temp2;
+    char        *temp2;
 
     new = malloc(sizeof(t_cmd_args));
     if (new == 0)
@@ -73,7 +73,7 @@ t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *cmd_line, int 
     new->cmd = parse_command(temp);
     temp = ft_strnstr(cmd_line, new->cmd, len);
     temp2 = temp;
-    while(temp != ' ' && *temp != 0)
+    while(*temp != ' ' && *temp != 0)
             temp++;
     temp = ft_skip_whitespace(temp);
     new->args = parse_arguments(temp, temp2);
