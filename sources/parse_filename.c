@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:20:57 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/27 14:51:57 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:38:10 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ char	*find_limiter(char *str)
         {    
             str = str + 2;
             str = ft_skip_whitespace(str);
-				return (str); 
+			if (*str == '|' || *str == '&' || *str == 0
+				|| *str == '>' || *str == '<')
+				printf("syntax error");
+			return (str); 
         }
-        if (*str != 0)
-            str++;
+        str++;
     }
     return (str);
 }
@@ -33,47 +35,27 @@ char    *find_redir(char *str)
     while (*str != 0)
     {
 		if (*str == '<' && *(str + 1) == '>')
-			printf("error");
+			printf("syntax error");
 		if (*str == '>' && *(str + 1) == '<')
-			printf("error");
+			printf("syntax error");
 		if (*str == '<' && *(str + 1) == '<')
 			str = str + 2;
 		if (*str == '>' && *(str + 1) == '>')
         {
             str = str + 2;
             str = ft_skip_whitespace(str);
-                return (str); 
+			check_syntax_error(str);
+            return (str); 
         }
 		else if (*str == '<' || *str == '>')
         {
             str = str + 1;
             str = ft_skip_whitespace(str);
-                return (str); 
+			check_syntax_error(str);
+            return (str); 
         }
-		if (*str != 0)
-            str++;
+		str++;
     }
     return (str);
 }
 
-int	get_len_check_error(char *str)
-{
-	int	i;
-	
-	i = 0;
-	while (str[i] != ' ' && str[i] != 0 && str[i] != '<' && str[i] != '>')
-		i++;
-	if (str[i] == '<' || str[i] == '>')
-		printf("error");
-	return (i);	
-}
-
-int	get_len(char *str)
-{
-	int	i;
-	
-	i = 0;
-	while (str[i] != ' ' && str[i] != 0 && str[i] != '<' && str[i] != '>')
-		i++;
-	return (i);	
-}
