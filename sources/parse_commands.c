@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/28 15:51:47 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:56:36 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*parse_command(char *cmd_line)
 	return (cmd);	
 }
 
-t_cmd_args    get_structs(t_redir redir, t_redir hdoc, charcmd_line, int pipe)
+t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *cmd_line, int pipe)
 {
     t_cmd_args    *new;
     char        *temp;
