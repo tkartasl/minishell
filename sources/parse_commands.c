@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/28 09:25:14 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:11:34 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*parse_command(char *cmd_line)
 		len = get_len(cmd_line);
 		cmd = ft_strndup(cmd_line, len);
 		if (cmd == 0)
-			//Error
+			printf("error\n");
 		return (cmd);
 	}
 	else
@@ -55,21 +55,22 @@ char	*parse_command(char *cmd_line)
 	return (cmd);	
 }
 
-t_cmd_args	*get_structs(t_redir **redir, t_redir **hdoc, char *line, int pipe)
+t_cmd_args	*get_structs(t_redir **redir, t_redir **hdoc, char *cmd_line, int pipe)
 {
 	t_cmd_args	*line;
 	char		*temp;
 	int			len;
 	char		*temp2;
 	
-	len = ft_strlen(line);
-	temp = line;
+	len = ft_strlen(cmd_line);
+	line = 0;
+	temp = cmd_line;
 	ft_memset(line, 0, sizeof(t_cmd_args));
 	line->head_hdocs = hdoc;
 	line->head_redir = redir;
 	line->pipe_count = pipe;
 	line->cmd = parse_command(temp);
-	temp = ft_strnstr(line, line->cmd, len);
+	temp = ft_strnstr(cmd_line, line->cmd, len);
 	temp2 = temp;
 	while(*temp != ' ' && *temp != 0)
 			temp++;
@@ -82,13 +83,14 @@ t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)
 {
 	t_cmd_args	**array;
 	int			i;
-	
-	array = malloc((pipe + 1) * sizeof(t_cmd_args *))
+
+	i = 0;
+	array = malloc((pipe + 1) * sizeof(t_cmd_args *));
 	if (line == 0)
-		//Error
+		printf("error\n");
 	while (line[i] != 0)
 	{
-		array[i] = get_structs(redir, hdoc, &line[i], pipe);
+		array[i] = get_structs(redir, hdoc, line[i], pipe);
 		i++;
 	}
 	
