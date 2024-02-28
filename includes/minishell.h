@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/27 15:24:57 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:02:00 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ char		*find_limiter(char *str);
 void		build_list(t_redir **heredocs, char *lim, int index);
 t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe);
 char		**parse_arguments(char *line, char *line2);
+char		*skip_redirs(char *cmd_line);
+
 
 #endif
