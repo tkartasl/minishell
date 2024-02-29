@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/29 13:34:40 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:53:06 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char *find_cmd(char *cmd_line)
 	while (1)
 	{
 		cmd_line = skip_redirs(cmd_line);
-		while(*cmd_line != ' ' && cmd_line != 0)
+		while(*cmd_line != ' ' && *cmd_line != 0)
 			cmd_line++;
 		cmd_line = ft_skip_whitespace(cmd_line);
 		if (*cmd_line != '<' && *cmd_line != '>')
@@ -30,7 +30,7 @@ char *find_cmd(char *cmd_line)
 	len = get_len(cmd_line);
 	cmd = ft_strndup(cmd_line, len);
 	if (cmd == 0)
-		printf("error\n");
+		write(1, "error\n", 6);
 	return	(cmd);	
 }
 
