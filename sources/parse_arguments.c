@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:15:41 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/28 13:08:12 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:34:39 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	get_arg_count(char *cmd_line, int *count)
 		{
 			while (*cmd_line != 0 && (*cmd_line == '>' || *cmd_line == '<'))
 			{
-				//printf("%c\n", *cmd_line);
 				if ((*cmd_line == '<' || *cmd_line == '>') && (*(cmd_line + 1) == '<' || *(cmd_line + 1) == '>'))
 					cmd_line = cmd_line + 2;
 				if (*cmd_line == '<' || *cmd_line == '>')

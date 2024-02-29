@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/28 16:17:51 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:34:40 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*parse_command(char *cmd_line)
 
 	len = 0;
 	cmd = 0;
+	cmd_line = ft_skip_whitespace(cmd_line);
 	if (*cmd_line != '<' && *cmd_line != '>')
 	{
 		cmd_line = ft_skip_whitespace(cmd_line);
