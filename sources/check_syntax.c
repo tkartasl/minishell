@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/02/29 13:59:31 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:10:44 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_empty_line(char *lines)
+int	check_empty_line(char *lines, int pipe_count, int i)
 {
 	char    *temp;
 
@@ -20,6 +20,8 @@ int	check_empty_line(char *lines)
     temp = ft_skip_whitespace(temp);
     if (*temp == '|' || *temp == '&')
         return (1);
+	if (*temp == 0 && i < pipe_count)
+		return (1);
     return (0);
 }
 
@@ -43,7 +45,7 @@ int check_after_redir(char *cmd_lines)
     return (0);
 }
 
-int check_syntax(char **cmd_lines)
+int check_syntax(char **cmd_lines, int pipe_count)
 {
     int i;
     
@@ -51,7 +53,7 @@ int check_syntax(char **cmd_lines)
     i = 0;
     while(cmd_lines[i])
     {
-        if (check_empty_line(cmd_lines[i]) == 1)
+        if (check_empty_line(cmd_lines[i], pipe_count, i) == 1)
         {
             syntax_error(cmd_lines);
             return (0);

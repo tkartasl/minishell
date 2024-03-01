@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:22:24 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/01 10:51:50 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:16:56 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ char	*ft_strndup(const char *s1, int len)
 	int		n;
 	char	*p;
 
-	if (len == 0 || s1 == 0)
-		return (s1);
 	n = 0;
 	p = malloc((len + 1) * sizeof(char));
 	if (p == 0)

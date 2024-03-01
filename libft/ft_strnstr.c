@@ -6,10 +6,11 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:44:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/01 10:22:47 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:12:46 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {

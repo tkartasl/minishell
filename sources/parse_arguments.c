@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:15:41 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/29 13:34:39 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:25:16 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**parse_arguments(char *line, char *line2)
 	get_arg_count(line, &count);
 	args = malloc((count + 1) * sizeof(char *));
 	if (args == 0)
-		printf("Error");
+		return (0);
 	while (i < count)
 	{
 		line2 = get_args(line2);
