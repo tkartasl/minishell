@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/28 12:16:55 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/01 08:46:53 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int main()
 		exit(1);
 	while (1)
 	{
-		line = readline("prompt: ");
+		line = readline("minishell >: ");
 		if (line != 0 && *line != 0)
 			add_history(line);
 		parse_line(line);
@@ -45,12 +45,3 @@ int main()
 	}
 	return (0);
 }
-
-/*
-int main()
-{
-	char *line = "cat < file";
-	parse_line(line);
-	return (0);
-}
-*/

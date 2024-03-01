@@ -6,7 +6,7 @@
 #    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/01 08:38:42 by tkartasl          #+#    #+#              #
-#    Updated: 2024/03/01 08:39:53 by tkartasl         ###   ########.fr        #
+#    Updated: 2024/03/01 08:45:33 by tkartasl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,13 @@ SRCS = sources/minishell.c \
 
 OBJS = $(SRCS:.c=.o)
 
+all: $(NAME)
+
 $(NAME): $(OBJS) $(LIBFTA)
-	$(MAKE) all -C $(LIBFTD)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFTA) -o $(NAME) -lreadline
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTA) -o $(NAME) -lreadline
 
 $(LIBFTA): 
-	$(MAKE) all -C $(LIBFTD)
+	@$(MAKE) all -C $(LIBFTD)
 
 clean:
 	rm -f $(OBJS)
