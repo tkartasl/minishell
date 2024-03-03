@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/01 14:11:30 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:46:26 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	get_heredocs(t_redir **heredocs, t_redir **redirs, char **cmd_lines)
 	}
 }
 
-void	parse_line(char	*line)
+void	parse_line(char	*line, char **envp)
 {
 	char		**cmd_lines;
 	int			pipe_count;
@@ -133,4 +133,8 @@ void	parse_line(char	*line)
 	get_redirs(&redirs, &heredocs, cmd_lines);
 	add_redirs(&redirs, cmd_lines);
 	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
+    if (cmd_args == 0)
+        return ;
+    run_pipes(cmd_args, pipe_count, envp);
+    
 }
