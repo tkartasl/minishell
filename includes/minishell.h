@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/01 14:08:09 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/03 13:43:19 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <fcntl.h>
 
 typedef struct s_redir
 {
@@ -36,7 +39,7 @@ typedef struct s_cmd_args
 	int			pipe_count;
 }				t_cmd_args;
 
-void		parse_line(char	*line);
+void		parse_line(char	*line, char **envp);
 char		*find_redir(char *str);
 int			get_len(char *str);
 char		*find_limiter(char *str);
@@ -50,5 +53,6 @@ void		list_build_error(t_redir **hdoc, t_redir **redir, char **cmd_line);
 void		redir_lstclear(t_redir **lst, void (*del)(void *));
 void		free_struct_array(t_cmd_args **arr);
 int			get_pipe_count(char **cmd_lines);
+void        run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp);
 
 #endif
