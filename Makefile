@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
+#    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/01 08:38:42 by tkartasl          #+#    #+#              #
-#    Updated: 2024/03/01 08:45:33 by tkartasl         ###   ########.fr        #
+#    Updated: 2024/03/03 11:06:59 by vsavolai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS = sources/minishell.c \
 		sources/parsing_errors.c \
 		sources/helper_functions.c \
 		sources/list_functions.c \
+		sources/run_pipes.c \
 	#	sources/builtins.c \
 	#	sources/builtins2.c
 
