@@ -3,54 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/03 16:46:26 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:16:33 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    put_arrow_lst(char *line, t_redir **new, int j)
+void    put_arrow_lst(char *line, t_redir **new)
 {
-    while(line[j] != '\0')
+    while(*line != '\0')
     {
-        if (line[j] == '<' && line[j + 1] == '<')
-            j = j + 2;
-        if (line[j] == '<')
+		if (*line == '\'' || *line == '\"')
+			line = skip_quotes(line, *line);
+        if (*line == '<' && *(line + 1) == '<')
+            line = line + 2;
+        if (*line == '<')
         {
             (*new)->arrow = '<';
             (*new) = (*new)->next;
         }
-        else if (line[j] == '>')
+        else if (*line == '>')
         {
-            if (line[j + 1] == '>')
+            if (*(line + 1) == '>')
             {
                 (*new)->arrow = '!';
-				j++;
+				line++;
             }
             else
                 (*new)->arrow = '>';
             (*new) = (*new)->next;
         }
-		
-        j++;
+		line++;
     }
 }
 
 void    add_redirs(t_redir **redirs, char **cmd_lines)
 {
     int 		i;
-    int 		j;
     t_redir    *new;
 
     new = *redirs;
-    i =    0;
+    i =	0;
     while(cmd_lines[i] != 0)
     {
-        j = 0;
-        put_arrow_lst(cmd_lines[i], &new, j);
+        put_arrow_lst(cmd_lines[i], &new);
         i++;
     }
 }
@@ -135,6 +134,41 @@ void	parse_line(char	*line, char **envp)
 	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
     if (cmd_args == 0)
         return ;
-    run_pipes(cmd_args, pipe_count, envp);
-    
+    int i = 0;
+    int j;
+    while(cmd_args[i])
+    {
+        printf("Command: %s\n", cmd_args[i]->cmd);
+        j = 0;
+        while(cmd_args[i]->args[j])
+        {
+            printf("command %d argument: %s\n", i, cmd_args[i]->args[j]);
+            j++;
+        }
+        printf("pipe count: %d\n", cmd_args[i]->pipe_count);
+        i++;
+    }
+
+    i = 0;
+    while(cmd_args[i]->head_redir[i])
+    {
+        write(2, "loop start\n", 11);
+        printf("redir nbr: %d\n", cmd_args[i]->head_redir[i]->index);
+        printf("redir: %c\n", cmd_args[i]->head_redir[i]->arrow);
+        printf("filename: %s\n", cmd_args[i]->head_redir[i]->filename);
+        cmd_args[i]->head_redir[i] = cmd_args[i]->head_redir[i]->next;
+        write(2, "loop end\n", 9);
+    }
+
+    i = 0;
+    while(cmd_args[i]->head_hdocs[i])
+    {
+        write(2, "here_doc start\n", 15);
+        printf("redir nbr: %d\n", cmd_args[i]->head_hdocs[i]->index);
+        printf("redir: %c\n", cmd_args[i]->head_hdocs[i]->arrow);
+        printf("filename: %s\n", cmd_args[i]->head_hdocs[i]->filename);
+        cmd_args[i]->head_hdocs[i] = cmd_args[i]->head_hdocs[i]->next;
+        write(2, "here_doc end\n", 13);
+    }
+	run_pipes(cmd_args, pipe_count, envp);
 }

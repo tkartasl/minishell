@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/04 09:40:39 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:24:33 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ char *find_cmd(char *cmd_line)
 		if (*cmd_line != '<' && *cmd_line != '>')
 			break ;
 	}
-	len = get_len(cmd_line);
+	if (*cmd_line == '\'' || *cmd_line == '\"')
+		len = get_quotes_len(cmd_line, *cmd_line);
+	ft_printf("%d\n", len);
+	if (len == 0)
+		len = get_len(cmd_line);
 	cmd = ft_strndup(cmd_line, len);
 	if (cmd == 0)
 		return (0);
-	return	(cmd);	
+	return (cmd);
 }
 
 char	*parse_command(char *cmd_line)
@@ -45,7 +49,11 @@ char	*parse_command(char *cmd_line)
 	if (*cmd_line != '<' && *cmd_line != '>')
 	{
 		cmd_line = ft_skip_whitespace(cmd_line);
-		len = get_len(cmd_line);
+		if (*cmd_line == '\'' || *cmd_line == '\"')
+			len = get_quotes_len(cmd_line, *cmd_line);
+		ft_printf("%d\n", len);
+		if (len == 0)
+			len = get_len(cmd_line);
 		cmd = ft_strndup(cmd_line, len);
 		if (cmd == 0)
 			return (0);
@@ -86,41 +94,20 @@ t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
 	new->cmd = parse_command(temp);
 	if (new->cmd == 0)
 		return (0);
+	ft_printf("cmd: %s\n", new->cmd);
 	temp = ft_strnstr(line, new->cmd, len);
     temp2 = temp;
-   	while(*temp != ' ' && *temp != 0)
-            temp++;
+	if (*temp == '\'' || *temp == '\"')
+		temp = skip_quotes(temp, *temp);
+	else
+	{
+   		while(*temp != ' ' && *temp != 0)
+    		temp++;
+	}
     temp = ft_skip_whitespace(temp);
     new->args = parse_arguments(temp, temp2);
     return (new);
 }
-
-/*t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
-{
-    t_cmd_args    *new;
-    char        *temp;
-    int            len;
-    char        *temp2;
-
-    new = malloc(sizeof(t_cmd_args));
-    if (new == 0)
-        return (0);
-    len = ft_strlen(line);
-    temp = line;
-    new->pipe_count = pc;
-    new->head_hdocs = hdoc;
-    new->head_redir = redir;
-    new->cmd = parse_command(temp);
-	if (new->cmd == 0)
-		return (0);
-    temp = ft_strnstr(line, new->cmd, len);
-    temp2 = temp;
-    while(*temp != ' ' && *temp != 0)
-            temp++;
-    temp = ft_skip_whitespace(temp);
-    new->args = parse_arguments(temp, temp2);
-    return (new);
-}*/
 
 t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)
 {

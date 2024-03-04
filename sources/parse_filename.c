@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parse_filename.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:20:57 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/29 14:06:17 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/04 10:57:55 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+ 
 char	*find_limiter(char *str)
 {
     while (*str != 0)
-    {    
+    {   
+		if (*str == '\'' || *str == '\"')
+			str = skip_quotes(str, *str);
         if (*str == '<' && *(str + 1) == '<')
         {    
             str = str + 2;
@@ -31,6 +33,8 @@ char    *find_redir(char *str)
 {
     while (*str != 0)
     {
+		if (*str == '\'' || *str == '\"')
+			str = skip_quotes(str, *str);
 		if (*str == '<' && *(str + 1) == '<')
 			str = str + 2;
 		if (*str == '>' && *(str + 1) == '>')
