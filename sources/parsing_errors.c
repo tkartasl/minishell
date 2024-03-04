@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:46:01 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/01 12:53:15 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:42:23 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void    syntax_error(char **cmd_line)
 
 void	list_build_error(t_redir **hdoc, t_redir **redir, char **cmd_line)
 {
-	ft_free_pointer_array(cmd_line);
+	if (cmd_line != 0)
+		ft_free_pointer_array(cmd_line);
 	redir_lstclear(hdoc, &free);
 	redir_lstclear(redir, &free);
 	printf("Malloc failure");
@@ -34,7 +35,8 @@ void free_struct_array(t_cmd_args **arr)
 	while(arr[i] != 0)
 	{
 		list_build_error(arr[i]->head_hdocs, arr[i]->head_redir, arr[i]->args);
-		free(arr[i]->cmd);
+		if (arr[i]->cmd != 0)
+			free(arr[i]->cmd);
 		i++;
 	}
 	free(arr);

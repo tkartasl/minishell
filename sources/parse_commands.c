@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/01 13:48:14 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:40:39 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,46 @@ char	*parse_command(char *cmd_line)
 	return (cmd);	
 }
 
+t_cmd_args	*struct_new(t_redir **redir, t_redir **hdoc, int pipe)
+{
+	t_cmd_args	*new;
+
+	new = malloc(sizeof(t_cmd_args));
+	if (new == 0)
+		return (0);
+	new->head_hdocs = hdoc;
+	new->head_redir = redir;
+	new->pipe_count = pipe;
+	new->cmd = 0;
+	new->args = 0;
+	return (new);	
+}	
+
 t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
+{
+    t_cmd_args    *new;
+    char        *temp;
+    int            len;
+    char        *temp2;
+
+  	new = struct_new(redir, hdoc, pc);
+	if (new == 0)
+		return (0);
+	len = ft_strlen(line);
+	temp = line;
+	new->cmd = parse_command(temp);
+	if (new->cmd == 0)
+		return (0);
+	temp = ft_strnstr(line, new->cmd, len);
+    temp2 = temp;
+   	while(*temp != ' ' && *temp != 0)
+            temp++;
+    temp = ft_skip_whitespace(temp);
+    new->args = parse_arguments(temp, temp2);
+    return (new);
+}
+
+/*t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
 {
     t_cmd_args    *new;
     char        *temp;
@@ -81,7 +120,7 @@ t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
     temp = ft_skip_whitespace(temp);
     new->args = parse_arguments(temp, temp2);
     return (new);
-}
+}*/
 
 t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)
 {
