@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/04 12:24:33 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:22:43 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
 	new->cmd = parse_command(temp);
 	if (new->cmd == 0)
 		return (0);
-	ft_printf("cmd: %s\n", new->cmd);
 	temp = ft_strnstr(line, new->cmd, len);
     temp2 = temp;
 	if (*temp == '\'' || *temp == '\"')
