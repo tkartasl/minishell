@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/01 14:10:44 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:32:27 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_empty_line(char *lines, int pipe_count, int i)
 
     temp = lines;
     temp = ft_skip_whitespace(temp);
-    if (*temp == '|' || *temp == '&')
+    if (*temp == '&')
         return (1);
 	if (*temp == 0 && i < pipe_count)
 		return (1);
@@ -32,14 +32,18 @@ int check_after_redir(char *cmd_lines)
     temp = cmd_lines;
     while(*temp)
     {
+		if (*temp == '\'' || *temp == '\"')
+			temp = skip_quotes(temp, *temp);
         if ((*temp == '<' && *(temp + 1) == '>')
             || (*temp == '>' && *(temp + 1) == '<'))
             return (1);
         if (*temp == '<' || *temp == '>')
-            temp = skip_redirs(temp);
-        if (*temp == '|' || *temp == '&' || *temp == 0
-            || *temp == '>' || *temp == '<')
-            return (1);
+         {
+		    temp = skip_redirs(temp);
+        	if (*temp == '|' || *temp == '&' || *temp == 0
+            	|| *temp == '>' || *temp == '<')
+            	return (1);
+		 }
         temp++;
     }
     return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/03 13:43:19 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:20:25 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,9 @@ void		redir_lstclear(t_redir **lst, void (*del)(void *));
 void		free_struct_array(t_cmd_args **arr);
 int			get_pipe_count(char **cmd_lines);
 void        run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp);
+int			get_quotes_len(char *str, char quote);
+char		*skip_quotes(char *str, char quote);
+char		**ft_split_remix(char *s, char c);
+char		*skip_cmd(char *str);
 
 #endif

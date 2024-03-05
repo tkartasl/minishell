@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_skip_whitespace.c                               :+:      :+:    :+:   */
+/*   helper_functions2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 10:17:31 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/05 09:56:27 by tkartasl         ###   ########.fr       */
+/*   Created: 2024/03/05 11:25:39 by tkartasl          #+#    #+#             */
+/*   Updated: 2024/03/05 13:27:45 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_skip_whitespace(char *str)
+char    *skip_cmd(char *str)
 {
-	while (*str != 0 && (*str == ' ' || *str == '\n' || *str == '\t'
-			|| *str == '\v' || *str == '\f' || *str == '\r'))
-		str++;
-	return (str);
+    char    *temp;
+
+    temp = str;
+    while (*str != ' ' && *str != 0 && *str != '<' && *str != '>')
+    {
+        if (*str == '\'' || *str == '\"')
+        {
+            str = skip_quotes(str, *str);
+            if (*str != *(temp + 1))
+                return (str);
+        }
+        str++;
+    }
+    return (str);
 }

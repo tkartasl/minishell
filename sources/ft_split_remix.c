@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_remix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 17:27:48 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/04 17:28:31 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:05:54 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char    *skip_quotes(char *str, char quote)
-{
-    char    *temp;
-
-    temp = str;
-    str++;
-    while (*str != 0 && *str != quote)
-        str++;
-    if (*str == 0)
-        return (temp);
-    str++;
-    return (str);
-}
 
 static size_t	ft_arrsize(char *s, char c)
 {
@@ -47,17 +33,7 @@ static size_t	ft_arrsize(char *s, char c)
 	return (i);
 }
 
-static	void	ft_free(char **arr, int k)
-{
-	while (k >= 0)
-	{
-		free(arr[k]);
-		k--;
-	}
-	free(arr);
-}
-
-int split_quotes(char *s, int j)
+static int split_quotes(char *s, int j)
 {
     int tmp;
 
@@ -81,7 +57,7 @@ int split_quotes(char *s, int j)
     return (j - tmp);
 }
 
-static int	ft_get_lenght(char *s, int i, char c)
+static int	ft_get_length(char *s, int i, char c)
 {
     int tmp;
 
@@ -109,11 +85,11 @@ static int	ft_fillarr(char **arr, char *s, char c, int k)
 	{
 		if (s[i] != c)
 		{
-			j = ft_get_lenght(s, i, c);
+			j = ft_get_length(s, i, c);
 			arr[k] = ft_substr(s, i, j);
 			if (arr[k] == 0)
 			{
-				ft_free(arr, k);
+				ft_free_pointer_array(arr);
 				return (-1);
 			}
 			k++;
@@ -143,10 +119,10 @@ char	**ft_split_remix(char *s, char c)
 		arr[k] = 0;
 	return (arr);
 }
-/*
-int main()
+
+/*int main()
 {
-    char s[] = "echo mo '|' | echo moi | moi \"|\" | moi -l";
+    char s[] = "echo mo'|''|'echo moi       |             moi\"|\"    '|moi' -l";
     char **r;
 
     r = ft_split_remix(s, '|');

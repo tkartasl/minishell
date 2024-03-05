@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/04 12:16:33 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:20:49 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	parse_line(char	*line, char **envp)
 	
 	heredocs = 0;
 	redirs = 0;
-	cmd_lines = ft_split(line, '|');
+	cmd_lines = ft_split_remix(line, '|');
     if (cmd_lines == 0)
         return ;
 	pipe_count = get_pipe_count(cmd_lines);

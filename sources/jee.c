@@ -70,6 +70,20 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	return (NULL);
 }
 
+int	get_quotes_len(char *str, char quote)
+{
+	int		i;
+
+	i = 0;
+	i++;
+	while (str[i] != 0 && str[i] != quote)
+		i++;
+	if (str[i] == 0)
+		return (0);
+	i++;
+	return (i);
+}
+
 char	*skip_redirs(char *cmd_line)
 {
 	if (*cmd_line == '>' && (*(cmd_line + 1) == '>'))
@@ -111,13 +125,19 @@ char	*parse_command(char *cmd_line)
 
 	len = 0;
 	cmd = 0;
+	cmd_line = ft_skip_whitespace(cmd_line);
 	if (*cmd_line != '<' && *cmd_line != '>')
 	{
 		cmd_line = ft_skip_whitespace(cmd_line);
-		len = get_len(cmd_line);
+		if (*cmd_line == '\'' || *cmd_line == '\"')
+			len = get_quotes_len(cmd_line, *cmd_line);
+		if (len == 0)
+			len = get_len(cmd_line);
+		printf("%s\n", cmd_line);
+		printf("JEEEE%d\n", len);
 		cmd = ft_strndup(cmd_line, len);
 		if (cmd == 0)
-			printf("Error\n");
+			return (0);
 		return (cmd);
 	}
 	else
@@ -208,7 +228,7 @@ char	**parse_arguments(char *line, char *line2)
 int main()
 {
 	char *test;
-	char testi1[]= ">file >file <file sana 4 >file >>file sana1 < moi > jee sana2";
+	char testi1[]= " \" <file ";
 	//char testi[]= "cat!!! sana3>file >file <file sana 4 >file >>file sana1 < moi > jee sana2";
 	int i;
 

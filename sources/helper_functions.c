@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:52:10 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/04 14:13:10 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:27:36 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,18 @@
 int	get_len(char *str)
 {
 	int	i;
-	
+	int	temp;
+
+	temp = 0;
 	i = 0;
 	while (str[i] != ' ' && str[i] != 0 && str[i] != '<' && str[i] != '>')
+	{
+		if (str[i] == '\"' || str[i] == '\'')
+			temp = get_quotes_len(&str[i], str[i]);
+		if (temp != 0)
+			return (i + temp);
 		i++;
+	}
 	return (i);	
 }
 
@@ -48,8 +56,8 @@ char	*skip_quotes(char *str, char quote)
 {
 	char	*temp;
 
-	temp = str;
 	str++;
+	temp = str;
 	while (*str != 0 && *str != quote)
 		str++;
 	if (*str == 0)
@@ -60,7 +68,7 @@ char	*skip_quotes(char *str, char quote)
 
 int	get_quotes_len(char *str, char quote)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	i++;
