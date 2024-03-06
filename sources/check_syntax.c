@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/05 13:32:27 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/06 08:46:50 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,28 @@ int check_syntax(char **cmd_lines, int pipe_count)
         i++;
     }
     return (i);
+}
+
+int check_pipe_repetition(char *line)
+{
+    char    *temp;
+
+    temp = line;
+    if (*temp == '|' || *temp == '&')
+    {
+        printf("minishell: syntax error near unexpected token `%c'\n", *temp);
+        return (1);
+    }
+    while(*temp)
+    {
+        if (*temp == '\'' || *temp == '"')
+            temp = skip_quotes(temp, *temp);
+        if (*temp == '|' && *(temp + 1) == '|')
+        {
+            printf("minishell: syntax error near unexpected token `|'\n");
+            return (1);
+        }
+        temp++;
+    }
+    return (0);
 }
