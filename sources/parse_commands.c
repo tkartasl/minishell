@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/05 13:20:04 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/07 09:04:31 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char *find_cmd(char *cmd_line)
 	if (*cmd_line == '\'' || *cmd_line == '\"')
 		len = get_quotes_len(cmd_line, *cmd_line);
 	if (len == 0)
-		len = get_len(cmd_line);
+	len = get_len(cmd_line);
 	cmd = ft_strndup(cmd_line, len);
 	if (cmd == 0)
 		return (0);
@@ -50,7 +50,7 @@ char	*parse_command(char *cmd_line)
 		if (*cmd_line == '\'' || *cmd_line == '\"')
 			len = get_quotes_len(cmd_line, *cmd_line);
 		if (len == 0)
-			len = get_len(cmd_line);
+		len = get_len(cmd_line);
 		cmd = ft_strndup(cmd_line, len);
 		if (cmd == 0)
 			return (0);
@@ -94,13 +94,12 @@ t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
 	if (new->cmd == 0)
 		return (0);
 	temp = ft_strnstr(line, new->cmd, len);
-    temp2 = temp;
-	if (*temp == '\'' || *temp == '\"')
-		temp = skip_quotes(temp, *temp);
-	else
-		temp = skip_cmd(temp);
+	temp2 = temp;
+	temp = skip_cmd(temp);
     temp = ft_skip_whitespace(temp);
     new->args = parse_arguments(temp, temp2);
+	if (new->args == 0)
+		return (0);
     return (new);
 }
 

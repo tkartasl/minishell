@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:52:10 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/05 13:27:36 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/07 09:31:34 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,31 @@ char	*skip_quotes(char *str, char quote)
 	return (str);
 }
 
-int	get_quotes_len(char *str, char quote)
+int	get_quotes_len(char *s, char quote)
 {
 	int		i;
+	int		temp;
 
+	temp = 0;
 	i = 0;
 	i++;
-	while (str[i] != 0 && str[i] != quote)
+	while (s[i] == '\'' || s[i] == '\"')
 		i++;
-	if (str[i] == 0)
+	temp = i;
+	if (s[i] == ' ')
+	{
+		while (s[i] != 0 && (s[i] == ' ' || s[i] == '\n' || s[i] == '\t'
+			|| s[i] == '\v' || s[i] == '\f' || s[i] == '\r'))
+			i++;
+	}
+	if (s[i] == '\'' || s[i] == '\"')
+		return (i);
+	i = temp;
+	while (s[i] != 0 && s[i] != quote)
+		i++;
+	if (s[i] == 0)
 		return (0);
-	i++;
+	while (s[i] != ' ' && s[i] != 0)
+		i++;
 	return (i);
 }

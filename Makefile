@@ -6,7 +6,7 @@
 #    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/01 08:38:42 by tkartasl          #+#    #+#              #
-#    Updated: 2024/03/05 13:27:51 by tkartasl         ###   ########.fr        #
+#    Updated: 2024/03/06 13:34:33 by tkartasl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,9 @@ MAKE = make
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+RL_FLAGS = -lreadline -L ~/.brew/opt/readline/lib 
+
+CFLAGS = -Wall -Wextra -Werror -g -Iincludes -I ~/.brew/opt/readline/include
 
 SRCS = sources/minishell.c \
 		sources/parse_commands.c \
@@ -42,7 +44,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFTA)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTA) -o $(NAME) -lreadline
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTA) -o $(NAME) $(RL_FLAGS)
 
 $(LIBFTA): 
 	@$(MAKE) all -C $(LIBFTD)
