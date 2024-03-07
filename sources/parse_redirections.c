@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/05 13:20:49 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/06 08:41:00 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ void	parse_line(char	*line, char **envp)
 	
 	heredocs = 0;
 	redirs = 0;
+    if (check_pipe_repetition(line) == 1)
+        return ;
 	cmd_lines = ft_split_remix(line, '|');
     if (cmd_lines == 0)
         return ;
