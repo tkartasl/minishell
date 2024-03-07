@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
+#    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/01 08:38:42 by tkartasl          #+#    #+#              #
-#    Updated: 2024/03/06 13:34:33 by tkartasl         ###   ########.fr        #
+#    Updated: 2024/03/07 10:52:23 by vsavolai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS = sources/minishell.c \
 		sources/run_pipes.c \
 		sources/ft_split_remix.c \
 		sources/helper_functions2.c \
+		sources/run_commands.c \
 	#	sources/builtins.c \
 	#	sources/builtins2.c
 

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/03 17:25:59 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/07 10:51:14 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char    *find_path(char *cmd, char **split_path)
     return (cmd);
 }
 
-void    run_cmd(char **cmd, char *path, char **envp)
+void    run_cmd_pipe(char **cmd, char *path, char **envp)
 {
     char    **split_path;
     char    *cmd_path;
@@ -92,11 +92,16 @@ void    pipe_init(char **cmd, char *path, char **envp, int flag)
     }
     if (!pid)
 	{
-		dup2(pipe_fd[flag], flag);
         close(pipe_fd[0]);
-        close(pipe_fd[1]);
-		run_cmd(cmd, path, envp);
+        if (flag == 1)
+		    dup2(pipe_fd[1], 1);
+		run_cmd_pipe(cmd, path, envp);
 	}
+    else
+    {
+        close(pipe_fd[1]);
+        dup2(pipe_fd[0], 0);
+    }
     waitpid(pid, NULL, 0);
 }
 

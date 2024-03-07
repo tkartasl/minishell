@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/07 10:39:10 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/07 10:48:21 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ char		*skip_quotes(char *str, char quote);
 char		**ft_split_remix(char *s, char c);
 char		*skip_cmd(char *str);
 int         check_pipe_repetition(char *line);
+void        run_commands(t_cmd_args **cmd_args, int pipe_count, char **envp);
 
 #endif

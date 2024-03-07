@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/06 08:41:00 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/07 10:49:08 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,5 +172,5 @@ void	parse_line(char	*line, char **envp)
         cmd_args[i]->head_hdocs[i] = cmd_args[i]->head_hdocs[i]->next;
         write(2, "here_doc end\n", 13);
     }
-	run_pipes(cmd_args, pipe_count, envp);
+	run_commands(cmd_args, pipe_count, envp);
 }
