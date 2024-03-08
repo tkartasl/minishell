@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/07 10:48:21 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/08 14:24:50 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <fcntl.h>
+# include <termios.h>
 
 typedef struct s_redir
 {
@@ -61,5 +62,6 @@ char		**ft_split_remix(char *s, char c);
 char		*skip_cmd(char *str);
 int         check_pipe_repetition(char *line);
 void        run_commands(t_cmd_args **cmd_args, int pipe_count, char **envp);
+char		*skip_arg(char *str);
 
 #endif
