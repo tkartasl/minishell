@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/07 10:51:14 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:58:02 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ char    *find_path(char *cmd, char **split_path)
     return (cmd);
 }
 
-void    run_cmd_pipe(char **cmd, char *path, char **envp)
+void    run_cmd_pipe(char **cmd, char **envp)
 {
     char    **split_path;
     char    *cmd_path;
+    char    *path;
 
+    path = ft_strdup(getenv("PATH"));
     split_path = ft_split(path, ':');
     cmd_path = find_path(cmd[0], split_path);
     free(split_path);
@@ -74,7 +76,7 @@ void    run_cmd_pipe(char **cmd, char *path, char **envp)
     
 }
 
-void    pipe_init(char **cmd, char *path, char **envp, int flag)
+void    pipe_init(char **cmd, char **envp, int flag)
 {
     pid_t   pid;
     int     pipe_fd[2];
@@ -95,7 +97,7 @@ void    pipe_init(char **cmd, char *path, char **envp, int flag)
         close(pipe_fd[0]);
         if (flag == 1)
 		    dup2(pipe_fd[1], 1);
-		run_cmd_pipe(cmd, path, envp);
+		run_cmd_pipe(cmd, envp);
 	}
     else
     {
@@ -110,20 +112,20 @@ void    run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp)
     int         i;
     //int         fd1;
     //int         fd2;
-    char        *path;
+    int         original_stdin;
     char        **cmd;
     
     i = 0;
-    path = ft_strdup(getenv("PATH"));
+    original_stdin = dup(0);
     while(i < pipe_count - 1)
     {
         cmd = get_cmd(cmd_args[i]);
-        pipe_init(cmd, path, envp, 1);
+        pipe_init(cmd, envp, 1);
         free(cmd);
         i++;
     }
     cmd = get_cmd(cmd_args[i]);
-    pipe_init(cmd, path, envp, 0);
+    pipe_init(cmd, envp, 0);
+    dup2(original_stdin, 0);
     free(cmd);
-    free(path);
 }
