@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/08 14:53:05 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/12 12:27:52 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,9 @@
 
 void sig_handler(int signum)
 {
-	struct termios	raw;
 	
 	if (signum == SIGINT)
-	{
-		if (tcgetattr(STDIN_FILENO, &raw) < 0)
-			ft_printf("error\n");	
-		raw.c_lflag = (ECHO);
-		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) < 0)
-			ft_printf("error\n");	
+	{	
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -51,9 +45,15 @@ int main(int argc, char **argv, char **envp)
 	struct sigaction	act_sigint;
 	struct sigaction	act_sigquit;
 	char				*line;
+	struct termios		raw;
 
     (void)argc;
     (void)argv;
+	if (tcgetattr(STDIN_FILENO, &raw) < 0)
+		return (0);
+	raw.c_lflag = (ECHO);
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) < 0)
+		return (0);
 	line = 0; 
 	ft_memset(&act_sigint, 0, sizeof(struct sigaction));
 	ft_memset(&act_sigquit, 0, sizeof(struct sigaction));
