@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:52:10 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/12 09:50:37 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:21:45 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	loop_over_cmd(char *s, char quote, int i)
 			if (s[i] != 0)
 				i++;
 		}
-		return (i);
+	return (i);
 }
 
 int	get_cmd_len(char *s, char quote)
