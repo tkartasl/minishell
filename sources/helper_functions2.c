@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:25:39 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/12 14:39:22 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:27:58 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char    *skip_arg(char *str)
 		quote = *str;
         str = skip_quotes(str, *str);
         if (*str != 0 && *str != ' ' && *str != '\''
-			&& *str != '"' && *(str - 1) != quote)
+			&& *str != '"')
         {
             while (*str != 0 && *str != ' ')
                 str++;
@@ -96,7 +96,7 @@ int get_arg_len(char *str)
         if (str[len] == quote)
             len++;
         if (str[len] != 0 && str[len] != ' ' && str[len] != '\''
-			&& str[len] != '"' && str[len - 1] != quote)
+			&& str[len] != '"')
         {
             while(str[len] != 0 && str[len] != ' ')
                 len++;
