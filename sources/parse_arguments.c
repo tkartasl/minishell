@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:15:41 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/07 09:30:13 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/12 10:44:37 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,7 @@ void	get_arg_count(char *cmd_line, int *count)
 		if (*cmd_line != '<' && *cmd_line != '>' && *cmd_line != 0)
 		{
 			*count += 1;
-			if (*cmd_line == '\'' || *cmd_line == '\"')
-				cmd_line = skip_cmd(cmd_line);
-			else
-			{
-				while (*cmd_line != ' ' && *cmd_line != 0)
-					cmd_line++;
-			}
+            cmd_line = skip_arg(cmd_line);
 			cmd_line = ft_skip_whitespace(cmd_line);
 		}
 		else
@@ -49,13 +43,16 @@ void	get_arg_count(char *cmd_line, int *count)
 	}
 }
 
-char	*get_args(char *cmd_line)
+char	*get_args(char *cmd_line, int i)
 {
 	while (*cmd_line != 0)
 	{
 		cmd_line = ft_skip_whitespace(cmd_line);
-		cmd_line = skip_cmd(cmd_line);
-		cmd_line = ft_skip_whitespace(cmd_line);
+        if (i != 0)
+		{  
+            cmd_line = skip_arg(cmd_line);
+		    cmd_line = ft_skip_whitespace(cmd_line);
+        }
 		if (*cmd_line != '<' && *cmd_line != '>')
 			return (cmd_line);
 		else
@@ -88,10 +85,8 @@ char	**parse_arguments(char *line, char *line2)
 		return (0);
 	while (i < count)
 	{
-		line2 = get_args(line2);
-		len = get_len(line2);	
-		if (*line2 == '\'' || *line2 == '\"')
-			len = get_quotes_len(line2, *line2);	
+		line2 = get_args(line2, i);
+		len = get_arg_len(line2);	
 		args[i] = ft_strndup(line2, len);
 		if (args[i] == 0)
 			return (0);

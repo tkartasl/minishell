@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/12 09:47:39 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/12 10:35:13 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,7 @@ char		*skip_cmd(char *str);
 int         check_pipe_repetition(char *line);
 void        run_commands(t_cmd_args **cmd_args, int pipe_count, char **envp);
 char		*skip_arg(char *str);
+char        *skip_arg(char *str);
+int         get_arg_len(char *str);
 
 #endif
