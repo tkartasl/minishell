@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:52:10 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/07 09:31:34 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/12 09:50:37 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,10 @@
 int	get_len(char *str)
 {
 	int	i;
-	int	temp;
-
-	temp = 0;
+	
 	i = 0;
 	while (str[i] != ' ' && str[i] != 0 && str[i] != '<' && str[i] != '>')
-	{
-		if (str[i] == '\"' || str[i] == '\'')
-			temp = get_quotes_len(&str[i], str[i]);
-		if (temp != 0)
-			return (i + temp);
 		i++;
-	}
 	return (i);	
 }
 
@@ -52,45 +44,49 @@ int	get_pipe_count(char **cmd_lines)
 	return (i);
 }
 
-char	*skip_quotes(char *str, char quote)
+static int	loop_over_cmd(char *s, char quote, int i)
 {
-	char	*temp;
-
-	str++;
-	temp = str;
-	while (*str != 0 && *str != quote)
-		str++;
-	if (*str == 0)
-		return (temp);
-	str++;
-	return (str);
+	while (s[i] != 0)
+		{
+			while (s[i] != quote && s[i] != 0)
+				i++;
+			if (s[i] == 0 || (s[i] == quote && s[++i] == ' '))
+				break ;
+			if (s[i] == '\'' || s[i] == '\"')
+			{
+				quote = s[i];
+				while (s[i] != quote && s[i] != 0)
+					i++;
+			}
+			else
+			{
+				while (s[i] != ' ' && s[i] != 0 && s[i] != '\'' && s[i] != '\"')
+					i++;
+			}
+			if (s[i] != 0)
+				i++;
+		}
+		return (i);
 }
 
-int	get_quotes_len(char *s, char quote)
+int	get_cmd_len(char *s, char quote)
 {
 	int		i;
-	int		temp;
 
-	temp = 0;
 	i = 0;
-	i++;
-	while (s[i] == '\'' || s[i] == '\"')
+	while (s[i] == quote)
 		i++;
-	temp = i;
-	if (s[i] == ' ')
-	{
-		while (s[i] != 0 && (s[i] == ' ' || s[i] == '\n' || s[i] == '\t'
-			|| s[i] == '\v' || s[i] == '\f' || s[i] == '\r'))
-			i++;
-	}
-	if (s[i] == '\'' || s[i] == '\"')
+	if (s[i] == ' ' && i % 2 == 0)
 		return (i);
-	i = temp;
-	while (s[i] != 0 && s[i] != quote)
-		i++;
-	if (s[i] == 0)
-		return (0);
-	while (s[i] != ' ' && s[i] != 0)
-		i++;
+	else if (i % 2 == 0)
+	{
+		while (s[i] != ' ' && s[i] != 0)
+			i++;
+		return (i);
+	}
+	else
+		i = loop_over_cmd(s, quote, i);
 	return (i);
 }
+
+
