@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/07 12:58:02 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/13 08:59:25 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,10 @@ void    run_cmd_pipe(char **cmd, char **envp)
     path = ft_strdup(getenv("PATH"));
     split_path = ft_split(path, ':');
     cmd_path = find_path(cmd[0], split_path);
-    free(split_path);
+    ft_free_pointer_array(split_path);
     if (execve(cmd_path, cmd, envp) == -1)
     {
         printf("minishell: command not found: %s\n", cmd[0]);
-        ft_free_pointer_array(split_path);
-        free(cmd_path);
         exit(0);
     }
     
@@ -121,11 +119,11 @@ void    run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp)
     {
         cmd = get_cmd(cmd_args[i]);
         pipe_init(cmd, envp, 1);
-        free(cmd);
+        ft_free_pointer_array(cmd);
         i++;
     }
     cmd = get_cmd(cmd_args[i]);
     pipe_init(cmd, envp, 0);
     dup2(original_stdin, 0);
-    free(cmd);
+    ft_free_pointer_array(cmd);
 }
