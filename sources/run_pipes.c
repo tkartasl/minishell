@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/13 08:59:25 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:44:39 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ void    run_cmd_pipe(char **cmd, char **envp)
     split_path = ft_split(path, ':');
     cmd_path = find_path(cmd[0], split_path);
     ft_free_pointer_array(split_path);
+    
     if (execve(cmd_path, cmd, envp) == -1)
     {
         printf("minishell: command not found: %s\n", cmd[0]);
-        exit(0);
+        exit(1);
     }
     
 }
@@ -90,7 +91,7 @@ void    pipe_init(char **cmd, char **envp, int flag)
         printf("minishell: fork failure\n");
         return ;
     }
-    if (!pid)
+    if (pid == 0)
 	{
         close(pipe_fd[0]);
         if (flag == 1)
@@ -119,11 +120,11 @@ void    run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp)
     {
         cmd = get_cmd(cmd_args[i]);
         pipe_init(cmd, envp, 1);
-        ft_free_pointer_array(cmd);
+        free(cmd);
         i++;
     }
     cmd = get_cmd(cmd_args[i]);
     pipe_init(cmd, envp, 0);
     dup2(original_stdin, 0);
-    ft_free_pointer_array(cmd);
+    free(cmd);
 }
