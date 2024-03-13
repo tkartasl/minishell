@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:25:39 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/12 15:27:58 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:33:58 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*skip_quotes(char *str, char quote)
 
 static char	*skip_word(char *str, char quote)
 {
-	while(*str != ' ' && *str != 0 && *str != '<' 
+	while(*str != 0 && *str != ' ' && *str != '<' 
 		&& *str != '>' && *str != '\'' && *str != '"')
         str++;
 	if (*str == '\'' || *str == '"')
@@ -37,9 +37,9 @@ static char	*skip_word(char *str, char quote)
 		str++;
 		while (*str != quote && *str != 0)
 			str++;
+		if (*str == quote)
+			str++;	
 	}
-	if (*str == quote)
-		str++;
 	return (str);
 }
 
