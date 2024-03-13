@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/06 08:46:50 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/13 09:57:18 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,31 @@ int check_after_redir(char *cmd_lines)
     return (0);
 }
 
+int check_unclosed_quotes(char *line)
+{
+    char    *cmd;
+    char    quote;
+
+    cmd = line;
+    while(*cmd != 0)
+    {
+        if (*cmd == '"' || *cmd == '\'')
+        {
+            quote = *cmd;
+            cmd++;
+	        while (*cmd != 0 && *cmd != quote)
+		        cmd++;
+        }
+        if (*cmd == 0)
+        {
+            printf("unclosed quotes\n");
+            return (-1);
+        }
+        cmd++;
+    }
+    return (0);
+}
+
 int check_syntax(char **cmd_lines, int pipe_count)
 {
     int i;
@@ -63,6 +88,11 @@ int check_syntax(char **cmd_lines, int pipe_count)
             return (0);
         }
         if (check_after_redir(cmd_lines[i]) == 1)
+        {
+            syntax_error(cmd_lines);
+            return (0);
+        }
+        if (check_unclosed_quotes(cmd_lines[i]) == -1)
         {
             syntax_error(cmd_lines);
             return (0);
