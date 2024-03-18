@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/12 12:18:18 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:49:46 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char		**parse_arguments(char *line, char *line2);
 char		*skip_redirs(char *cmd_line);
 void		syntax_error(char **cmd_line);
 int			check_syntax(char **cmd_lines, int pipe_count);
-void		list_build_error(t_redir **hdoc, t_redir **redir, char **cmd_line);
+void		list_build_error(t_redir **hdoc, t_redir **redir, char **cmd, int flag);
 void		redir_lstclear(t_redir **lst, void (*del)(void *));
 void		free_struct_array(t_cmd_args **arr);
 int			get_pipe_count(char **cmd_lines);
@@ -64,5 +64,8 @@ int         check_pipe_repetition(char *line);
 void        run_commands(t_cmd_args **cmd_args, int pipe_count, char **envp);
 char		*skip_arg(char *str);
 int         get_arg_len(char *str);
+void        check_in_redir(t_redir **head_redir, int i, int fd1);
+void        check_out_redir(t_redir **head_redir, int i, int fd2);
+//void        check_h_docs(t_redir **head_redir, int i, int fd1, char *filename);
 
 #endif

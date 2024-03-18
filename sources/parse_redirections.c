@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/07 10:49:08 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/18 11:46:17 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,25 @@ void    put_arrow_lst(char *line, t_redir **new)
     {
 		if (*line == '\'' || *line == '\"')
 			line = skip_quotes(line, *line);
-        if (*line == '<' && *(line + 1) == '<')
-            line = line + 2;
         if (*line == '<')
         {
-            (*new)->arrow = '<';
+            if (*(line + 1) == '<')
+                (*new)->arrow = 'h';
+            else
+                (*new)->arrow = '<';
             (*new) = (*new)->next;
         }
         else if (*line == '>')
         {
             if (*(line + 1) == '>')
-            {
-                (*new)->arrow = '!';
-				line++;
-            }
+                (*new)->arrow = '!';	
             else
                 (*new)->arrow = '>';
             (*new) = (*new)->next;
         }
+        if ((*line == '>' && *(line + 1) == '>') ||
+                (*line == '<' && *(line + 1) == '<'))
+                line++;
 		line++;
     }
 }
@@ -74,9 +75,9 @@ void	get_redirs(t_redir **redirs, t_redir **heredocs, char **cmd_lines)
 				len = get_len(temp);
 				file = ft_strndup(temp, len);
 				if (file == 0)
-					list_build_error(heredocs, redirs, cmd_lines);
+					list_build_error(heredocs, redirs, cmd_lines, 1);
 				if (build_list(redirs, file, i) < 0)
-					list_build_error(heredocs, redirs, cmd_lines);
+					list_build_error(heredocs, redirs, cmd_lines, 1);
 			}	
 		}
 		i++;
@@ -103,9 +104,9 @@ void	get_heredocs(t_redir **heredocs, t_redir **redirs, char **cmd_lines)
 				len = get_len(temp);
 				lim = ft_strndup(temp, len);
 				if (lim == 0)
-					list_build_error(heredocs, redirs, cmd_lines);
+					list_build_error(heredocs, redirs, cmd_lines, 1);
 				if (build_list(heredocs, lim, i) < 0)
-					list_build_error(heredocs, redirs, cmd_lines);
+					list_build_error(heredocs, redirs, cmd_lines, 1);
 			}
 		}
 		i++;
@@ -136,41 +137,44 @@ void	parse_line(char	*line, char **envp)
 	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
     if (cmd_args == 0)
         return ;
+    /*
     int i = 0;
     int j;
-    while(cmd_args[i])
+    t_cmd_args	**temp;
+    temp = cmd_args;
+    while(temp[i])
     {
-        printf("Command: %s\n", cmd_args[i]->cmd);
+        printf("Command: %s\n", temp[i]->cmd);
         j = 0;
-        while(cmd_args[i]->args[j])
+        while(temp[i]->args[j])
         {
-            printf("command %d argument: %s\n", i, cmd_args[i]->args[j]);
+            printf("command %d argument: %s\n", i, temp[i]->args[j]);
             j++;
         }
-        printf("pipe count: %d\n", cmd_args[i]->pipe_count);
+        printf("pipe count: %d\n", temp[i]->pipe_count);
         i++;
     }
 
     i = 0;
-    while(cmd_args[i]->head_redir[i])
+    while(temp[i]->head_redir[i])
     {
         write(2, "loop start\n", 11);
-        printf("redir nbr: %d\n", cmd_args[i]->head_redir[i]->index);
-        printf("redir: %c\n", cmd_args[i]->head_redir[i]->arrow);
-        printf("filename: %s\n", cmd_args[i]->head_redir[i]->filename);
-        cmd_args[i]->head_redir[i] = cmd_args[i]->head_redir[i]->next;
+        printf("redir nbr: %d\n", temp[i]->head_redir[i]->index);
+        printf("redir: %c\n", temp[i]->head_redir[i]->arrow);
+        printf("filename: %s\n", temp[i]->head_redir[i]->filename);
+        temp[i]->head_redir[i] = temp[i]->head_redir[i]->next;
         write(2, "loop end\n", 9);
     }
 
     i = 0;
-    while(cmd_args[i]->head_hdocs[i])
+    while(temp[i]->head_hdocs[i])
     {
         write(2, "here_doc start\n", 15);
-        printf("redir nbr: %d\n", cmd_args[i]->head_hdocs[i]->index);
-        printf("redir: %c\n", cmd_args[i]->head_hdocs[i]->arrow);
-        printf("filename: %s\n", cmd_args[i]->head_hdocs[i]->filename);
-        cmd_args[i]->head_hdocs[i] = cmd_args[i]->head_hdocs[i]->next;
+        printf("redir nbr: %d\n", temp[i]->head_hdocs[i]->index);
+        printf("redir: %c\n", temp[i]->head_hdocs[i]->arrow);
+        printf("filename: %s\n", temp[i]->head_hdocs[i]->filename);
+        temp[i]->head_hdocs[i] = temp[i]->head_hdocs[i]->next;
         write(2, "here_doc end\n", 13);
-    }
+    }*/
 	run_commands(cmd_args, pipe_count, envp);
 }

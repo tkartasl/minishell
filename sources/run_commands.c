@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:25:50 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/13 14:34:46 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/18 08:49:03 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,21 @@ int    remove_cmd_quotes(t_cmd_args **cmd_args)
 
 void    run_commands(t_cmd_args **cmd_args, int pipe_count, char **envp)
 {
+    int         original_stdin;
+    int         original_stdout;
+
     if (remove_cmd_quotes(cmd_args) == -1)
     {
         printf("minishell: malloc fail");
         return ;
     }
-    printf("removed quotes: %s\n", cmd_args[0]->cmd);
+    original_stdin = dup(0);
+    original_stdout = dup(1);
     /*if (pipe_count <= 1)
         run_builtins(cmd_args, envp);
     else*/
-        run_pipes(cmd_args, pipe_count, envp);
-        free_struct_array(cmd_args);
+    run_pipes(cmd_args, pipe_count, envp);
+    dup2(original_stdin, 0);
+    dup2(original_stdout, 1);
+    free_struct_array(cmd_args);
 }

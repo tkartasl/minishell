@@ -6,7 +6,7 @@
 #    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/01 08:38:42 by tkartasl          #+#    #+#              #
-#    Updated: 2024/03/07 10:52:23 by vsavolai         ###   ########.fr        #
+#    Updated: 2024/03/18 08:48:39 by vsavolai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,8 @@ SRCS = sources/minishell.c \
 		sources/ft_split_remix.c \
 		sources/helper_functions2.c \
 		sources/run_commands.c \
+		sources/redir_utils.c \
+	#	sources/here_doc_utils.c \
 	#	sources/builtins.c \
 	#	sources/builtins2.c
 

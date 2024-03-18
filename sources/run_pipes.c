@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/13 15:44:39 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:48:23 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,22 +109,23 @@ void    pipe_init(char **cmd, char **envp, int flag)
 void    run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp)
 {
     int         i;
-    //int         fd1;
-    //int         fd2;
-    int         original_stdin;
+    int         fd1;
+    int         fd2;
     char        **cmd;
     
     i = 0;
-    original_stdin = dup(0);
-    while(i < pipe_count - 1)
+    fd1 = 0;
+    fd2 = 0;
+    while(i < pipe_count)
     {
+        check_in_redir(cmd_args[i]->head_redir, i, fd1);
+        check_out_redir(cmd_args[i]->head_redir, i, fd2);
         cmd = get_cmd(cmd_args[i]);
-        pipe_init(cmd, envp, 1);
+        if ((i + 1) == pipe_count)
+            pipe_init(cmd, envp, 0);
+        else
+            pipe_init(cmd, envp, 1);
         free(cmd);
         i++;
     }
-    cmd = get_cmd(cmd_args[i]);
-    pipe_init(cmd, envp, 0);
-    dup2(original_stdin, 0);
-    free(cmd);
 }

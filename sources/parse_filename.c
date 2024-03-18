@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_filename.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:20:57 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/04 10:57:55 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:48:35 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*find_limiter(char *str)
         {    
             str = str + 2;
             str = ft_skip_whitespace(str);
-			return (str); 
+			return (str);
         }
         str++;
     }
@@ -35,9 +35,8 @@ char    *find_redir(char *str)
     {
 		if (*str == '\'' || *str == '\"')
 			str = skip_quotes(str, *str);
-		if (*str == '<' && *(str + 1) == '<')
-			str = str + 2;
-		if (*str == '>' && *(str + 1) == '>')
+		if ((*str == '>' && *(str + 1) == '>') ||
+            (*str == '<' && *(str + 1) == '<'))
         {
             str = str + 2;
             str = ft_skip_whitespace(str);
