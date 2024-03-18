@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:20:57 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/04 10:57:55 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:13:39 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,23 @@ char    *find_redir(char *str)
     return (str);
 }
 
+char	*check_if_digit(char *str)
+{
+	char	*temp;
+	int		i;
+
+	i = 0;
+	temp = 0;
+	while (str[i] != 0 && str[i] != '<' && str[i] != '>' && ft_isdigit(str[i]) == 1)
+		i++;
+	if (str[i] == '<' || str[i] == '>')
+	{
+		temp = ft_strndup(str, i);
+		if (temp == 0)
+			return (0);
+
+		return (&str[i]);
+	}
+	else
+		return (str);
+}
