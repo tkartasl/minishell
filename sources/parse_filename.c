@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:20:57 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/18 14:16:07 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:36:39 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,25 @@ char    *find_redir(char *str)
     return (str);
 }
 
-char	*check_if_digit(char *str)
+void	put_fd_lst(char *line, t_redir **new)
+{
+	while (*line != 0)
+	{
+		if (ft_isdigit(*line) == 1)
+			line = check_if_digit(line, new);
+		//ft_printf("%s\n", line);
+		if (*line == '<' || *line == '>')
+		{
+			(*new) = (*new)->next;
+			if (*(line + 1) == '<' || *(line + 1) == '>')
+				line++;
+			//ft_printf("%d\n", (*new)->fd);
+		}
+		line++;
+	}
+}
+
+char	*check_if_digit(char *str, t_redir **redir)
 {
 	char	*temp;
 	int		i;
@@ -67,7 +85,9 @@ char	*check_if_digit(char *str)
 		temp = ft_strndup(str, i);
 		if (temp == 0)
 			return (0);
-
+		(*redir)->fd = ft_atoi(temp);
+		(*redir)->flag = 1;
+		free(temp);
 		return (&str[i]);
 	}
 	else

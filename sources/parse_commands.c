@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/12 09:51:02 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:37:13 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ char *find_cmd(char *cmd_line, int *len)
 	return (cmd);
 }
 
-char	*parse_command(char *cmd_line, int *len)
+char	*parse_command(char *cmd_line, int *len, t_redir **redir)
 {
 	char	*cmd;
 
 	cmd = 0;
 	cmd_line = ft_skip_whitespace(cmd_line);
+	if (ft_isdigit(*cmd_line) == 1)
+		cmd_line = check_if_digit(cmd_line, redir);
 	if (*cmd_line != '<' && *cmd_line != '>')
 	{
 		if (*cmd_line == '\'' || *cmd_line == '\"')
@@ -86,7 +88,7 @@ t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
 	if (new == 0)
 		return (0);
 	temp = line;
-	new->cmd = parse_command(temp, &len);
+	new->cmd = parse_command(temp, &len, redir);
 	if (new->cmd == 0)
 		return (0);
 	temp = ft_strnstr(line, new->cmd, ft_strlen(line));
