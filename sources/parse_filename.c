@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:20:57 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/18 15:36:39 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/19 10:02:47 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char    *find_redir(char *str)
         {
             str = str + 2;
             str = ft_skip_whitespace(str);
-            return (str); 
+            return (str);
         }
 		else if (*str == '<' || *str == '>')
         {
@@ -53,21 +53,32 @@ char    *find_redir(char *str)
     return (str);
 }
 
-void	put_fd_lst(char *line, t_redir **new)
+void	put_fd_lst(char *str, t_redir **new)
 {
-	while (*line != 0)
+	while (*str != 0)
 	{
-		if (ft_isdigit(*line) == 1)
-			line = check_if_digit(line, new);
-		//ft_printf("%s\n", line);
-		if (*line == '<' || *line == '>')
+		if (ft_isdigit(*str) == 1)
+		{
+			if (*(str - 1) == '-')
+			{
+				while (*str != '<' && *str != '>' && *str != 0 && *str != ' ')
+					str++;
+				if (*str == '<' || *str == '>')
+				{
+					if (*(str + 1) == '<' || *(str + 1) == '>')
+						str++;
+				}
+			}
+			else
+				str = check_if_digit(str, new);
+		}	
+		if (*str == '<' || *str == '>')
 		{
 			(*new) = (*new)->next;
-			if (*(line + 1) == '<' || *(line + 1) == '>')
-				line++;
-			//ft_printf("%d\n", (*new)->fd);
+			if (*(str + 1) == '<' || *(str + 1) == '>')
+				str++;
 		}
-		line++;
+		str++;
 	}
 }
 

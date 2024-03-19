@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:25:39 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/18 16:01:14 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/19 09:58:12 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,19 @@ static char	*skip_word(char *str, char quote)
 {
 	while(*str != 0 && *str != ' ' && *str != '<' 
 		&& *str != '>' && *str != '\'' && *str != '"')
-        str++;
+	{
+		if (ft_isdigit(*str) == 1 && *(str - 1) == ' ')
+	    {
+			while (*str != '<' && *str != '>' && *str != ' ' && *str != 0
+				&& ft_isdigit(*str) == 1)
+				str++;
+			if (*str == '<' || *str == '>')
+				return (str);
+			else
+				str--;
+		}
+		str++;
+	}
 	if (*str == '\'' || *str == '"')
 	{
 		quote = *str;
@@ -69,7 +81,19 @@ static int	loop_over_arg(char *s, char quote, int len)
 {
 	while(s[len] != ' ' && s[len] != 0 && s[len] != '\''
 		&& s[len] != '"' && s[len] != '>' && s[len] != '<')
-    	len++;
+	{
+		if (ft_isdigit(s[len]) == 1 && s[len - 1] == ' ')
+	    {
+			while (s[len] != '<' && s[len] != '>' && s[len] != ' '
+				&& s[len] != 0 && ft_isdigit(s[len]) == 1)
+				len++;
+			if (s[len] == '<' || s[len] == '>')
+				return (0);
+			else
+				len--;
+		}
+		len++;
+	}
 	if (s[len] == '\'' || s[len] == '"')
 	{
 		quote = s[len];
