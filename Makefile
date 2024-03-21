@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
+#    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/03/01 08:38:42 by tkartasl          #+#    #+#              #
-#    Updated: 2024/03/21 12:55:14 by tkartasl         ###   ########.fr        #
+#    Created: 2024/03/21 13:15:50 by vsavolai          #+#    #+#              #
+#    Updated: 2024/03/21 13:16:49 by vsavolai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ SRCS = sources/minishell.c \
 		sources/env_variables.c \
 		sources/expand_env_variables.c \
 		sources/env_variable_utils.c \
+		sources/env_table.c \
+		sources/env_utils.c \
 	#	sources/here_doc_utils.c \
 	#	sources/builtins.c \
 	#	sources/builtins2.c

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/18 13:48:23 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:16:28 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,24 @@ char    *find_path(char *cmd, char **split_path)
     return (cmd);
 }
 
-void    run_cmd_pipe(char **cmd, char **envp)
+void    run_cmd_pipe(char **cmd, char **envp, t_env **env_table)
 {
     char    **split_path;
     char    *cmd_path;
     char    *path;
 
-    path = ft_strdup(getenv("PATH"));
+    path = ft_get_env("PATH", env_table);
     split_path = ft_split(path, ':');
     cmd_path = find_path(cmd[0], split_path);
     ft_free_pointer_array(split_path);
-    
     if (execve(cmd_path, cmd, envp) == -1)
     {
         printf("minishell: command not found: %s\n", cmd[0]);
         exit(1);
     }
-    
 }
 
-void    pipe_init(char **cmd, char **envp, int flag)
+void    pipe_init(char **cmd, char **envp, int flag, t_env **env_table)
 {
     pid_t   pid;
     int     pipe_fd[2];
@@ -96,7 +94,7 @@ void    pipe_init(char **cmd, char **envp, int flag)
         close(pipe_fd[0]);
         if (flag == 1)
 		    dup2(pipe_fd[1], 1);
-		run_cmd_pipe(cmd, envp);
+		run_cmd_pipe(cmd, envp, env_table);
 	}
     else
     {
@@ -106,7 +104,7 @@ void    pipe_init(char **cmd, char **envp, int flag)
     waitpid(pid, NULL, 0);
 }
 
-void    run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp)
+void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
 {
     int         i;
     int         fd1;
@@ -118,13 +116,13 @@ void    run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp)
     fd2 = 0;
     while(i < pipe_count)
     {
-        check_in_redir(cmd_args[i]->head_redir, i, fd1);
-        check_out_redir(cmd_args[i]->head_redir, i, fd2);
-        cmd = get_cmd(cmd_args[i]);
+        check_in_redir(cmd_arg[i]->head_redir, i, fd1);
+        check_out_redir(cmd_arg[i]->head_redir, i, fd2);
+        cmd = get_cmd(cmd_arg[i]);
         if ((i + 1) == pipe_count)
-            pipe_init(cmd, envp, 0);
+            pipe_init(cmd, en, 0, et);
         else
-            pipe_init(cmd, envp, 1);
+            pipe_init(cmd, en, 1, et);
         free(cmd);
         i++;
     }

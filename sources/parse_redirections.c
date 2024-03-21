@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/21 12:56:53 by tkartasl         ###   ########.fr       */
+/*   Created: 2024/03/21 13:13:47 by vsavolai          #+#    #+#             */
+/*   Updated: 2024/03/21 13:16:15 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	get_heredocs(t_redir **heredocs, t_redir **redirs, char **cmd_lines)
 	}
 }
 
-void	parse_line(char	*line, char **envp)
+void	parse_line(char	*line, t_env **env_table)
 {
 	char		**cmd_lines;
 	int			pipe_count;
@@ -124,6 +124,7 @@ void	parse_line(char	*line, char **envp)
 	t_redir		*redirs;
 	t_cmd_args	**cmd_args;
 	
+    (void)env_table;
 	heredocs = 0;
 	redirs = 0;
     if (check_pipe_repetition(line) == 1)
@@ -142,7 +143,8 @@ void	parse_line(char	*line, char **envp)
         return ;
     if (get_envs(cmd_args) == 0)
 		ft_printf("ERROR");
-	/*int i = 0;
+	/*
+    int i = 0;
     int j;
     t_cmd_args	**temp;
     temp = cmd_args;
@@ -182,6 +184,7 @@ void	parse_line(char	*line, char **envp)
         temp[i]->head_hdocs[i] = temp[i]->head_hdocs[i]->next;
         write(2, "here_doc end\n", 13);
     }
-	(void)envp;*/
-	run_commands(cmd_args, pipe_count, envp);
+    i = 0;
+    printf("enviroment variables\n");*/
+	run_commands(cmd_args, pipe_count, env_table);
 }
