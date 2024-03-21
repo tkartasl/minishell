@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:26:12 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/18 15:36:28 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:56:53 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,9 @@ void	parse_line(char	*line, char **envp)
 	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
     if (cmd_args == 0)
         return ;
-    
-    int i = 0;
+    if (get_envs(cmd_args) == 0)
+		ft_printf("ERROR");
+	/*int i = 0;
     int j;
     t_cmd_args	**temp;
     temp = cmd_args;
@@ -181,6 +182,6 @@ void	parse_line(char	*line, char **envp)
         temp[i]->head_hdocs[i] = temp[i]->head_hdocs[i]->next;
         write(2, "here_doc end\n", 13);
     }
-	(void)envp;
-	//run_commands(cmd_args, pipe_count, envp);
+	(void)envp;*/
+	run_commands(cmd_args, pipe_count, envp);
 }

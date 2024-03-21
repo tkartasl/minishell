@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/18 15:28:57 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:54:22 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ void        check_in_redir(t_redir **head_redir, int i, int fd1);
 void        check_out_redir(t_redir **head_redir, int i, int fd2);
 char		*check_if_digit(char *str, t_redir **redir);
 void		put_fd_lst(char *line, t_redir **redir);
+int			get_envs(t_cmd_args **cmd_arg);
+char		*cpy_expanded(char *str, char *expanded_str, int *i);
+char		*cpy_line(char *str, char *expanded_str, int *i, int *flag);
+char		*cpy_quote_to_quote(char *str, char *expanded_str, int *i);
+int			split_cmd(t_cmd_args **cmd_arg, int i);
+int			word_count(char *str);
+int			count_env_variables(char *str);
 //void        check_h_docs(t_redir **head_redir, int i, int fd1, char *filename);
 
 #endif
