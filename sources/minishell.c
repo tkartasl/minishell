@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/12 12:27:52 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/19 15:29:08 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,18 @@ void sig_handler(int signum)
 	}
 }
 
-int check_exit(char *line)
-{
-    if (ft_strncmp(line, "exit", 5) == 0)
-    {
-        free(line);
-        printf("exit\n");
-        return (0);
-	}
-    else if (ft_strncmp(line, "zsh", 4) == 0)
-    {
-        free(line);
-        return (0);
-    }
-    return (1);
-}
-
 int main(int argc, char **argv, char **envp)
 {
 	struct sigaction	act_sigint;
 	struct sigaction	act_sigquit;
 	char				*line;
 	struct termios		raw;
+    t_env               *env_table[TABLE_SIZE];
 
     (void)argc;
     (void)argv;
+    if (create_envs(envp, env_table) == -1)
+        return (-1);
 	if (tcgetattr(STDIN_FILENO, &raw) < 0)
 		return (0);
 	raw.c_lflag = (ECHO);
@@ -73,7 +60,7 @@ int main(int argc, char **argv, char **envp)
 			ft_putstr_fd("exit\n", 1);
 			break;
 		}
-		parse_line(line, envp);
+		parse_line(line, env_table);
 		free(line);
 	}
 		return (0);

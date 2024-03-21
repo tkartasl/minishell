@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:25:50 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/18 08:49:03 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:10:34 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,23 +83,28 @@ int    remove_cmd_quotes(t_cmd_args **cmd_args)
     return (0);
 }
 
-void    run_commands(t_cmd_args **cmd_args, int pipe_count, char **envp)
+void    run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_table)
 {
     int         original_stdin;
     int         original_stdout;
+    char        **envp;
 
     if (remove_cmd_quotes(cmd_args) == -1)
     {
-        printf("minishell: malloc fail");
+        printf("minishell: error allocating memory\n");
+        return ;
+    }
+    envp = get_env_list(env_table);
+    if (envp == NULL)
+    {
+        printf("minishell: error allocating memory\n");
         return ;
     }
     original_stdin = dup(0);
     original_stdout = dup(1);
-    /*if (pipe_count <= 1)
-        run_builtins(cmd_args, envp);
-    else*/
-    run_pipes(cmd_args, pipe_count, envp);
+    run_pipes(cmd_args, pipe_count, envp, env_table);
     dup2(original_stdin, 0);
     dup2(original_stdout, 1);
+    ft_free_pointer_array(envp);
     free_struct_array(cmd_args);
 }

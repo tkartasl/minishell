@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:38:23 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/18 15:28:57 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:07:52 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <termios.h>
+
+# define TABLE_SIZE 64
+# define DELETED_NODE (t_env *)(0xFFFFFFFFFFFFFFFFUL)
 
 typedef struct s_redir
 {
@@ -43,7 +46,12 @@ typedef struct s_cmd_args
 	int			pipe_count;
 }				t_cmd_args;
 
-void		parse_line(char	*line, char **envp);
+typedef struct s_env {
+    char    *name;
+    char    *value;
+} t_env;
+
+void		parse_line(char	*line, t_env **env_table);
 char    	*find_redir(char *str);
 int			get_len(char *str);
 char		*find_limiter(char *str);
@@ -57,18 +65,26 @@ void		list_build_error(t_redir **hdoc, t_redir **redir, char **cmd);
 void		redir_lstclear(t_redir **lst, void (*del)(void *));
 void		free_struct_array(t_cmd_args **arr);
 int			get_pipe_count(char **cmd_lines);
-void        run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp);
+void        run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp, t_env **env_table);
 int			get_cmd_len(char *str, char quote);
 char		*skip_quotes(char *str, char quote);
 char		**ft_split_remix(char *s, char c);
 int         check_pipe_repetition(char *line);
-void        run_commands(t_cmd_args **cmd_args, int pipe_count, char **envp);
+void        run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_table);
 char		*skip_arg(char *str);
 int         get_arg_len(char *str);
 void        check_in_redir(t_redir **head_redir, int i, int fd1);
 void        check_out_redir(t_redir **head_redir, int i, int fd2);
 char		*check_if_digit(char *str, t_redir **redir);
 void		put_fd_lst(char *line, t_redir **redir);
+int         create_envs(char **envp, t_env **env_table);
+int         hash(char *name);
+int         table_insert(t_env *env, t_env **env_table);
+t_env       *search_table(char *name, t_env **env_t);
+int         table_delete(char *name, t_env **env_table);
+char        **get_env_list(t_env **env_table);
+void        print_table(t_env **table);
+char        *ft_get_env(char *name, t_env **env_table);
 //void        check_h_docs(t_redir **head_redir, int i, int fd1, char *filename);
 
 #endif
