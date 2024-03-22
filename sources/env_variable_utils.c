@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:36:20 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/21 12:44:17 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:32:29 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@ int	count_env_variables(char *str)
 {
 	char	*temp;
 	int		env_count;
+	int		flag;
 
+	flag = 0;
 	temp = str;
 	env_count = 0;
 	while (*temp != 0)
 	{
-		if (*temp == '\'')
+		if (*temp == '"')
+			flag++;
+		if (*temp == '\'' && flag % 2 == 0)
 			temp = skip_quotes(temp, *temp);
 		if (*temp == '$')
 			env_count++;

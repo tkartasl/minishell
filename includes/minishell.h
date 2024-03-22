@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/21 13:14:21 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/22 10:01:54 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ int         get_arg_len(char *str);
 void        check_in_redir(t_redir **head_redir, int i, int fd1);
 void        check_out_redir(t_redir **head_redir, int i, int fd2);
 char		*check_if_digit(char *str, t_redir **redir);
-void		put_fd_lst(char *line, t_redir **redir);
-int			get_envs(t_cmd_args **cmd_arg);
-char		*cpy_expanded(char *str, char *expanded_str, int *i);
+void		put_fd_lst(char *line, t_redir **new);
+int			get_envs(t_cmd_args **cmd_arg, t_env **env_table);
+char		*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env);
 char		*cpy_line(char *str, char *expanded_str, int *i, int *flag);
 char		*cpy_quote_to_quote(char *str, char *expanded_str, int *i);
 int			split_cmd(t_cmd_args **cmd_arg, int i);
@@ -90,7 +90,6 @@ int         table_insert(t_env *env, t_env **env_table);
 t_env       *search_table(char *name, t_env **env_t);
 int         table_delete(char *name, t_env **env_table);
 char        **get_env_list(t_env **env_table);
-void        print_table(t_env **table);
 char        *ft_get_env(char *name, t_env **env_table);
 //void        check_h_docs(t_redir **head_redir, int i, int fd1, char *filename);
 

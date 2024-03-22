@@ -6,29 +6,29 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:46:47 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/21 12:49:24 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:48:55 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expand_env_variable(char *temp, int len_var, int *error_flag)
+static char	*expand_env_variable(char *temp, int len, int *error, t_env **env)
 {
 	char	*expanded_var;
 	char    *env_var;
 
-	env_var = ft_strndup(temp, len_var);
+	env_var = ft_strndup(temp, len);
 	if (env_var == 0)
 	{
-		*error_flag = 1;
+		*error = 1;
 		return (0);
 	}
-	expanded_var = getenv(env_var);
+	expanded_var = ft_get_env(env_var, env);
 	free(env_var);
 	return (expanded_var);
 }
 
-static char	*check_env_variable(char *str, int *error_flag)
+static char	*check_env_variable(char *str, int *error_flag, t_env **env)
 {
 	char	*temp;
 	int		len_var;
@@ -46,7 +46,7 @@ static char	*check_env_variable(char *str, int *error_flag)
 				len_var++;
 			if (len_var == 1)
 				temp--;
-			temp = expand_env_variable(temp, len_var, error_flag);
+			temp = expand_env_variable(temp, len_var, error_flag, env);
 			if (temp == 0)
 				return (0);
 			return (temp);
@@ -98,14 +98,14 @@ char	*cpy_line(char *str, char *expanded_str, int *i, int *flag)
 	return (expanded_str);
 }
 
-char	*cpy_expanded(char *str, char *expanded_str, int *i)
+char	*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env)
 {
 	char	*temp;
 	int		error_flag;
 
 	error_flag = 0;
 	temp = 0;
-	temp = check_env_variable(str, &error_flag);
+	temp = check_env_variable(str, &error_flag, env);
 	if (error_flag == 1)
 		return (0);
 	if (temp != 0)

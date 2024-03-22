@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:15:41 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/12 10:44:37 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:52:46 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ void	get_arg_count(char *cmd_line, int *count)
 {
 	while (*cmd_line != 0)
 	{
+		if (ft_isdigit(*cmd_line) == 1 && *(cmd_line - 1) == ' ')
+	    {
+			while (*cmd_line != '<' && *cmd_line != '>' && *cmd_line != ' '
+				&& *cmd_line != 0 && ft_isdigit(*cmd_line) == 1)
+				cmd_line++;
+		}
 		if (*cmd_line != '<' && *cmd_line != '>' && *cmd_line != 0)
 		{
 			*count += 1;
