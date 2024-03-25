@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:47 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/25 14:32:07 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:36:17 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	parse_line(char	*line, t_env **env_table)
         printf("pipe count: %d\n", temp[i]->pipe_count);
         i++;
     }
-
+    /*
     i = 0;
     while(temp[i]->head_redir[i])
     {
@@ -185,7 +185,7 @@ void	parse_line(char	*line, t_env **env_table)
         temp[i]->head_hdocs[i] = temp[i]->head_hdocs[i]->next;
         write(2, "here_doc end\n", 13);
     }
-    i = 0;
+    i = 0;*/
     //printf("enviroment variables\n");
-	//run_commands(cmd_args, pipe_count, env_table);
+    check_cmds(cmd_args, env_table);
 }

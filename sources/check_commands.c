@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/22 13:54:55 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:33:52 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    check_cmds(t_cmd_args **cmd_args, t_env **env_table)
     int flag;
 
     flag = 0;
-    if (get_envs(cmd_args) == 0)
+    if (get_envs(cmd_args, env_table) == 0)
         flag = -1;
     if (remove_cmd_quotes(cmd_args) == -1)
         flag = -1;
