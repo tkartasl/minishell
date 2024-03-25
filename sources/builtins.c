@@ -29,24 +29,16 @@ void	cd(char	*path)
 		//error
 }
 
-void	pwd()
+void	pwd(void)
 {
-	char	buffer[PATH_MAX];
+	char	buffer[PATH_MAX + 1];
 	char	*path;
 
-	if (ft_strlen() > PATH_MAX)
-		//error;
-	if (ft_strlen() == PATH_MAX)
-	{
-		path = getcwd(buffer[PATH_MAX + 1], sizeof(buffer));
-		if (path == NULL)
-			//error;	
-	}
-	else
-		path = getcwd(buffer[PATH_MAX], sizeof(buffer));
+	path = getcwd(buffer, sizeof(buffer));
 	if (path == NULL)
-		//error;
-	ft_putstr_fd(path, fd);
+		ft_printf("Error\n");
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd("\n", 1);
 }
 
 void	export()
