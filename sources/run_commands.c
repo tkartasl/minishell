@@ -6,79 +6,23 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:25:50 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/21 12:10:34 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:01:07 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int get_cc(char *line, int *j, char quote)
+int remove_file_quotes(t_redir **redirs)
 {
-    int cc;
+    t_redir *temp;
 
-    cc = 0;
-    *j += 1;
-    while (line[*j] != quote && line[*j] != 0)
+    temp = *redirs;
+    while(temp)
     {
-     cc++;
-     *j += 1;
-    }
-    return (cc);
-}
-
-int    clean_quotes(char *cmd, int cc, t_cmd_args *cmd_args)
-{
-    int     i;
-    int     j;
-    char    quote;
-    char    *new_cmd;
-
-    new_cmd = malloc(sizeof(char) * (cc + 1));
-    if (new_cmd == 0)
-        return (-1);
-    i = 0;
-    j = 0;
-    while(cmd[i] != 0)
-    {
-        if (cmd[i] == '\'' || cmd[i] == '"')
-        {
-            quote = cmd[i];
-            while(cmd[++i] != quote)
-                new_cmd[j++] = cmd[i];
-        }
-        else
-             new_cmd[j++] = cmd[i];
-        i++;
-    }
-    new_cmd[cc] = '\0';
-    free(cmd_args->cmd);
-    cmd_args->cmd = new_cmd;
-    return (0);
-}
-
-int    remove_cmd_quotes(t_cmd_args **cmd_args)
-{
-    int     i;
-    int     j;
-    int     cc;
-
-    i = 0;
-    while(cmd_args[i])
-    {
-        j = 0;
-        cc = 0;
-        while (cmd_args[i]->cmd[j] != 0)
-        {
-            if (cmd_args[i]->cmd[j] == '"' || cmd_args[i]->cmd[j] == '\'')
-                cc += get_cc(cmd_args[i]->cmd, &j, cmd_args[i]->cmd[j]);
-            else
-                cc++;
-            if (cmd_args[i]->cmd[j] != 0)
-                j++;
-        }
-        if (clean_quotes(cmd_args[i]->cmd, cc, cmd_args[i]) == -1)
+        temp->filename = clean_arg(temp->filename);
+        if (temp->filename == NULL)
             return (-1);
-        i++;
+        temp = temp->next;
     }
     return (0);
 }
@@ -89,11 +33,6 @@ void    run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_table)
     int         original_stdout;
     char        **envp;
 
-    if (remove_cmd_quotes(cmd_args) == -1)
-    {
-        printf("minishell: error allocating memory\n");
-        return ;
-    }
     envp = get_env_list(env_table);
     if (envp == NULL)
     {
@@ -106,5 +45,6 @@ void    run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_table)
     dup2(original_stdin, 0);
     dup2(original_stdout, 1);
     ft_free_pointer_array(envp);
-    free_struct_array(cmd_args);
+    if (access("here_doc", F_OK) == 0)
+        unlink("./here_doc");
 }

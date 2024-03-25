@@ -6,7 +6,7 @@
 #    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 13:15:50 by vsavolai          #+#    #+#              #
-#    Updated: 2024/03/21 13:16:49 by vsavolai         ###   ########.fr        #
+#    Updated: 2024/03/25 14:16:35 by vsavolai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,9 @@ SRCS = sources/minishell.c \
 		sources/env_variable_utils.c \
 		sources/env_table.c \
 		sources/env_utils.c \
-	#	sources/here_doc_utils.c \
+		sources/check_commands.c \
+		sources/quote_remove.c \
+		sources/here_doc_utils.c \
 	#	sources/builtins.c \
 	#	sources/builtins2.c
 

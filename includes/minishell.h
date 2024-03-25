@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/22 10:01:54 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:30:12 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -91,6 +93,11 @@ t_env       *search_table(char *name, t_env **env_t);
 int         table_delete(char *name, t_env **env_table);
 char        **get_env_list(t_env **env_table);
 char        *ft_get_env(char *name, t_env **env_table);
-//void        check_h_docs(t_redir **head_redir, int i, int fd1, char *filename);
+void        check_cmds(t_cmd_args **cmd_args, t_env **env_table);
+int         remove_arg_quotes(t_cmd_args **cmd_args);
+int         remove_cmd_quotes(t_cmd_args **cmd_args);
+int         remove_file_quotes(t_redir **redirs);
+char        *clean_arg(char *arg);
+int        check_h_docs(t_redir *head_redir, int i, int fd1, char **filename);
 
 #endif
