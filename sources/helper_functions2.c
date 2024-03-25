@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 11:25:39 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/19 09:58:12 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:17:53 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ static char	*skip_word(char *str, char quote)
 	{
 		if (ft_isdigit(*str) == 1 && *(str - 1) == ' ')
 	    {
-			while (*str != '<' && *str != '>' && *str != ' ' && *str != 0
-				&& ft_isdigit(*str) == 1)
+			while (*str != 0 && ft_isdigit(*str) == 1)
 				str++;
 			if (*str == '<' || *str == '>')
 				return (str);
@@ -58,18 +57,14 @@ static char	*skip_word(char *str, char quote)
 char    *skip_arg(char *str)
 {
 	char	quote;
+	int		i;
 
+	i = 0;
 	quote = 0;
     if (*str == '\'' || *str == '"')
     {
-		quote = *str;
-        str = skip_quotes(str, *str);
-        if (*str != 0 && *str != ' ' && *str != '\''
-			&& *str != '"')
-        {
-            while (*str != 0 && *str != ' ' && *str != '<' && *str != '>')
-                str++;
-        }  
+        i = get_cmd_len(str, *str);
+		str = str + i;
         return (str);
     }
     else
@@ -84,8 +79,7 @@ static int	loop_over_arg(char *s, char quote, int len)
 	{
 		if (ft_isdigit(s[len]) == 1 && s[len - 1] == ' ')
 	    {
-			while (s[len] != '<' && s[len] != '>' && s[len] != ' '
-				&& s[len] != 0 && ft_isdigit(s[len]) == 1)
+			while (s[len] != 0 && ft_isdigit(s[len]) == 1)
 				len++;
 			if (s[len] == '<' || s[len] == '>')
 				return (0);
@@ -114,19 +108,7 @@ int get_arg_len(char *str)
     quote = *str;
     len = 0;
     if (str[len] == '\'' || str[len] == '"')
-    {
-        len++;
-        while(str[len] != quote && str[len] != 0)
-            len++;
-        if (str[len] == quote)
-            len++;
-        if (str[len] != 0 && str[len] != ' ' && str[len] != '\''
-			&& str[len] != '"')
-        {
-            while(str[len] != 0 && str[len] != ' ')
-                len++;
-        }
-    }
+		len = get_cmd_len(str, *str);
     else
 		len = loop_over_arg(str, quote, len);
 	return (len);

@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/18 14:37:13 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:53:01 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*parse_command(char *cmd_line, int *len, t_redir **redir)
 		cmd_line = check_if_digit(cmd_line, redir);
 	if (*cmd_line != '<' && *cmd_line != '>')
 	{
-		if (*cmd_line == '\'' || *cmd_line == '\"')
+		if (*cmd_line == '\'' || *cmd_line == '"')
 			*len = get_cmd_len(cmd_line, *cmd_line);
 		if (*len == 0)
 			*len = get_len(cmd_line);
