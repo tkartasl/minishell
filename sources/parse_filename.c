@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:20:57 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/22 10:00:43 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:54:26 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@ char	*find_limiter(char *str)
 {
     while (*str != 0)
     {   
-		if (*str == '\'' || *str == '\"')
+		while ((*str == '\'' || *str == '"') && *str != 0)
 			str = skip_quotes(str, *str);
-        if (*str == '<' && *(str + 1) == '<')
+		 if (*str == '<' && *(str + 1) == '<')
         {    
             str = str + 2;
             str = ft_skip_whitespace(str);
 			return (str);
         }
-        str++;
+		if (*str != 0)
+        	str++;
     }
     return (str);
 }
@@ -33,7 +34,7 @@ char    *find_redir(char *str)
 {
     while (*str != 0)
     {
-		if (*str == '\'' || *str == '\"')
+		while ((*str == '\'' || *str == '"') && *str != 0)
 			str = skip_quotes(str, *str);
 		if ((*str == '>' && *(str + 1) == '>') ||
             (*str == '<' && *(str + 1) == '<'))
@@ -48,48 +49,20 @@ char    *find_redir(char *str)
             str = ft_skip_whitespace(str);
             return (str); 
         }
-		str++;
+		if (*str != 0)
+			str++;
     }
     return (str);
-}
-
-void	put_fd_lst(char *str, t_redir **new)
-{
-	while (*str != 0)
-	{
-		if (ft_isdigit(*str) == 1)
-		{
-			if (*(str - 1) == '-')
-			{
-				while (*str != '<' && *str != '>' && *str != 0 && *str != ' ')
-					str++;
-				if (*str == '<' || *str == '>')
-				{
-					if (*(str + 1) == '<' || *(str + 1) == '>')
-						str++;
-				}
-			}
-			else
-				str = check_if_digit(str, new);
-		}	
-		if (*str == '<' || *str == '>')
-		{
-			(*new) = (*new)->next;
-			if (*(str + 1) == '<' || *(str + 1) == '>')
-				str++;
-		}
-		str++;
-	}
 }
 
 char	*check_if_digit(char *str, t_redir **redir)
 {
 	char	*temp;
 	int		i;
-
+	
 	i = 0;
 	temp = 0;
-	while (str[i] != 0 && str[i] != '<' && str[i] != '>' && ft_isdigit(str[i]) == 1)
+	while (str[i] != 0 && ft_isdigit(str[i]) == 1)
 		i++;
 	if (str[i] == '<' || str[i] == '>')
 	{
@@ -104,3 +77,32 @@ char	*check_if_digit(char *str, t_redir **redir)
 	else
 		return (str);
 }
+
+void	put_fd_lst(char *str, t_redir **new)
+{
+	while (*str != 0)
+	{
+		while ((*str == '\'' || *str == '"') && *str != 0)
+			str = skip_quotes(str, *str);
+		if (ft_isdigit(*str) == 1)
+		{
+			if (*(str - 1) != ' ') 
+			{
+				while (*str != '<' && *str != '>' && *str != 0 && *str != ' ')
+					str++;
+			}
+			else
+				str = check_if_digit(str, new);
+		}	
+		if (*str == '<' || *str == '>')
+		{
+			if ((*new)->next != 0)
+				(*new) = (*new)->next;
+			if (*(str + 1) == '<' || *(str + 1) == '>')
+				str++;
+		}
+		if (*str != 0)
+			str++;
+	}
+}
+
