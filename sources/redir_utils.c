@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/18 12:36:56 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/25 14:49:02 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,9 @@ void    check_in_redir(t_redir **head_redir, int i, int fd1)
             if (check_fd_rights(filename, 1) == -1)
                 return ;
         }
-        //else if (temp->index == i && temp->arrow == 'h')
-            //check_h_docs(temp, i, fd1, &filename);
+        else if (temp->index == i && temp->arrow == 'h')
+            if (check_h_docs(temp, i, fd1, &filename) == -1)
+                return ;
         temp = temp->next;
     }
     if (filename != NULL)
