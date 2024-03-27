@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/21 12:16:28 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/27 08:45:19 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_table)
     ft_free_pointer_array(split_path);
     if (execve(cmd_path, cmd, envp) == -1)
     {
-        printf("minishell: command not found: %s\n", cmd[0]);
+        write(2, "wrong command\n", 14);
+        //printf("minishell: command not found: %s\n", cmd[0]);
         exit(1);
     }
 }

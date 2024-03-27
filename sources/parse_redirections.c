@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:47 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/25 15:36:17 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/27 09:13:28 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void	parse_line(char	*line, t_env **env_table)
         return ;
     if (get_envs(cmd_args, env_table) == 0)
 		ft_printf("ERROR");
-	
+	/*
     int i = 0;
     int j;
     t_cmd_args	**temp;
@@ -161,7 +161,6 @@ void	parse_line(char	*line, t_env **env_table)
         printf("pipe count: %d\n", temp[i]->pipe_count);
         i++;
     }
-    /*
     i = 0;
     while(temp[i]->head_redir[i])
     {
