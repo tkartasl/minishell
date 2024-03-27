@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/25 15:30:12 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:57:26 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int         check_pipe_repetition(char *line);
 void        run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_table);
 char		*skip_arg(char *str);
 int         get_arg_len(char *str);
-void        check_in_redir(t_redir **head_redir, int i, int fd1);
-void        check_out_redir(t_redir **head_redir, int i, int fd2);
+int         check_in_redir(t_redir **head_redir, int i, int fd1);
+int         check_out_redir(t_redir **head_redir, int i, int fd2);
 char		*check_if_digit(char *str, t_redir **redir);
 void		put_fd_lst(char *line, t_redir **new);
 int			get_envs(t_cmd_args **cmd_arg, t_env **env_table);
