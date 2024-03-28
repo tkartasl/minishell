@@ -6,11 +6,27 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:36:20 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/22 12:32:29 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:28:12 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*cpy_double_quote(char **str, char *expanded_str)
+{
+	char	*temp;
+	
+	
+	temp = ft_strndup((*str), 1);
+	if (temp == 0)
+		return (0);
+	*str += 1;
+	expanded_str = ft_strjoin_free(expanded_str, temp);
+	if (expanded_str == 0)
+		return (0);
+	free(temp);
+	return (expanded_str);
+}
 
 int	count_env_variables(char *str)
 {

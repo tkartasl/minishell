@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:46:47 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/22 09:48:55 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:30:13 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,17 @@ char	*cpy_line(char *str, char *expanded_str, int *i, int *flag)
 {
 	char	*temp;
 
+	(void)flag;
 	temp = 0;
 	while (str[*i] != 0 && str[*i] != '"' && str[*i] != '$')
 		*i += 1;
-			temp = ft_strndup(str, *i);
+	temp = ft_strndup(str, *i);
 	if (temp == 0)
 		return (0);
 	expanded_str = ft_strjoin_free(expanded_str, temp);
 	if (expanded_str == 0)
 		return (0);
 	free(temp);
-	if (*(str + *i) == '"')
-	{
-		*i += 1;
-		*flag += 1;;
-	}
 	return (expanded_str);
 }
 

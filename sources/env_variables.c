@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:46:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/22 12:23:39 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:27:55 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,17 @@ static char	*expand_all_env(char *old, char *expanded_str, int i, t_env **env)
 		if (*str == '"')
 		{
 			flag++;
-			str++;
+			expanded_str = cpy_double_quote(&str, expanded_str);
 		}
 		if (*str == '\'' && flag % 2 == 0)
 			expanded_str = cpy_quote_to_quote(str, expanded_str, &i);
 		else if (*str == '$')
 			expanded_str = cpy_expanded(str, expanded_str, &i, env);
-		else
+		else		
 			expanded_str = cpy_line(str, expanded_str, &i, &flag);
 		if (expanded_str == 0)
 			return (0);
 		str = str + i;
-		ft_printf("%d\n", flag);
-		ft_printf("%s\n", str);
 	}
 	free(old);
 	return (expanded_str);

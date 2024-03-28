@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/26 08:57:26 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:11:30 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int			get_envs(t_cmd_args **cmd_arg, t_env **env_table);
 char		*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env);
 char		*cpy_line(char *str, char *expanded_str, int *i, int *flag);
 char		*cpy_quote_to_quote(char *str, char *expanded_str, int *i);
+char		*cpy_double_quote(char **str, char *expanded_str);
 int			split_cmd(t_cmd_args **cmd_arg, int i);
 int			word_count(char *str);
 int			count_env_variables(char *str);
