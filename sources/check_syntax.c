@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 10:00:17 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:27:34 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int check_pipe_repetition(char *temp)
             temp = skip_quotes(temp, *temp);
 		if (*temp == '|')
 		{
+            temp++;
 			temp = ft_skip_whitespace(temp);
 			if (*temp == 0 || *temp == '|')
 			{

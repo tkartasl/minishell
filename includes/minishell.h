@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 11:00:49 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:39:48 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,7 @@ void        pwd(int *flag);
 void        echo(char **args, int fd, int *flag);
 void        unset(t_cmd_args *c_a, t_env **env_table, int *flag);
 void        env(t_env **env_table, int *flag);
+void        pipe_error(int error_nbr, char *cmd);
+int         check_builtins(t_cmd_args *cmd_args, t_env **env_table);
 
 #endif

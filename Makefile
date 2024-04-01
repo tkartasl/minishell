@@ -6,7 +6,7 @@
 #    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 13:15:50 by vsavolai          #+#    #+#              #
-#    Updated: 2024/03/28 12:22:06 by vsavolai         ###   ########.fr        #
+#    Updated: 2024/04/01 14:16:19 by vsavolai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRCS = sources/minishell.c \
 		sources/quote_remove.c \
 		sources/here_doc_utils.c \
 		sources/builtins.c \
+		sources/pipe_errors.c \
 	#	sources/builtins2.c
 
 OBJS = $(SRCS:.c=.o)

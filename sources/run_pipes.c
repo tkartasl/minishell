@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 10:50:11 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:50:08 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,14 @@ char    *find_path(char *cmd, char **split_path)
     while(split_path[i] != 0)
     {
         temp_path = ft_strjoin(split_path[i], "/");
+        if (temp_path == NULL)
+            pipe_error(1, NULL);
         final_path = ft_strjoin(temp_path, cmd);
-        free(temp_path);
+        if (final_path == NULL)
+        {
+            free(temp_path);
+            pipe_error(1, NULL);
+        }
         if (access(final_path, F_OK | X_OK) == 0)
             return (final_path);
         free(final_path);
@@ -58,38 +64,42 @@ char    *find_path(char *cmd, char **split_path)
     return (cmd);
 }
 
-void    run_cmd_pipe(char **cmd, char **envp, t_env **env_table)
+void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
 {
     char    **split_path;
     char    *cmd_path;
     char    *path;
+    int     flag;
 
-    path = ft_get_env("PATH", env_table);
-    split_path = ft_split(path, ':');
-    cmd_path = find_path(cmd[0], split_path);
-    ft_free_pointer_array(split_path);
-    if (execve(cmd_path, cmd, envp) == -1)
+    flag = check_builtins(ca, env_t);
+    if (flag == 0)
     {
-        write(2, "wrong command\n", 14);
-        //printf("minishell: command not found: %s\n", cmd[0]);
-        exit(1);
+        path = ft_get_env("PATH", env_t);
+        split_path = ft_split(path, ':');
+        if (split_path == NULL)
+            pipe_error(1, NULL);
+        cmd_path = find_path(cmd[0], split_path);
+        ft_free_pointer_array(split_path);
+        if (execve(cmd_path, cmd, envp) == -1)
+            pipe_error(2, cmd[0]);
     }
 }
 
-void    pipe_init(char **cmd, char **envp, int flag, t_env **env_table)
+void    pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_table)
 {
     pid_t   pid;
     int     pipe_fd[2];
-
+    char    **cmd;
+    
+    cmd = get_cmd(cmd_arg);
     if(pipe(pipe_fd) == -1)
-    {
-        printf("minishell: pipe failure\n");
-        return ;
-    }  
+        flag = 3;
     pid = fork();
 	if (pid == -1)
+        flag = 4;
+    if (flag == 3 || flag == 4)
     {
-        printf("minishell: fork failure\n");
+        pipe_error(flag, NULL);
         return ;
     }
     if (pid == 0)
@@ -97,13 +107,10 @@ void    pipe_init(char **cmd, char **envp, int flag, t_env **env_table)
         close(pipe_fd[0]);
         if (flag == 1)
 		    dup2(pipe_fd[1], 1);
-		run_cmd_pipe(cmd, envp, env_table);
+		run_cmd_pipe(cmd, envp, env_table, cmd_arg);
 	}
-    else
-    {
-        close(pipe_fd[1]);
-        dup2(pipe_fd[0], 0);
-    }
+    close(pipe_fd[1]);
+    dup2(pipe_fd[0], 0);
     waitpid(pid, NULL, 0);
 }
 
@@ -123,9 +130,9 @@ void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
         check_out_redir(cmd_arg[i]->head_redir, i, fd2);
         cmd = get_cmd(cmd_arg[i]);
         if ((i + 1) == pipe_count)
-            pipe_init(cmd, en, 0, et);
+            pipe_init(0, en, cmd_arg[i], et);
         else
-            pipe_init(cmd, en, 1, et);
+            pipe_init(1, en, cmd_arg[i], et);
         free(cmd);
         i++;
     }

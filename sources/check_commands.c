@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 09:54:07 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:53:39 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ void    check_cmds(t_cmd_args **cmd_args, t_env **env_table)
         printf("minishell: error allocating memory\n");
         return ;
     }
-    if ((*cmd_args)->pipe_count == 1)
-       flag = check_builtins(cmd_args[0], env_table);
-    if (flag == 0)
-        run_commands(cmd_args, (*cmd_args)->pipe_count, env_table);
+    run_commands(cmd_args, (*cmd_args)->pipe_count, env_table);
     free_struct_array(cmd_args);
 }
