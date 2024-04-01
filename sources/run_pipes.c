@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/27 08:45:19 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/01 10:50:11 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char    *find_path(char *cmd, char **split_path)
     int     i;
 
     i = 0;
+    if (access(cmd, 0) == 0 && cmd[0] == '/')
+		return (cmd);
     while(split_path[i] != 0)
     {
         temp_path = ft_strjoin(split_path[i], "/");

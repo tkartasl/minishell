@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:24:07 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/21 10:42:24 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:40:12 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int table_insert(t_env *env, t_env **env_table)
         }
         i++;
     }
+    printf("minishell: env table is full");
     return (-1);
 }
 
