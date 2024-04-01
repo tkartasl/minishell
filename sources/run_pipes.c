@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 15:50:08 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:21:57 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
     int     flag;
 
     flag = check_builtins(ca, env_t);
-    if (flag == 0)
+    if (flag == 1)
+        exit (0);
+    else if (flag == 0)
     {
         path = ft_get_env("PATH", env_t);
         split_path = ft_split(path, ':');
@@ -109,9 +111,9 @@ void    pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_table)
 		    dup2(pipe_fd[1], 1);
 		run_cmd_pipe(cmd, envp, env_table, cmd_arg);
 	}
-    close(pipe_fd[1]);
-    dup2(pipe_fd[0], 0);
-    waitpid(pid, NULL, 0);
+        waitpid(pid, NULL, 0);
+        close(pipe_fd[1]);
+        dup2(pipe_fd[0], 0);
 }
 
 void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
