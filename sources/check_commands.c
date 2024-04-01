@@ -6,28 +6,11 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 09:41:20 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/01 09:54:07 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void    print_table(t_env **table)
-{
-    int i;
-
-    i = 0;
-    while(i < TABLE_SIZE)
-    {
-        if (table[i] == NULL)
-            printf("\t%i\t---\n", i);
-        else if (table[i] == DELETED_NODE)
-            printf("\t%i\t---<deleted>\n", i);
-        else 
-            printf("\t%i\t%s%s\n", i, table[i]->name, table[i]->value);
-        i++;
-    }
-}
 
 int check_builtins(t_cmd_args *cmd_args, t_env **env_table)
 {
