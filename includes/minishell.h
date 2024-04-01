@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/26 08:57:26 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:47:18 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int         hash(char *name);
 int         table_insert(t_env *env, t_env **env_table);
 t_env       *search_table(char *name, t_env **env_t);
 int         table_delete(char *name, t_env **env_table);
+int         get_value(t_env *env, char *envp, t_env **env_table);
 char        **get_env_list(t_env **env_table);
 char        *ft_get_env(char *name, t_env **env_table);
 void        check_cmds(t_cmd_args **cmd_args, t_env **env_table);
@@ -98,6 +99,12 @@ int         remove_arg_quotes(t_cmd_args **cmd_args);
 int         remove_cmd_quotes(t_cmd_args **cmd_args);
 int         remove_file_quotes(t_redir **redirs);
 char        *clean_arg(char *arg);
-int        check_h_docs(t_redir *head_redir, int i, int fd1, char **filename);
+int         check_h_docs(t_redir *head_redir, int i, int fd1, char **filename);
+void        free_env_table(t_env **env_table);
+void        export(t_cmd_args *cmd_args, t_env **env_table, int *flag);
+void        pwd(int *flag);
+void        echo(char **args, int fd, int *flag);
+void        unset(t_cmd_args *c_a, t_env **env_table, int *flag);
+void        env(t_env **env_table, int *flag);
 
 #endif

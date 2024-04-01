@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:54:18 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/21 12:00:39 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:22:27 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,19 @@ int get_value(t_env *env, char *envp, t_env **env_table)
 int create_envs(char **envp, t_env **env_table)
 {
     int     i;
+    t_env   *env;
 
     i = 0;
     init_hash_table(env_table);
     while(envp[i] != 0)
     {
-        env_table[i] = malloc(sizeof(t_env));
-        if (env_table[i] == NULL)
+        env = malloc(sizeof(t_env));
+        if (env == NULL)
         {
             printf("minishell: error allocating memory");
             return (-1);
         }
-        if (get_value(env_table[i], envp[i], env_table) == -1)
+        if (get_value(env, envp[i], env_table) == -1)
         {
             printf("minishell: error allocating memory");
             return (-1);
