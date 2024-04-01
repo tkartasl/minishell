@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/25 14:53:01 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/01 09:17:47 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)
 		{
 			free_struct_array(array);
 			ft_free_pointer_array(line);
+			return (0);
 		}
 		i++;
 	}

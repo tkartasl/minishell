@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/13 09:57:18 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/01 10:00:17 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,8 @@ int check_syntax(char **cmd_lines, int pipe_count)
     return (i);
 }
 
-int check_pipe_repetition(char *line)
+int check_pipe_repetition(char *temp)
 {
-    char    *temp;
-
-    temp = line;
     if (*temp == '|' || *temp == '&')
     {
         printf("minishell: syntax error near unexpected token `%c'\n", *temp);
@@ -116,11 +113,15 @@ int check_pipe_repetition(char *line)
     {
         if (*temp == '\'' || *temp == '"')
             temp = skip_quotes(temp, *temp);
-        if (*temp == '|' && *(temp + 1) == '|')
-        {
-            printf("minishell: syntax error near unexpected token `|'\n");
-            return (1);
-        }
+		if (*temp == '|')
+		{
+			temp = ft_skip_whitespace(temp);
+			if (*temp == 0 || *temp == '|')
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+				return (1);
+			}
+		}
         temp++;
     }
     return (0);
