@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:54:18 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/28 12:22:27 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:48:09 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char    *ft_get_env(char *name, t_env **env_table)
 {
     t_env   *new;
     new = search_table(name, env_table);
+    if (new == NULL)
+        return (NULL);
     return (new->value);
 }
 

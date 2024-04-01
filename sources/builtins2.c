@@ -3,26 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/26 12:11:02 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/01 11:22:03 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	unset()
+/*
+void	cd(char	*path)
 {
-
-	
+	if (chdir(path) < 0);
+		//error
 }
-
-void	env()
-{
-
-	
-}
+*/
 
 void	exit(char *status, t_env **env_table, t_cmd_args **cmd_args);
 {
