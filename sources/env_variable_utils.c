@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:36:20 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/28 10:28:12 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:15:18 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,10 @@ int	word_count(char *str)
 	temp = str;
 	while (*temp != 0)
 	{
-		if (*temp == ' ')
-		{
+		if (*temp != ' ' && *temp != 0)
 			count++;
-			temp = ft_skip_whitespace(temp);
-		}
+		while (*temp != ' ' && *temp != 0)
+			temp++;
 		if (*temp != 0)
 			temp++;
 	}
@@ -112,6 +111,7 @@ int	split_cmd(t_cmd_args **cmd_arg, int i)
 		temp = ft_strndup(cmd_arg[i]->cmd, len);
 	if (temp == 0)
 		return (0);
+	len++;
 	temp_args = ft_strdup(&cmd_arg[i]->cmd[len]);
 	if (temp_args == 0)
 		return (0);
