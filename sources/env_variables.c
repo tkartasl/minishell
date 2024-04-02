@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:46:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/01 14:15:01 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:01:12 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ static int	expand_arguments(t_cmd_args **arr, t_env **env)
 	
 	i = 0;
 	j = 0;
-	s = ft_strdup("");
-	if (s == 0)
-		return (0);
 	while (arr[i] != 0)
 	{
 		while (arr[i]->args[j] != 0)
 		{
+			s = ft_strdup("");
+			if (s == 0)
+				return (0);
 			if (count_env_variables(arr[i]->args[j]) > 0)
 				(arr[i]->args[j] = expand_all_env(arr[i]->args[j], s, i, env));
 			if (arr[i]->args[j] == 0)
