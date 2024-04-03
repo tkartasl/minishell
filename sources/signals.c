@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:45:03 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/03 13:36:41 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:43:03 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void sig_handler_before(int signum)
 {
 	struct termios	raw;
 	
+	ft_memset(&raw, 0, sizeof(struct termios));
 	if (signum == SIGTSTP)
 	{
 		if (tcgetattr(STDIN_FILENO, &raw) < 0)

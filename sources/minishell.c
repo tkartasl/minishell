@@ -3,65 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/19 15:29:08 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:42:59 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void sig_handler(int signum)
+int	termios_before_rl(void)
 {
-	
-	if (signum == SIGINT)
-	{	
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
+	struct termios	raw;
+
+	ft_memset(&raw, 0, sizeof(struct termios));
+	if (tcgetattr(STDIN_FILENO, &raw) < 0)
+		return (-1);
+	raw.c_lflag &= ~(ECHOCTL);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0)
+		return (-1);
+	return (0);
+}
+
+int	termios_after_rl(void)
+{
+	struct termios	raw;
+
+	ft_memset(&raw, 0, sizeof(struct termios));
+	if (tcgetattr(STDIN_FILENO, &raw) < 0)
+		return (-1);
+	raw.c_lflag |= (ECHOCTL);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0)
+		return (-1);
+	return (0);
 }
 
 int main(int argc, char **argv, char **envp)
 {
-	struct sigaction	act_sigint;
-	struct sigaction	act_sigquit;
 	char				*line;
-	struct termios		raw;
-    t_env               *env_table[TABLE_SIZE];
-
+	t_env               *env_table[TABLE_SIZE];
+	
     (void)argc;
     (void)argv;
-    if (create_envs(envp, env_table) == -1)
+	line = 0;
+	rl_clear_history();
+	if (create_envs(envp, env_table) == -1)
         return (-1);
-	if (tcgetattr(STDIN_FILENO, &raw) < 0)
-		return (0);
-	raw.c_lflag = (ECHO);
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) < 0)
-		return (0);
-	line = 0; 
-	ft_memset(&act_sigint, 0, sizeof(struct sigaction));
-	ft_memset(&act_sigquit, 0, sizeof(struct sigaction));
-	act_sigint.sa_handler = &sig_handler;
-	act_sigquit.sa_handler = SIG_IGN;
-	if (sigaction(SIGQUIT, &act_sigquit, NULL) < 0)
-		exit(1);
-	if (sigaction(SIGINT, &act_sigint, NULL) < 0)
-		exit(1);
 	while (1)
 	{
+		if (termios_before_rl() < 0)
+			ft_printf("tcgetattr or tcsetattr function failed\n");
+		signals_before_rl();
 		line = readline("minishell >: ");
 		if (line != 0 && *line != 0)
 			add_history(line);
+		if (termios_after_rl() < 0)
+			ft_printf("tcgetattr or tcsetattr function failed\n");
 		if (line == 0)
-		{
-			ft_putstr_fd("exit\n", 1);
 			break;
-		}
+		signals_after_rl();
 		parse_line(line, env_table);
 		free(line);
 	}
-		return (0);
+	ft_putstr_fd("exit\n", 1);
+	return (0);
 }
