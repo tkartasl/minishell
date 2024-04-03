@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/27 08:54:36 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/03 10:16:58 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int    check_in_redir(t_redir **head_redir, int i, int fd1)
     return (0);
 }
 
-int    check_out_redir(t_redir **head_redir, int i, int fd2)
+int    check_out_redir(t_redir **head_redir, int i, int fd2, int *fl)
 {
      t_redir *temp;
     char    *filename;
@@ -138,7 +138,10 @@ int    check_out_redir(t_redir **head_redir, int i, int fd2)
         temp = temp->next;
     }
     if (filename != NULL && flag == 0)
+    {
         if (check_open_fd(filename, arrow, fd2, 2) == -1)
             return (-1);
+        *fl = 1;
+    }
     return (0);
 }

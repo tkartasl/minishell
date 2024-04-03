@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 16:21:57 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/03 10:56:46 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,15 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
     char    *cmd_path;
     char    *path;
     int     flag;
-
-    flag = check_builtins(ca, env_t);
+    
+    flag = check_builtins(ca, env_t, 1);
     if (flag == 1)
         exit (0);
     else if (flag == 0)
     {
         path = ft_get_env("PATH", env_t);
+        if (path == NULL)
+            pipe_error(5, cmd[0]);
         split_path = ft_split(path, ':');
         if (split_path == NULL)
             pipe_error(1, NULL);
@@ -122,20 +124,24 @@ void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
     int         fd1;
     int         fd2;
     char        **cmd;
+    int         redir_flag;
     
     i = 0;
     fd1 = 0;
-    fd2 = 0;
     while(i < pipe_count)
     {
+        fd2 = dup(1);
+        redir_flag = 0;
         check_in_redir(cmd_arg[i]->head_redir, i, fd1);
-        check_out_redir(cmd_arg[i]->head_redir, i, fd2);
+        check_out_redir(cmd_arg[i]->head_redir, i, fd2, &redir_flag);
         cmd = get_cmd(cmd_arg[i]);
-        if ((i + 1) == pipe_count)
+        if ((i + 1) == pipe_count || redir_flag == 1)
             pipe_init(0, en, cmd_arg[i], et);
         else
             pipe_init(1, en, cmd_arg[i], et);
         free(cmd);
+        if (redir_flag == 1)
+            dup2(fd2, 1);
         i++;
     }
 }
