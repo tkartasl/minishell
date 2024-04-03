@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:20:45 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 14:31:34 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/02 10:16:41 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,11 @@ void    pipe_error(int error_nbr, char *cmd)
         ft_putstr_fd("minishell: pipe failure\n", 2);
     else if (error_nbr == 4)
         ft_putstr_fd("minishell: fork failure\n", 2);
+    else if (error_nbr == 5)
+    {
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(cmd, 2);
+        ft_putendl_fd(": No such file or directory", 2);
+        exit(0);
+    }
 }

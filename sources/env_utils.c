@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:24:07 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/28 13:40:12 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:40:19 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ t_env   *search_table(char *name, t_env **env_t)
     {
         try = (i + index) % TABLE_SIZE;
         if (env_t[try] == DELETED_NODE)
+        {
+            i++;
             continue ;
+        }
         if (env_t[try] != NULL && ft_strncmp(env_t[try]->name, name, len) == 0
             && env_t[try]->name[len] == '=')
             return (env_t[try]);
@@ -69,7 +72,10 @@ int    table_delete(char *name, t_env **env_table)
     {
         try = (i + index) % TABLE_SIZE;
         if (env_table[try] == DELETED_NODE)
+        {
+            i++;
             continue ;
+        }
         if (env_table[try] != NULL && ft_strncmp(env_table[try]->name, name, 1000) == 0)
         {
             free(env_table[try]->name);

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 14:39:48 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/03 09:28:36 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void        run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_tabl
 char		*skip_arg(char *str);
 int         get_arg_len(char *str);
 int         check_in_redir(t_redir **head_redir, int i, int fd1);
-int         check_out_redir(t_redir **head_redir, int i, int fd2);
+int         check_out_redir(t_redir **head_redir, int i, int fd2, int *fl);
 char		*check_if_digit(char *str, t_redir **redir);
 void		put_fd_lst(char *line, t_redir **new);
 int			get_envs(t_cmd_args **cmd_arg, t_env **env_table);
@@ -106,8 +106,10 @@ void        export(t_cmd_args *cmd_args, t_env **env_table, int *flag);
 void        pwd(int *flag);
 void        echo(char **args, int fd, int *flag);
 void        unset(t_cmd_args *c_a, t_env **env_table, int *flag);
+void        cd(t_cmd_args *cmd_args, t_env **env_table, int *flag);
 void        env(t_env **env_table, int *flag);
+void        export_env(t_env **env_table, int *flag);
 void        pipe_error(int error_nbr, char *cmd);
-int         check_builtins(t_cmd_args *cmd_args, t_env **env_table);
+int         check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call);
 
 #endif
