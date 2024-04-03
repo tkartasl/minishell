@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/03 09:28:36 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:23:36 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define NAME_MAX 255
-# define PATH_MAX 1024
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
@@ -26,6 +24,8 @@
 # include <fcntl.h>
 # include <termios.h>
 
+# define NAME_MAX 255
+# define PATH_MAX 1024
 # define TABLE_SIZE 64
 # define DELETED_NODE (t_env *)(0xFFFFFFFFFFFFFFFFUL)
 
@@ -48,10 +48,11 @@ typedef struct s_cmd_args
 	int			pipe_count;
 }				t_cmd_args;
 
-typedef struct s_env {
+typedef struct s_env 
+{
     char    *name;
     char    *value;
-} t_env;
+}			t_env;
 
 void		parse_line(char	*line, t_env **env_table);
 char    	*find_redir(char *str);
@@ -111,5 +112,7 @@ void        env(t_env **env_table, int *flag);
 void        export_env(t_env **env_table, int *flag);
 void        pipe_error(int error_nbr, char *cmd);
 int         check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call);
+void		signals_before_rl(void);
+void		signals_after_rl(void);
 
 #endif

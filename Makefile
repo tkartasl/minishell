@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
+#    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 13:15:50 by vsavolai          #+#    #+#              #
-#    Updated: 2024/04/02 09:34:45 by vsavolai         ###   ########.fr        #
+#    Updated: 2024/04/03 14:21:38 by tkartasl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,8 @@ SRCS = sources/minishell.c \
 		sources/here_doc_utils.c \
 		sources/builtins.c \
 		sources/pipe_errors.c \
-		sources/builtins2.c
+		sources/builtins2.c \
+		sources/signals.c
 
 OBJS = $(SRCS:.c=.o)
 
