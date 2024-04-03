@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/01 09:17:47 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/02 08:51:29 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ char *find_cmd(char *cmd_line, int *len)
 		if (*cmd_line != '<' && *cmd_line != '>')
 			break ;
 	}
-	if (*cmd_line == '\'' || *cmd_line == '\"')
-		*len = get_cmd_len(cmd_line, *cmd_line);
-	if (*len == 0)
-		*len = get_len(cmd_line);
+	*len = get_len(cmd_line);
 	cmd = ft_strndup(cmd_line, *len);
 	if (cmd == 0)
 		return (0);
@@ -45,10 +42,7 @@ char	*parse_command(char *cmd_line, int *len, t_redir **redir)
 		cmd_line = check_if_digit(cmd_line, redir);
 	if (*cmd_line != '<' && *cmd_line != '>')
 	{
-		if (*cmd_line == '\'' || *cmd_line == '"')
-			*len = get_cmd_len(cmd_line, *cmd_line);
-		if (*len == 0)
-			*len = get_len(cmd_line);
+		*len = get_len(cmd_line);
 		cmd = ft_strndup(cmd_line, *len);
 		if (cmd == 0)
 			return (0);

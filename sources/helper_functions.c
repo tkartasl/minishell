@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:52:10 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/25 14:51:22 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/02 08:54:39 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,29 @@
 
 int	get_len(char *str)
 {
-	int	i;
-	
+	int		i;
+	char	quote;
+
+	quote = 0;
 	i = 0;
+	if (*str == '\'' || *str == '"')
+	{
+		i = get_cmd_len(str, *str);
+		return (i);
+	}
 	while (str[i] != ' ' && str[i] != 0 && str[i] != '<' && str[i] != '>')
-		i++;
-	return (i);	
+	{
+		if (str[i] ==  '\'' || str[i] == '"')
+		{
+			quote = str[i];
+			i++;
+			while (str[i] != quote && str[i] != 0)
+			i++;
+		}
+		if (str[i] != 0)
+			i++;
+	}
+	return (i);
 }
 
 char	*skip_redirs(char *cmd_line)

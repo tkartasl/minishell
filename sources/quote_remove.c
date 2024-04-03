@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:12:07 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 16:31:56 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/02 12:06:38 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char    *clean_quotes(char *cmd, int cc)
         if (cmd[i] == '\'' || cmd[i] == '"')
         {
             quote = cmd[i];
-            while(cmd[++i] != quote && cmd[++i] != 0)
+            while(cmd[++i] != quote && cmd[i + 1] != 0)
                 new_cmd[j++] = cmd[i];
         }
         else
