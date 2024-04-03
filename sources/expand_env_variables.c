@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:46:47 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/02 18:10:18 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/03 09:36:25 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*check_env_variable(char *str, int *error_flag, t_env **env)
 		{
 			temp++;
 			len_var++;
-			while (temp[len_var] != 0 && ft_strchr(" '\"§!@#$%^&*-=+", temp[len_var]) == 0)
+			while (temp[len_var] != 0 && ft_strchr(" '\"$", temp[len_var]) == 0)
 				len_var++;
 			if (len_var == 1)
 				temp--;
@@ -108,7 +108,7 @@ char	*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env)
 	if (expanded_str == 0)
 		return (0);
 	*i += 1;
-	while (str[*i] != ' ' && ft_strchr(" '\"§!@#$%^&*-=+", str[*i]) == 0)
+	while (str[*i] != 0 && ft_strchr(" '\"$", str[*i]) == 0)
 		*i += 1;
 	return (expanded_str);
 }
