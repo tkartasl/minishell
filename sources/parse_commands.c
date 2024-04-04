@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/02 08:51:29 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/04 10:46:59 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_cmd_args	*struct_new(t_redir **redir, t_redir **hdoc, int pipe)
 	new->pipe_count = pipe;
 	new->cmd = 0;
 	new->args = 0;
+	new->cmd_count = 0;
 	return (new);
 }	
 
@@ -111,6 +112,8 @@ t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)
 	while (line[i] != 0)
 	{
 		array[i] = get_structs(redir, hdoc, line[i], pipe);
+		if (ft_strlen(array[i]->cmd) > 0)
+			array[i]->cmd_count = 1;
 		if (array[i] == 0)
 		{
 			free_struct_array(array);
