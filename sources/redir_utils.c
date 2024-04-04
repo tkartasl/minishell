@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/03 10:16:58 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:50:27 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int check_open_fd(char  *filename, char arrow, int fd, int flag)
 {
     if (flag == 1)
     {
-        fd = open(filename, O_RDONLY, 0777);
+        if (ft_strncmp(filename, "here_doc", 9) != 0)
+            fd = open(filename, O_RDONLY, 0777);
         if (fd == -1)
         {
             printf("1minishell: %s: No such file or directory\n", filename);
@@ -104,8 +105,9 @@ int    check_in_redir(t_redir **head_redir, int i, int fd1)
             if (check_fd_rights(temp, &filename, NULL, 1) == -1)
                 return (-1);
         if (temp->index == i && temp->arrow == 'h')
-            if (check_h_docs(temp, i, fd1, &filename) == -1)
-                return (-1);
+            fd1 = check_h_docs(temp, i, &filename);
+        if (fd1 == -1)
+            return (-1);
         flag = check_fd_redirection(temp, '<', fd1);
         if (flag == -1)
             return (-1);
