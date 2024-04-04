@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/04 09:14:18 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 09:36:23 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,6 @@ void        pipe_error(int error_nbr, char *cmd);
 int         check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call);
 void		signals_before_rl(void);
 void		signals_after_rl(void);
+int			termios_before_rl(void);
 
 #endif

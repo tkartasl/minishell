@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 14:34:02 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/03 16:44:28 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 09:35:46 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int run_h_doc(int *pipe_fd, t_redir *temp)
     char    *line;
     char    *limiter;
 
+	termios_before_rl();
+	signals_before_rl();
     limiter = ft_strjoin(temp->filename, "\n");
     if (limiter == NULL)
         return (-1);
