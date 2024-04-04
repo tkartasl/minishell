@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/03 17:26:40 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 11:30:01 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,17 @@ void	echo(char **args, int fd, int *flag)
 {
 	int	i;	
 	int	j;
+    int flag_nl;
 	
     *flag = 1;
+    flag_nl = 0;
 	i = 0;
 	j = 0;
+    if (!(ft_strncmp(args[i], "-n", 3)))
+    {
+        flag_nl = 1;
+        i++;
+    }
 	while (args[i] != 0)
 	{
 		ft_putstr_fd(args[i], fd);
@@ -27,7 +34,8 @@ void	echo(char **args, int fd, int *flag)
             write(fd, " ", 1);
 		i++;
 	}
-    write(fd, "\n", 1);
+    if (flag_nl == 0)
+        write(fd, "\n", 1);
 }
 
 void	pwd(int *flag)
