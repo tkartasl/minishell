@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/04 09:14:18 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 10:29:24 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_cmd_args
 	char		*cmd;
 	char		**args;
 	int			pipe_count;
+	int			cmd_count;
 }				t_cmd_args;
 
 typedef struct s_env 

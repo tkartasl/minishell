@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/03 15:06:49 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 10:49:34 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,16 @@ int check_echo_redirs(t_cmd_args *cmd_args)
 int check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call)
 {
     int flag;
-    int fd1;
-    int fd2;
-
-    fd1 = dup(0);
-    fd2 = dup(1);
+   
     flag = 0;
     if (call == 0 && ft_strncmp(cmd_args->cmd, "echo", 5) == 0)
         if (check_echo_redirs(cmd_args) == -1)
             return (-1);
+    if (cmd_args->cmd_count == 0 && cmd_args->head_redir != NULL)
+    {
+        flag = 1;
+        check_echo_redirs(cmd_args);
+    }
     if (ft_strncmp(cmd_args->cmd, "export", 7) == 0)
         export(cmd_args, env_table, &flag);
     else if (ft_strncmp(cmd_args->cmd, "pwd", 4) == 0)
@@ -52,8 +53,6 @@ int check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call)
         env(env_table, &flag);
     else if (ft_strncmp(cmd_args->cmd, "cd", 3) == 0)
         cd(cmd_args, env_table, &flag);
-    dup2(fd1, 0);
-    dup2(fd2, 1);
     return (flag);
 }
 
@@ -75,6 +74,11 @@ int check_cmd_syntax(t_cmd_args **cmd_args, t_env **env_table)
 void    check_cmds(t_cmd_args **cmd_args, t_env **env_table)
 {
     int flag;
+    int fd1;
+    int fd2;
+
+    fd1 = dup(0);
+    fd2 = dup(1);
     flag = check_cmd_syntax(cmd_args, env_table);
     if (flag == -1)
     {
@@ -84,6 +88,8 @@ void    check_cmds(t_cmd_args **cmd_args, t_env **env_table)
     }
     if ((*cmd_args)->pipe_count == 1)
         flag = check_builtins(cmd_args[0], env_table, 0);
+    dup2(fd1, 0);
+    dup2(fd2, 1);
     if (flag == 0)
         run_commands(cmd_args, (*cmd_args)->pipe_count, env_table);
     free_struct_array(cmd_args);
