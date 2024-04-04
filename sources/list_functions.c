@@ -55,6 +55,8 @@ t_redir	*redir_lstnew(char *filename, char redir, int index)
 	new->flag = 0;
 	new->fd = 0;
 	new->next = NULL;
+	new->original_input = dup(0);
+	new->original_output = dup(1);
 	return (new);
 }
 

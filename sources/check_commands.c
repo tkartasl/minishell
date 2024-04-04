@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/03 09:31:59 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:06:49 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call)
     fd1 = dup(0);
     fd2 = dup(1);
     flag = 0;
-    if (call == 0)
+    if (call == 0 && ft_strncmp(cmd_args->cmd, "echo", 5) == 0)
         if (check_echo_redirs(cmd_args) == -1)
             return (-1);
     if (ft_strncmp(cmd_args->cmd, "export", 7) == 0)
@@ -75,7 +75,6 @@ int check_cmd_syntax(t_cmd_args **cmd_args, t_env **env_table)
 void    check_cmds(t_cmd_args **cmd_args, t_env **env_table)
 {
     int flag;
-
     flag = check_cmd_syntax(cmd_args, env_table);
     if (flag == -1)
     {

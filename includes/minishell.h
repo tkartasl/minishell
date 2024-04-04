@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/03 09:28:36 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:43:42 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_redir
 	int				index;
 	int				fd;
 	int				flag;
+	int				original_input;
+	int				original_output;
 	struct s_redir	*next;
 }				t_redir;
 
@@ -100,7 +102,7 @@ int         remove_arg_quotes(t_cmd_args **cmd_args);
 int         remove_cmd_quotes(t_cmd_args **cmd_args);
 int         remove_file_quotes(t_redir **redirs);
 char        *clean_arg(char *arg);
-int         check_h_docs(t_redir *head_redir, int i, int fd1, char **filename);
+int         check_h_docs(t_redir *head_redir, int i, char **filename);
 void        free_env_table(t_env **env_table);
 void        export(t_cmd_args *cmd_args, t_env **env_table, int *flag);
 void        pwd(int *flag);
