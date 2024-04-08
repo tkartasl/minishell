@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:20:45 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/02 10:16:41 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 13:21:23 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,23 @@ void    pipe_error(int error_nbr, char *cmd)
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(cmd, 2);
         ft_putendl_fd(": No such file or directory", 2);
+        exit(0);
+    }
+}
+void    file_error(int error_nbr, char *cmd)
+{
+    if (error_nbr == 1)
+    {
+        ft_putstr_fd("minishell:", 2);
+        ft_putstr_fd(cmd, 2);
+        ft_putstr_fd(": permission denied\n", 2);
+        exit(0);
+    }
+    else if (error_nbr == 2)
+    {
+        ft_putstr_fd("minishell:", 2);
+        ft_putstr_fd(cmd, 2);
+        ft_putstr_fd(": is a directory\n", 2);
         exit(0);
     }
 }

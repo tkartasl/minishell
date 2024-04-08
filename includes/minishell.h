@@ -6,11 +6,9 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/08 09:00:29 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:28:41 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -23,6 +21,7 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <termios.h>
+# include <dirent.h>
 
 # define NAME_MAX 255
 # define PATH_MAX 1024
@@ -106,6 +105,7 @@ int         remove_file_quotes(t_redir **redirs);
 char        *clean_arg(char *arg);
 int         check_h_docs(t_redir *head_redir, int i, char **filename);
 void        free_env_table(t_env **env_table);
+void		ft_exit(char *status, t_env **env_table, t_cmd_args **cmd_args);
 void        export(t_cmd_args *cmd_args, t_env **env_table, int *flag);
 void        pwd(int *flag);
 void        echo(char **args, int fd, int *flag);
@@ -118,5 +118,6 @@ int         check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call);
 void		signals_before_rl(int flag);
 void		signals_after_rl(void);
 int			termios_before_rl(void);
+void		file_error(int error_nbr, char *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:46:01 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/21 10:17:35 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:06:22 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,21 @@ void free_struct_array(t_cmd_args **arr)
 	}
 	free(arr);
 	arr = 0;
+}
+
+void	free_env_table(t_env **env_table)
+{
+	int	i;
+
+	i = 0;
+	while(i < TABLE_SIZE)
+	{
+		if (env_table[i] != NULL && env_table[i] != DELETED_NODE)
+		{
+			free(env_table[i]->name);
+			free(env_table[i]->value);
+			free(env_table[i]);
+		}
+		i++;
+	}
 }

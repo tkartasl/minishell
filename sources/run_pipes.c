@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/03 14:58:38 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 13:20:30 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,21 @@ char    *find_path(char *cmd, char **split_path)
     return (cmd);
 }
 
+void    check_path(char *cmd_path)
+{
+    DIR *dir;
+    
+    dir = opendir(cmd_path);
+    if (dir != NULL)
+    {
+        closedir(dir);
+        file_error(2, cmd_path);
+    }
+    if (access(cmd_path, X_OK) == -1)
+        file_error(1, cmd_path);
+
+}
+
 void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
 {
     char    **split_path;
@@ -83,6 +98,8 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
         if (split_path == NULL)
             pipe_error(1, NULL);
         cmd_path = find_path(cmd[0], split_path);
+        if (cmd_path[0] == '/')
+            check_path(cmd_path);
         ft_free_pointer_array(split_path);
         if (execve(cmd_path, cmd, envp) == -1)
             pipe_error(2, cmd[0]);

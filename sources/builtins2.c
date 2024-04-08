@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/02 15:21:42 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:10:23 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ void	cd(t_cmd_args *cmd_args, t_env **env_table, int *flag)
     }
 }
 
-/*
-void	exit(char *status, t_env **env_table, t_cmd_args **cmd_args);
+void	ft_exit(char *status, t_env **env_table, t_cmd_args **cmd_args)
 {
 	char	*temp;
 	int		i;
@@ -75,9 +74,11 @@ void	exit(char *status, t_env **env_table, t_cmd_args **cmd_args);
 	if (*temp == 0)
 		i = ft_atoi(status);
 	
-
+    printf("exit\n");
+    free_env_table(env_table);
+    free_struct_array(cmd_args);
 	exit(i);
-}*/
+}
 
 void    env(t_env **env_table, int *flag)
 {

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:25:50 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/03 13:00:56 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:11:24 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,4 @@ void    run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_table)
     dup2(original_stdin, 0);
     dup2(original_stdout, 1);
     ft_free_pointer_array(envp);
-    if (access("here_doc", F_OK) == 0)
-        unlink("./here_doc");
 }
