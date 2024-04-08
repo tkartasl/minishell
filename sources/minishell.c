@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/03 14:42:59 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/08 08:59:47 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int main(int argc, char **argv, char **envp)
 	{
 		if (termios_before_rl() < 0)
 			ft_printf("tcgetattr or tcsetattr function failed\n");
-		signals_before_rl();
+		signals_before_rl(0);
 		line = readline("minishell >: ");
 		if (line != 0 && *line != 0)
 			add_history(line);
