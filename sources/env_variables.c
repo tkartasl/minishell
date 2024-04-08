@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:46:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/03 12:34:50 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:22:25 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ static int	expand_arguments(t_cmd_args **arr, t_env **env)
 				return (0);
 			j++;
 		}
+		j = 0;
 		i++;
 	}
 	return (1);
