@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:46:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/03 12:34:50 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:50:33 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,18 @@ static int	expand_filename(t_redir **redir, t_env **env)
 	int 	i;
 
 	i = 0;
-	expanded = ft_strdup("");
-	if (expanded == 0)
-		return (0);
 	new = *redir;
 	while (new != 0)
 	{
-		if (count_env_variables(new->filename) > 0)
-			new->filename = expand_all_env(new->filename, expanded, i, env);
+		if (new->filename[0] == '$')
+			if (ft_get_env(&new->filename[1], env) == 0)
+				ft_printf("minishell: %s: ambiguous redirect\n", new->filename);
+		if (count_env_variables(new->filename) == 0)
+			return (1);
+		expanded = ft_strdup("");
+		if (expanded == 0)
+			return (0);
+		new->filename = expand_all_env(new->filename, expanded, i, env);
 		if (new->filename == 0)
 			return (0);
 		new = new->next;
@@ -74,8 +78,12 @@ static int	expand_command(t_cmd_args **cmd_arg, char *str, t_env **env)
 		flag = 0;
 		if (cmd_arg[i]->cmd[0] == '$')
 			flag++;
-		if (count_env_variables(cmd_arg[i]->cmd) > 0)
-			(cmd_arg[i]->cmd = expand_all_env(cmd_arg[i]->cmd, str, i, env));
+		if (count_env_variables(cmd_arg[i]->cmd) == 0)
+		{
+			free(str);
+			return (1);
+		}
+		cmd_arg[i]->cmd = expand_all_env(cmd_arg[i]->cmd, str, i, env);
 		if (cmd_arg[i]->cmd == 0)
 			return (0);
 		if (flag > 0 && word_count(cmd_arg[i]->cmd) > 1)
@@ -100,15 +108,17 @@ static int	expand_arguments(t_cmd_args **arr, t_env **env)
 	{
 		while (arr[i]->args[j] != 0)
 		{
+			if (count_env_variables(arr[i]->args[j]) == 0)
+				return (1);
 			s = ft_strdup("");
 			if (s == 0)
 				return (0);
-			if (count_env_variables(arr[i]->args[j]) > 0)
-				(arr[i]->args[j] = expand_all_env(arr[i]->args[j], s, i, env));
+			arr[i]->args[j] = expand_all_env(arr[i]->args[j], s, i, env);
 			if (arr[i]->args[j] == 0)
 				return (0);
 			j++;
 		}
+		j = 0;
 		i++;
 	}
 	return (1);
@@ -117,6 +127,7 @@ static int	expand_arguments(t_cmd_args **arr, t_env **env)
 int	get_envs(t_cmd_args **cmd_arg, t_env **env_table)
 {
 	char	*expanded_str;
+
 	expanded_str = ft_strdup("");
 	if (expanded_str == 0)
 		return (0);
