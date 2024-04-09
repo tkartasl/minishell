@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/09 15:21:22 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:44:39 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
             check_path(cmd_path);
         ft_free_pointer_array(split_path);
         if (execve(cmd_path, cmd, envp) == -1)
-            pipe_error(2, cmd[0], cmd);
+            pipe_error_cmd(cmd[0], cmd);
     }
 }
 
