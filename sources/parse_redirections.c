@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:47 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/27 09:13:28 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:51:37 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	parse_line(char	*line, t_env **env_table)
     if (cmd_lines == 0)
         return ;
 	pipe_count = get_pipe_count(cmd_lines);
-	if (check_syntax(cmd_lines, pipe_count) == 0)
+	if (check_syntax(cmd_lines, pipe_count, env_table) == 0)
         return ;
 	get_heredocs(&heredocs, &redirs, cmd_lines);
 	get_redirs(&redirs, &heredocs, cmd_lines);
@@ -142,12 +142,9 @@ void	parse_line(char	*line, t_env **env_table)
 	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
     if (cmd_args == 0)
         return ;
-    if (get_envs(cmd_args, env_table) == 0)
-		ft_printf("ERROR");
-	/*
-    int i = 0;
+   /* int i = 0;
     int j;
-    t_cmd_args	**temp;
+   t_cmd_args	**temp;
     temp = cmd_args;
     while(temp[i])
     {
@@ -185,6 +182,8 @@ void	parse_line(char	*line, t_env **env_table)
         write(2, "here_doc end\n", 13);
     }
     i = 0;*/
+	//if (get_envs(cmd_args, env_table) == 0)
+		//ft_printf("ERROR");
     //printf("enviroment variables\n");
     check_cmds(cmd_args, env_table);
 }
