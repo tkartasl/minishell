@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:36:20 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/01 14:15:18 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:35:18 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int	count_env_variables(char *str)
 	int		flag;
 
 	flag = 0;
-	temp = str;
 	env_count = 0;
+	if (str == 0 || *str == 0)
+		return (env_count);
+	temp = str;
 	while (*temp != 0)
 	{
 		if (*temp == '"')
@@ -56,6 +58,8 @@ int	word_count(char *str)
 	char	*temp;
 
 	count = 0;
+	if (str == 0)
+		return (count);
 	temp = str;
 	while (*temp != 0)
 	{
@@ -69,15 +73,15 @@ int	word_count(char *str)
 	return (count);
 }
 
-static int	insert_arg(t_cmd_args **cmd_arg, char *temp_arg, int idx)
+static int	insert_arg(t_cmd_args **cmd_arg, char *temp_arg, int idx, int j)
 {
 	char	**new_args;
-	int		j;
 	int		i;
 
 	i = 0;	
-	j = 0;
 	while (cmd_arg[idx]->args[j] != 0)
+		j++;
+	if (cmd_arg[idx]->args[j] == 0)
 		j++;
 	new_args = malloc((j + 1) * sizeof(char *));
 	if (new_args == 0)
@@ -91,6 +95,7 @@ static int	insert_arg(t_cmd_args **cmd_arg, char *temp_arg, int idx)
 		i++;
 		j++;
 	}
+	new_args[j] = 0;
 	ft_free_pointer_array(cmd_arg[idx]->args);
 	cmd_arg[idx]->args = new_args;
 	return (1);
@@ -101,7 +106,9 @@ int	split_cmd(t_cmd_args **cmd_arg, int i)
 	int		len;		
 	char	*temp;
 	char	*temp_args;
+	int		j;
 
+	j = 0;
 	temp_args = 0;
 	temp = 0;
 	len = 0;
@@ -115,7 +122,7 @@ int	split_cmd(t_cmd_args **cmd_arg, int i)
 	temp_args = ft_strdup(&cmd_arg[i]->cmd[len]);
 	if (temp_args == 0)
 		return (0);
-	if (insert_arg(cmd_arg, temp_args, i) == 0)
+	if (insert_arg(cmd_arg, temp_args, i, j) == 0)
 		return (0);
 	free(cmd_arg[i]->cmd);
 	cmd_arg[i]->cmd = temp;

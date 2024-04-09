@@ -6,7 +6,7 @@
 #    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 13:15:50 by vsavolai          #+#    #+#              #
-#    Updated: 2024/04/03 14:21:38 by tkartasl         ###   ########.fr        #
+#    Updated: 2024/04/09 15:34:03 by tkartasl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CC = cc
 
 RL_FLAGS = -lreadline -L ~/.brew/opt/readline/lib 
 
-CFLAGS = -Wall -Wextra -Werror -g -Iincludes -I ~/.brew/opt/readline/include #fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g -Iincludes -I ~/.brew/opt/readline/include #-fsanitize=thread
 
 SRCS = sources/minishell.c \
 		sources/parse_commands.c \
@@ -49,7 +49,8 @@ SRCS = sources/minishell.c \
 		sources/builtins.c \
 		sources/pipe_errors.c \
 		sources/builtins2.c \
-		sources/signals.c
+		sources/signals.c \
+		sources/helper_functions3.c
 
 OBJS = $(SRCS:.c=.o)
 

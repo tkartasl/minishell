@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 14:27:34 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:30:46 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,12 @@ int check_unclosed_quotes(char *line)
     return (0);
 }
 
-int check_syntax(char **cmd_lines, int pipe_count)
+int check_syntax(char **cmd_lines, int pipe_count, t_env **env)
 {
     int i;
     
-
-    i = 0;
-    while(cmd_lines[i])
+	i = -1;
+    while(cmd_lines[++i])
     {
         if (check_empty_line(cmd_lines[i], pipe_count, i) == 1)
         {
@@ -97,7 +96,9 @@ int check_syntax(char **cmd_lines, int pipe_count)
             syntax_error(cmd_lines);
             return (0);
         }
-        i++;
+		cmd_lines[i] = check_null_cmd(cmd_lines[i], env);
+		if (cmd_lines[i] == 0)
+			return (0);
     }
     return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/08 10:28:41 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:31:45 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe);
 char		**parse_arguments(char *line, char *line2);
 char		*skip_redirs(char *cmd_line);
 void		syntax_error(char **cmd_line);
-int			check_syntax(char **cmd_lines, int pipe_count);
+int			check_syntax(char **cmd_lines, int pipe_count, t_env **env);
 void		list_build_error(t_redir **hdoc, t_redir **redir, char **cmd);
 void		redir_lstclear(t_redir **lst, void (*del)(void *));
 void		free_struct_array(t_cmd_args **arr);
@@ -119,5 +119,6 @@ void		signals_before_rl(int flag);
 void		signals_after_rl(void);
 int			termios_before_rl(void);
 void		file_error(int error_nbr, char *cmd);
+char		*check_null_cmd(char *line, t_env **env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:46:47 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/08 14:31:33 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/09 13:05:23 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static char	*expand_env_variable(char *temp, int len, int *error, t_env **env)
 	char	*expanded_var;
 	char    *env_var;
 
+	if (*temp == '$' && (*(temp + 1) == ' ' || *(temp + 1) == 0))
+		return (temp);
 	env_var = ft_strndup(temp, len);
 	if (env_var == 0)
 	{
@@ -41,7 +43,7 @@ static char	*check_env_variable(char *str, int *error_flag, t_env **env)
 		{
 			temp++;
 			len++;
-			while (temp[len] != 0 && ft_strchr(" ?'\"$", temp[len]) == 0)
+			while (temp[len] != 0 && ft_strchr(" ?'\"$/", temp[len]) == 0)
 				len++;
 			if (len == 1 && *temp != '?')
 				temp--;
@@ -108,7 +110,7 @@ char	*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env)
 	if (expanded_str == 0)
 		return (0);
 	*i += 1;
-	while (str[*i] != 0 && ft_strchr(" '\"$?", str[*i]) == 0)
+	while (str[*i] != 0 && ft_strchr(" '\"$?/", str[*i]) == 0)
 		*i += 1;
 	return (expanded_str);
 }
