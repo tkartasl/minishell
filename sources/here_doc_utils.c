@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 14:34:02 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/04 09:35:46 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:46:14 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int create_file(char *filename)
+{
+    int fd;
+    fd = open(filename, O_CREAT | O_WRONLY, 0777);
+    if (fd == -1)
+    {
+        printf("minishell: %s: can't open file", filename);
+        return (-1);
+    }
+    close(fd);
+    return (1);
+}
 
 int run_h_doc(int *pipe_fd, t_redir *temp)
 {
