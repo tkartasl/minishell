@@ -6,14 +6,16 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:20:45 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/04 13:21:23 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/09 13:20:11 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    pipe_error(int error_nbr, char *cmd)
+void    pipe_error(int error_nbr, char *cmd, char **cmds)
 {
+    if (cmds != NULL)
+        ft_free_pointer_array(cmds);
     if (error_nbr == 1)
     {
         ft_putstr_fd("minishell: error allocating memory\n", 2);

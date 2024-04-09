@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/03 15:50:27 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:38:35 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int check_open_fd(char  *filename, char arrow, int fd, int flag)
             fd = open(filename, O_RDONLY, 0777);
         if (fd == -1)
         {
-            printf("1minishell: %s: No such file or directory\n", filename);
+            printf("minishell: %s: No such file or directory\n", filename);
             return (-1);
         }
         dup2(fd, 0);
@@ -67,28 +67,31 @@ int check_open_fd(char  *filename, char arrow, int fd, int flag)
 }
 
 int check_fd_redirection(t_redir *temp, char arrow, int fd)
-{
-        if (temp->flag == 1 && temp->arrow == arrow)
+{ 
+    if (temp->flag == 1 && temp->arrow == arrow)
+    {
+        if (temp->fd > 255)
         {
-            if (temp->fd > 255)
-            {
-                if (temp->fd > 2147483647)
-                    printf("minishell: file descriptor out of reach\n");
-                else
-                    printf("minishell: bad file descriptor\n");
-                return (-1);
-            }
-            fd = open(temp->filename, O_CREAT | O_RDWR | O_TRUNC, 0777);
-            if (fd == -1)
-            {
-                printf("minishell: %s: can't open file", temp->filename);
-                return (-1);
-            }
-            dup2(fd, temp->fd);
-            return (1);
+            if (temp->fd > 2147483647)
+                printf("minishell: file descriptor out of reach\n");
+            else
+                printf("minishell: bad file descriptor\n");
+            return (-1);
         }
-        return (0);
+        fd = open(temp->filename, O_CREAT | O_RDWR | O_TRUNC, 0777);
+        if (fd == -1)
+        {
+            printf("minishell: %s: can't open file", temp->filename);
+            return (-1);
+        }
+        dup2(fd, temp->fd);
+        return (1);
     }
+    if (arrow == '>' && (temp->arrow == '>' || temp->arrow == '!'))
+        if (create_file(temp->filename) == -1)
+            return (-1);
+    return (0);
+}
 
 int    check_in_redir(t_redir **head_redir, int i, int fd1)
 {

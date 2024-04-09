@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/04 13:20:30 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:21:22 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ char    **get_cmd(t_cmd_args *cmd_args)
         j++;
     }
     cmd = malloc(sizeof(char *) * (i + 1));
+    if (cmd == NULL)
+    {
+        printf("minishell: error allocating memory\n");
+        return (NULL);
+    }
     cmd[0] = cmd_args->cmd;
     i = 1;
     j = 0;
@@ -49,12 +54,12 @@ char    *find_path(char *cmd, char **split_path)
     {
         temp_path = ft_strjoin(split_path[i], "/");
         if (temp_path == NULL)
-            pipe_error(1, NULL);
+            pipe_error(1, NULL, NULL);
         final_path = ft_strjoin(temp_path, cmd);
         if (final_path == NULL)
         {
             free(temp_path);
-            pipe_error(1, NULL);
+            pipe_error(1, NULL, NULL);
         }
         if (access(final_path, F_OK | X_OK) == 0)
             return (final_path);
@@ -68,6 +73,8 @@ void    check_path(char *cmd_path)
 {
     DIR *dir;
     
+    if (ft_strnstr(cmd_path, "/.brew/bin/", ft_strlen(cmd_path)) != NULL)
+        pipe_error(2, NULL, NULL);
     dir = opendir(cmd_path);
     if (dir != NULL)
     {
@@ -93,20 +100,20 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
     {
         path = ft_get_env("PATH", env_t);
         if (path == NULL)
-            pipe_error(5, cmd[0]);
+            pipe_error(5, cmd[0], NULL);
         split_path = ft_split(path, ':');
         if (split_path == NULL)
-            pipe_error(1, NULL);
+            pipe_error(1, NULL, NULL);
         cmd_path = find_path(cmd[0], split_path);
         if (cmd_path[0] == '/')
             check_path(cmd_path);
         ft_free_pointer_array(split_path);
         if (execve(cmd_path, cmd, envp) == -1)
-            pipe_error(2, cmd[0]);
+            pipe_error(2, cmd[0], cmd);
     }
 }
 
-void    pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_table)
+void    pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_t)
 {
     pid_t   pid;
     int     pipe_fd[2];
@@ -119,16 +126,15 @@ void    pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_table)
 	if (pid == -1)
         flag = 4;
     if (flag == 3 || flag == 4)
-    {
-        pipe_error(flag, NULL);
+        pipe_error(flag, NULL, cmd);
+    if (flag == 3 || flag == 4 || cmd == NULL)
         return ;
-    }
     if (pid == 0)
 	{
         close(pipe_fd[0]);
         if (flag == 1)
 		    dup2(pipe_fd[1], 1);
-		run_cmd_pipe(cmd, envp, env_table, cmd_arg);
+		run_cmd_pipe(cmd, envp, env_t, cmd_arg);
 	}
         waitpid(pid, NULL, 0);
         close(pipe_fd[1]);
@@ -140,7 +146,6 @@ void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
     int         i;
     int         fd1;
     int         fd2;
-    char        **cmd;
     int         redir_flag;
     
     i = 0;
@@ -151,12 +156,10 @@ void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
         redir_flag = 0;
         check_in_redir(cmd_arg[i]->head_redir, i, fd1);
         check_out_redir(cmd_arg[i]->head_redir, i, fd2, &redir_flag);
-        cmd = get_cmd(cmd_arg[i]);
         if ((i + 1) == pipe_count || redir_flag == 1)
             pipe_init(0, en, cmd_arg[i], et);
         else
             pipe_init(1, en, cmd_arg[i], et);
-        free(cmd);
         if (redir_flag == 1)
             dup2(fd2, 1);
         i++;
