@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/04 12:10:23 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:04:19 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ void    change_to_parent_directory(void)
     int     len_current;
 
     path = getcwd(buffer, sizeof(buffer));
-    if (ft_strncmp("/", path, 2) == 0)
+    printf("%s\n", path);
+    if (ft_strncmp("/Users", path, 7) == 0)
+    {
+        chdir("/");
         return ;
+    }
     if (path == NULL)
     {
 		ft_printf("minishell: getcwd: path not found\n");

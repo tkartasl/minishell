@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/09 16:18:15 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:43:25 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,7 @@ void		signals_after_rl(void);
 int			termios_before_rl(void);
 void		file_error(int error_nbr, char *cmd);
 char		*check_null_cmd(char *line, t_env **env);
+int			create_file(char *filename);
+void		pipe_error_cmd(char *cmd, char **cmds);
 
 #endif
