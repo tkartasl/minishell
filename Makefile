@@ -6,7 +6,7 @@
 #    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 13:15:50 by vsavolai          #+#    #+#              #
-#    Updated: 2024/04/09 15:34:03 by tkartasl         ###   ########.fr        #
+#    Updated: 2024/04/11 10:18:42 by tkartasl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ SRCS = sources/minishell.c \
 		sources/pipe_errors.c \
 		sources/builtins2.c \
 		sources/signals.c \
-		sources/helper_functions3.c
+		sources/env_variable_utils2.c \
+		sources/print_errors.c
 
 OBJS = $(SRCS:.c=.o)
 

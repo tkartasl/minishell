@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/09 16:44:39 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:44:52 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void    check_path(char *cmd_path)
     if (dir != NULL)
     {
         closedir(dir);
-        file_error(2, cmd_path);
+        file_error(2, cmd_path);	
     }
     if (access(cmd_path, X_OK) == -1)
         file_error(1, cmd_path);

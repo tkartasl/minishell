@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:46:47 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/09 13:05:23 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/10 10:20:31 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@ static char	*expand_env_variable(char *temp, int len, int *error, t_env **env)
 
 	if (*temp == '$' && (*(temp + 1) == ' ' || *(temp + 1) == 0))
 		return (temp);
+	if (*temp == '?')
+	{
+		expanded_var = ft_itoa((*env)->status);
+		if (expanded_var == 0)
+		{
+			*error = 1;
+			return (0);
+		}
+		return (expanded_var);
+	}
 	env_var = ft_strndup(temp, len);
 	if (env_var == 0)
 	{

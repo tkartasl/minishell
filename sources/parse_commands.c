@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/04 10:46:59 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:50:07 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)
 	i = 0;
 	array = malloc((pipe + 1) * sizeof(t_cmd_args *));
 	if (array == 0)
-		list_build_error(hdoc, redir, line);
+		list_free(hdoc, redir, line, 1);
 	while (line[i] != 0)
 	{
 		array[i] = get_structs(redir, hdoc, line[i], pipe);

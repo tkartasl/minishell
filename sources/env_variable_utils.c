@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:36:20 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/09 15:35:18 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 10:04:18 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,6 @@ int	count_env_variables(char *str)
 	return (env_count);
 }
 
-int	word_count(char *str)
-{
-	int		count;
-	char	*temp;
-
-	count = 0;
-	if (str == 0)
-		return (count);
-	temp = str;
-	while (*temp != 0)
-	{
-		if (*temp != ' ' && *temp != 0)
-			count++;
-		while (*temp != ' ' && *temp != 0)
-			temp++;
-		if (*temp != 0)
-			temp++;
-	}
-	return (count);
-}
-
 static int	insert_arg(t_cmd_args **cmd_arg, char *temp_arg, int idx, int j)
 {
 	char	**new_args;
@@ -101,30 +80,44 @@ static int	insert_arg(t_cmd_args **cmd_arg, char *temp_arg, int idx, int j)
 	return (1);
 }
 
-int	split_cmd(t_cmd_args **cmd_arg, int i)
-{
-	int		len;		
-	char	*temp;
-	char	*temp_args;
-	int		j;
-
-	j = 0;
-	temp_args = 0;
-	temp = 0;
-	len = 0;
-	while (cmd_arg[i]->cmd[len] != ' ' && cmd_arg[i]->cmd[len] != 0)
-		len++;
-	if (cmd_arg[i]->cmd[len] == ' ')
-		temp = ft_strndup(cmd_arg[i]->cmd, len);
+char	*get_new_cmd(t_cmd_args **cmd_arg, char *temp, int *len, int i)
+{	
+	while (cmd_arg[i]->cmd[*len] != ' ' && cmd_arg[i]->cmd[*len] != 0)
+		*len += 1;
+	if (cmd_arg[i]->cmd[*len] == ' ')
+		temp = ft_strndup(cmd_arg[i]->cmd, *len);
 	if (temp == 0)
 		return (0);
-	len++;
+	*len +=1;
+	return (temp);
+}
+
+int	split_cmd(t_cmd_args **cmd_arg, int i, int len)
+{
+	char	*temp_args;
+	int		j;
+	char	*temp;
+
+	temp = 0;
+	j = 0;
+	temp_args = 0;
+	temp = get_new_cmd(cmd_arg, temp, &len, i);
+	if (temp == 0)
+		return (0);
 	temp_args = ft_strdup(&cmd_arg[i]->cmd[len]);
 	if (temp_args == 0)
+	{
+		free(temp);
 		return (0);
+	}
 	if (insert_arg(cmd_arg, temp_args, i, j) == 0)
+	{
+		free(temp);
+		free(temp_args);	
 		return (0);
+	}
 	free(cmd_arg[i]->cmd);
 	cmd_arg[i]->cmd = temp;
 	return (1);
 }
+

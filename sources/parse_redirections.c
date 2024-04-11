@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:47 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/09 15:51:37 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 09:41:27 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void    add_redirs(t_redir **redirs, char **cmd_lines)
     }
 }
 
-void	get_redirs(t_redir **redirs, t_redir **heredocs, char **cmd_lines)
+static int	get_redirs(t_redir **redirs, char **cmd_lines)
 {
 	int		i;
 	int		len;
@@ -67,8 +67,8 @@ void	get_redirs(t_redir **redirs, t_redir **heredocs, char **cmd_lines)
 	char	*temp;
 
 	len = 0;
-	i = 0;
-	while (cmd_lines[i] != 0)
+	i = -1;
+	while (cmd_lines[++i] != 0)
 	{
 		temp = cmd_lines[i];
 		while (*temp != 0)
@@ -79,16 +79,16 @@ void	get_redirs(t_redir **redirs, t_redir **heredocs, char **cmd_lines)
 				len = get_len(temp);
 				file = ft_strndup(temp, len);
 				if (file == 0)
-					list_build_error(heredocs, redirs, cmd_lines);
+					return (-1);
 				if (build_list(redirs, file, i) < 0)
-					list_build_error(heredocs, redirs, cmd_lines);
+					return (-1);
 			}	
 		}
-		i++;
 	}
+	return (0);
 }
 
-void	get_heredocs(t_redir **heredocs, t_redir **redirs, char **cmd_lines)
+static int	get_heredocs(t_redir **heredocs, char **cmd_lines)
 {
 	int		i;
 	int		len;
@@ -96,8 +96,8 @@ void	get_heredocs(t_redir **heredocs, t_redir **redirs, char **cmd_lines)
 	char	*temp;
 
 	len = 0;
-	i = 0;
-	while (cmd_lines[i] != 0)
+	i = -1;
+	while (cmd_lines[++i] != 0)
 	{
 		temp = cmd_lines[i];
 		while (*temp != 0)
@@ -108,13 +108,13 @@ void	get_heredocs(t_redir **heredocs, t_redir **redirs, char **cmd_lines)
 				len = get_len(temp);
 				lim = ft_strndup(temp, len);
 				if (lim == 0)
-					list_build_error(heredocs, redirs, cmd_lines);
+					return (-1);
 				if (build_list(heredocs, lim, i) < 0)
-					list_build_error(heredocs, redirs, cmd_lines);
+					return (-1);
 			}
 		}
-		i++;
 	}
+	return (0);
 }
 
 void	parse_line(char	*line, t_env **env_table)
@@ -136,8 +136,16 @@ void	parse_line(char	*line, t_env **env_table)
 	pipe_count = get_pipe_count(cmd_lines);
 	if (check_syntax(cmd_lines, pipe_count, env_table) == 0)
         return ;
-	get_heredocs(&heredocs, &redirs, cmd_lines);
-	get_redirs(&redirs, &heredocs, cmd_lines);
+	if (get_heredocs(&heredocs, cmd_lines) < 0)
+	{
+		list_free(&heredocs, &redirs, cmd_lines, 1);
+		return ;
+	}
+	if (get_redirs(&redirs, cmd_lines) < 0)
+	{
+		list_free(&heredocs, &redirs, cmd_lines, 1);
+		return ;	
+	}
 	add_redirs(&redirs, cmd_lines);
 	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
     if (cmd_args == 0)
@@ -182,8 +190,10 @@ void	parse_line(char	*line, t_env **env_table)
         write(2, "here_doc end\n", 13);
     }
     i = 0;*/
-	//if (get_envs(cmd_args, env_table) == 0)
-		//ft_printf("ERROR");
+	
+	//if (get_envs(cmd_args, env_table, &i) == 0)
+	//	ft_printf("ERROR");
+	//free_struct_array(cmd_args);
     //printf("enviroment variables\n");
     check_cmds(cmd_args, env_table);
 }

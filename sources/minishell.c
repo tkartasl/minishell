@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/08 08:59:47 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:30:27 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int main(int argc, char **argv, char **envp)
 		parse_line(line, env_table);
 		free(line);
 	}
+	free_env_table(env_table);
 	ft_putstr_fd("exit\n", 1);
 	return (0);
 }

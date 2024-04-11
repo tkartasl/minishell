@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/09 15:30:46 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 11:16:43 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,117 +14,120 @@
 
 int	check_empty_line(char *lines, int pipe_count, int i)
 {
-	char    *temp;
+	char	*temp;
 
-    temp = lines;
-    temp = ft_skip_whitespace(temp);
-    if (*temp == '&')
-        return (1);
+	temp = lines;
+	temp = ft_skip_whitespace(temp);
+	if (*temp == '&')
+		return (1);
 	if (*temp == 0 && i < pipe_count)
 		return (1);
-    return (0);
+	return (0);
 }
 
-int check_after_redir(char *cmd_lines)
+int	check_after_redir(char *cmd_lines)
 {
-    char    *temp;
+	char	*temp;
 
-    temp = cmd_lines;
-    while(*temp)
-    {
+	temp = cmd_lines;
+	while (*temp)
+	{
 		if (*temp == '\'' || *temp == '\"')
 			temp = skip_quotes(temp, *temp);
-        if ((*temp == '<' && *(temp + 1) == '>')
-            || (*temp == '>' && *(temp + 1) == '<'))
-            return (1);
-        if (*temp == '<' || *temp == '>')
-         {
-		    temp = skip_redirs(temp);
-        	if (*temp == '|' || *temp == '&' || *temp == 0
-            	|| *temp == '>' || *temp == '<')
-            	return (1);
-		 }
-        temp++;
-    }
-    return (0);
+		if ((*temp == '<' && *(temp + 1) == '>')
+			|| (*temp == '>' && *(temp + 1) == '<'))
+			return (1);
+		if (*temp == '<' || *temp == '>')
+		{
+			temp = skip_redirs(temp);
+			if (*temp == '|' || *temp == '&' || *temp == 0
+				|| *temp == '>' || *temp == '<')
+				return (1);
+		}
+		temp++;
+	}
+	return (0);
 }
 
-int check_unclosed_quotes(char *line)
+int	check_unclosed_quotes(char *line)
 {
-    char    *cmd;
-    char    quote;
+	char	*cmd;
+	char	quote;
 
-    cmd = line;
-    while(*cmd != 0)
-    {
-        if (*cmd == '"' || *cmd == '\'')
-        {
-            quote = *cmd;
-            cmd++;
-	        while (*cmd != 0 && *cmd != quote)
-		        cmd++;
-        }
-        if (*cmd == 0)
-        {
-            printf("unclosed quotes\n");
-            return (-1);
-        }
-        cmd++;
-    }
-    return (0);
+	cmd = line;
+	while (*cmd != 0)
+	{
+		if (*cmd == '"' || *cmd == '\'')
+		{
+			quote = *cmd;
+			cmd++;
+			while (*cmd != 0 && *cmd != quote)
+				cmd++;
+		}
+		if (*cmd == 0)
+		{
+			ft_putstr_fd("unclosed quotes\n", 2);
+			return (-1);
+		}
+		cmd++;
+	}
+	return (0);
 }
 
-int check_syntax(char **cmd_lines, int pipe_count, t_env **env)
+int	check_syntax(char **cmd_lines, int pipe_count, t_env **env)
 {
-    int i;
-    
+	int	i;
+
 	i = -1;
-    while(cmd_lines[++i])
-    {
-        if (check_empty_line(cmd_lines[i], pipe_count, i) == 1)
-        {
-            syntax_error(cmd_lines);
-            return (0);
-        }
-        if (check_after_redir(cmd_lines[i]) == 1)
-        {
-            syntax_error(cmd_lines);
-            return (0);
-        }
-        if (check_unclosed_quotes(cmd_lines[i]) == -1)
-        {
-            syntax_error(cmd_lines);
-            return (0);
-        }
+	while (cmd_lines[++i])
+	{
+		if (check_empty_line(cmd_lines[i], pipe_count, i) == 1)
+		{
+			syntax_error(cmd_lines, env);
+			return (0);
+		}
+		if (check_after_redir(cmd_lines[i]) == 1)
+		{
+			syntax_error(cmd_lines, env);
+			return (0);
+		}
+		if (check_unclosed_quotes(cmd_lines[i]) == -1)
+		{
+			syntax_error(cmd_lines, env);
+			return (0);
+		}
 		cmd_lines[i] = check_null_cmd(cmd_lines[i], env);
 		if (cmd_lines[i] == 0)
 			return (0);
-    }
-    return (i);
+	}
+	return (i);
 }
 
-int check_pipe_repetition(char *temp)
+int	check_pipe_repetition(char *temp)
 {
-    if (*temp == '|' || *temp == '&')
-    {
-        printf("minishell: syntax error near unexpected token `%c'\n", *temp);
-        return (1);
-    }
-    while(*temp)
-    {
-        if (*temp == '\'' || *temp == '"')
-            temp = skip_quotes(temp, *temp);
+	if (*temp == '|' || *temp == '&')
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putchar_fd(*temp, 2);
+		ft_putchar_fd('\n', 2);
+		return (1);
+	}
+	while (*temp)
+	{
+		if (*temp == '\'' || *temp == '"')
+			temp = skip_quotes(temp, *temp);
 		if (*temp == '|')
 		{
-            temp++;
+			temp++;
 			temp = ft_skip_whitespace(temp);
 			if (*temp == 0 || *temp == '|')
 			{
-				ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+				ft_putstr_fd("minishell: ", 2);
+				ft_putendl_fd("syntax error near unexpected token `|'\n", 2);
 				return (1);
 			}
 		}
-        temp++;
-    }
-    return (0);
+		temp++;
+	}
+	return (0);
 }

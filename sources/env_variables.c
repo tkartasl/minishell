@@ -6,13 +6,13 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:46:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/09 17:25:15 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 10:15:54 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expand_all_env(char *old, char *expanded_str, int i, t_env **env)
+ char	*expand_all_env(char *old, char *expanded_str, int i, t_env **env)
 {
 	int		flag;
 	char	*str;
@@ -41,67 +41,61 @@ static char	*expand_all_env(char *old, char *expanded_str, int i, t_env **env)
 	return (expanded_str);
 }
 
-static int	expand_filename(t_redir **redir, t_env **env)
+static int	expand_filename(t_redir **redir, t_env **env, int i, int *flag)
 {
 	t_redir	*new;
 	char	*expanded;
-	int 	i;
 
-	expanded = ft_strdup("");
-	if (expanded == 0)
-		return (0);
-	i = 0;
 	new = *redir;
 	while (new != 0)
 	{
 		if (new->filename[0] == '$')
 			if (ft_get_env(&new->filename[1], env) == 0)
-				ft_printf("minishell: %s: ambiguous redirect\n", new->filename);
-		if (count_env_variables(new->filename) > 0)
-			new->filename = expand_all_env(new->filename, expanded, i, env);
-		if (new->filename == 0)
+				print_error_filename(&new->filename[0], flag);
+		if (count_env_variables(new->filename) > 0 && *flag == 0)
 		{
-			free(expanded);
-			return (0);
+			expanded = ft_strdup("");
+			if (expanded == 0)
+				return (0);
+			new->filename = expand_all_env(new->filename, expanded, i, env);
+			if (new->filename == 0)
+			{
+				free(expanded);
+				return (0);
+			}
 		}
 		new = new->next;
 	}
 	return (1);
 }
 
-static int	expand_command(t_cmd_args **cmd_arg, char *str, t_env **env)
-{
-	int	i;	
+static int	expand_command(t_cmd_args **cmd_arg, t_env **env, int i)
+{	
 	int	flag;
-
-	i = 0;
+	int	len;
+	
+	len = 0;
 	while (cmd_arg[i] != 0)
 	{
 		flag = 0;
 		if (cmd_arg[i]->cmd[0] == '$')
 			flag++;
-		if (count_env_variables(cmd_arg[i]->cmd) > 0)
-			cmd_arg[i]->cmd = expand_all_env(cmd_arg[i]->cmd, str, i, env);
+		cmd_arg[i]->cmd = count_expand_cmd(cmd_arg[i]->cmd, i, env);
 		if (cmd_arg[i]->cmd == 0)
-		{
-			free(str);
 			return (0);
-		}
 		if (flag > 0 && word_count(cmd_arg[i]->cmd) > 1)
 		{
-			if (split_cmd(cmd_arg, i) == 0)
+			if (split_cmd(cmd_arg, i, len) == 0)
 				return (0);
 		}
 		i++;
-	}
+	}	
 	return (1);
 }
 
-static int	expand_arguments(t_cmd_args **arr, t_env **env)
+static int	expand_arguments(t_cmd_args **arr, t_env **env, char *str, int i)
 {
-	int		i;
 	int		j;
-	char	*s;
 	
 	i = -1;
 	j = 0;
@@ -109,15 +103,17 @@ static int	expand_arguments(t_cmd_args **arr, t_env **env)
 	{
 		while (arr[i]->args[j] != 0)
 		{
-			s = ft_strdup("");
-			if (s == 0)
-				return (0);
 			if (count_env_variables(arr[i]->args[j]) > 0)
-				arr[i]->args[j] = expand_all_env(arr[i]->args[j], s, i, env);
-			if (arr[i]->args[j] == 0)
 			{
-				free(s);	
-				return (0);
+				str = ft_strdup("");
+				if (str == 0)
+					return (0);
+				arr[i]->args[j] = expand_all_env(arr[i]->args[j], str, i, env);
+				if (arr[i]->args[j] == 0)
+				{
+					free(str);	
+					return (0);
+				}
 			}
 			j++;
 		}
@@ -126,18 +122,20 @@ static int	expand_arguments(t_cmd_args **arr, t_env **env)
 	return (1);
 }
 
-int	get_envs(t_cmd_args **cmd_arg, t_env **env_table)
+int	get_envs(t_cmd_args **cmd_arg, t_env **env_table, int *flag)
 {
-	char	*expanded_str;
+	char	*arg;
+	int		i;
 
-	expanded_str = ft_strdup("");
-	if (expanded_str == 0)
+	i = 0;
+	arg = 0;
+	if (expand_command(cmd_arg, env_table, i) == 0)
 		return (0);
-	if (expand_command(cmd_arg, expanded_str, env_table) == 0)
+	if (expand_arguments(cmd_arg, env_table, arg, i) == 0)
 		return (0);
-	if (expand_arguments(cmd_arg, env_table) == 0)
+	if (expand_filename((*cmd_arg)->head_redir, env_table, i, flag) == 0)
 		return (0);
-	if (expand_filename((*cmd_arg)->head_redir, env_table) == 0)
+	if (*flag == 1)
 		return (0);
 	return (1);
 }

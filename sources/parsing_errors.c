@@ -3,28 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_errors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:46:01 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/04 12:06:22 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/11 10:02:52 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    syntax_error(char **cmd_line)
+void    syntax_error(char **cmd_line, t_env **env)
 {
+	(*env)->status = 258;
     ft_free_pointer_array(cmd_line);
-    printf("minishell: syntax error near unexpected token\n");
+    ft_putendl_fd("minishell: syntax error near unexpected token", 2);
 }
 
-void	list_build_error(t_redir **hdoc, t_redir **redir, char **cmd_line)
+void	list_free(t_redir **hdoc, t_redir **redir, char **line, int flag)
 {
-	if (cmd_line != 0)
-		ft_free_pointer_array(cmd_line);
+	if (flag == 1)
+		ft_putendl_fd("minishell: error allocating memory", 2);
+	if (line != 0)
+		ft_free_pointer_array(line);
 	redir_lstclear(hdoc, &free);
 	redir_lstclear(redir, &free);
-	//printf("Malloc failure\n");
 }
 
 void free_struct_array(t_cmd_args **arr)
@@ -34,9 +36,10 @@ void free_struct_array(t_cmd_args **arr)
 	i = 0;
 	while(arr[i] != 0)
 	{
-		list_build_error(arr[i]->head_hdocs, arr[i]->head_redir, arr[i]->args);
+		list_free(arr[i]->head_hdocs, arr[i]->head_redir, arr[i]->args, 0);
 		if (arr[i]->cmd != 0)
 			free(arr[i]->cmd);
+		free(arr[i]);
 		i++;
 	}
 	free(arr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/09 16:43:25 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/11 10:17:33 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_env
 {
     char    *name;
     char    *value;
+	int		status;
 }			t_env;
 
 void		parse_line(char	*line, t_env **env_table);
@@ -64,9 +65,9 @@ int			build_list(t_redir **head, char *lim, int index);
 t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe);
 char		**parse_arguments(char *line, char *line2);
 char		*skip_redirs(char *cmd_line);
-void		syntax_error(char **cmd_line);
+void		syntax_error(char **cmd_line, t_env **env);
 int			check_syntax(char **cmd_lines, int pipe_count, t_env **env);
-void		list_build_error(t_redir **hdoc, t_redir **redir, char **cmd);
+void		list_free(t_redir **hdoc, t_redir **redir, char **cmd, int flag);
 void		redir_lstclear(t_redir **lst, void (*del)(void *));
 void		free_struct_array(t_cmd_args **arr);
 int			get_pipe_count(char **cmd_lines);
@@ -82,12 +83,12 @@ int         check_in_redir(t_redir **head_redir, int i, int fd1);
 int         check_out_redir(t_redir **head_redir, int i, int fd2, int *fl);
 char		*check_if_digit(char *str, t_redir **redir);
 void		put_fd_lst(char *line, t_redir **new);
-int			get_envs(t_cmd_args **cmd_arg, t_env **env_table);
+int			get_envs(t_cmd_args **cmd_arg, t_env **env_table, int *flag);
 char		*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env);
 char		*cpy_line(char *str, char *expanded_str, int *i, int *flag);
 char		*cpy_quote_to_quote(char *str, char *expanded_str, int *i);
 char		*cpy_double_quote(char **str, char *expanded_str);
-int			split_cmd(t_cmd_args **cmd_arg, int i);
+int			split_cmd(t_cmd_args **cmd_arg, int i, int len);
 int			word_count(char *str);
 int			count_env_variables(char *str);
 int         create_envs(char **envp, t_env **env_table);
@@ -122,5 +123,9 @@ void		file_error(int error_nbr, char *cmd);
 char		*check_null_cmd(char *line, t_env **env);
 int			create_file(char *filename);
 void		pipe_error_cmd(char *cmd, char **cmds);
+void		print_error(t_cmd_args **arr, int flag);
+void		print_error_filename(char *file, int *flag);
+char		*expand_all_env(char *old, char *expanded_str, int i, t_env **env);
+char		*count_expand_cmd(char *cmd, int i, t_env **env);
 
 #endif
