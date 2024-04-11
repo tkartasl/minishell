@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 12:48:00 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:56:03 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,18 @@ void	export_env(t_env **env, int *flag)
     *flag = 1;
     if (ft_get_env("PATH", env) == NULL)
     {
-        printf("minishell: env: No such file or directory\n");
+        ft_putendl_fd("minishell: env: No such file or directory", 2);
         return ;
     }
     while(i < TABLE_SIZE)
     {
         if (env[i] != NULL && env[i] != DELETED_NODE)
-            printf("declare -x %s%s\n", env[i]->name, env[i]->value);
+        {
+            ft_printf("declare -x %s", env[i]->name);
+            ft_printf("\"");
+            ft_printf("%s", env[i]->value);
+            ft_printf("\"\n");
+        }
         i++;
     }
 }
