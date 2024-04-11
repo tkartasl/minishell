@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/09 16:44:39 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:07:55 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ char    *find_path(char *cmd, char **split_path)
 void    check_path(char *cmd_path)
 {
     DIR *dir;
-    
+    int len;
+
+    len = ft_strlen(cmd_path);
     if (ft_strnstr(cmd_path, "/.brew/bin/", ft_strlen(cmd_path)) != NULL)
         pipe_error(2, NULL, NULL);
     dir = opendir(cmd_path);
@@ -81,9 +83,11 @@ void    check_path(char *cmd_path)
         closedir(dir);
         file_error(2, cmd_path);
     }
-    if (access(cmd_path, X_OK) == -1)
-        file_error(1, cmd_path);
-
+    if (cmd_path[len - 1] == '/' && cmd_path[0] == '/')
+        file_error(3, cmd_path);
+    if (ft_strnstr(cmd_path, "/bin", len) != NULL)
+        if (access(cmd_path, X_OK) == -1)
+            file_error(1, cmd_path);
 }
 
 void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
@@ -105,7 +109,7 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
         if (split_path == NULL)
             pipe_error(1, NULL, NULL);
         cmd_path = find_path(cmd[0], split_path);
-        if (cmd_path[0] == '/')
+        if (ft_strchr(cmd_path, '/') != NULL)
             check_path(cmd_path);
         ft_free_pointer_array(split_path);
         if (execve(cmd_path, cmd, envp) == -1)
@@ -136,9 +140,10 @@ void    pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_t)
 		    dup2(pipe_fd[1], 1);
 		run_cmd_pipe(cmd, envp, env_t, cmd_arg);
 	}
-        waitpid(pid, NULL, 0);
+        waitpid(pid, &flag, 0);
         close(pipe_fd[1]);
         dup2(pipe_fd[0], 0);
+        change_cmd_status(env_t, flag);
 }
 
 void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
@@ -162,6 +167,8 @@ void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
             pipe_init(1, en, cmd_arg[i], et);
         if (redir_flag == 1)
             dup2(fd2, 1);
+        //if (i != (pipe_count - 1) && (*et)->status != 0)
+          //  change_cmd_status(et, 0);
         i++;
     }
 }

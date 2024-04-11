@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/09 16:43:25 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:06:47 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_env
 {
     char    *name;
     char    *value;
+	int		status;
 }			t_env;
 
 void		parse_line(char	*line, t_env **env_table);
@@ -105,7 +106,7 @@ int         remove_file_quotes(t_redir **redirs);
 char        *clean_arg(char *arg);
 int         check_h_docs(t_redir *head_redir, int i, char **filename);
 void        free_env_table(t_env **env_table);
-void		ft_exit(char *status, t_env **env_table, t_cmd_args **cmd_args);
+void		ft_exit(t_env **env_table, t_cmd_args **cmd_args);
 void        export(t_cmd_args *cmd_args, t_env **env_table, int *flag);
 void        pwd(int *flag);
 void        echo(char **args, int fd, int *flag);
@@ -122,5 +123,6 @@ void		file_error(int error_nbr, char *cmd);
 char		*check_null_cmd(char *line, t_env **env);
 int			create_file(char *filename);
 void		pipe_error_cmd(char *cmd, char **cmds);
+void		change_cmd_status(t_env **env_t, int status);
 
 #endif

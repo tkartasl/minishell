@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/09 17:10:18 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:41:51 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,13 @@ void	cd(t_cmd_args *cmd_args, t_env **env_table, int *flag)
     }
 }
 
-void	ft_exit(char *status, t_env **env_table, t_cmd_args **cmd_args)
+void	ft_exit(t_env **env_table, t_cmd_args **cmd_args)
 {
-	char	*temp;
-	int		i;
-
-	i = 0;
-	temp = status;
-	while (*temp != 0 && ft_isdigit(*temp) == 1)
-		temp++;
-	if (*temp == 0)
-		i = ft_atoi(status);
-	
     printf("exit\n");
+    rl_clear_history();
     free_env_table(env_table);
     free_struct_array(cmd_args);
-	exit(i);
+	exit(0);
 }
 
 void    env(t_env **env_table, int *flag)
@@ -116,7 +107,12 @@ void    export_env(t_env **env_table, int *flag)
     while(i < TABLE_SIZE)
     {
         if (env_table[i] != NULL && env_table[i] != DELETED_NODE)
-            printf("declare -x %s%s\n", env_table[i]->name, env_table[i]->value);
+        {
+            printf("declare -x %s", env_table[i]->name);
+            printf("\"");
+            printf("%s", env_table[i]->value);
+            printf("\"\n");
+        }
         i++;
     }
 }

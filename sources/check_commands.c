@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/04 13:24:30 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:12:01 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call)
 
 int check_cmd_syntax(t_cmd_args **cmd_args, t_env **env_table)
 {
+    (void)env_table;
     if (get_envs(cmd_args, env_table) == 0)
         return (-1);
     if (remove_cmd_quotes(cmd_args) == -1)
@@ -87,7 +88,11 @@ void    check_cmds(t_cmd_args **cmd_args, t_env **env_table)
         return ;
     }
     if ((*cmd_args)->pipe_count == 1)
+    {
+       /*if (ft_strncmp(cmd_args[0]->cmd, "exit", 5) == 0)
+            ft_exit(env_table, cmd_args);*/
         flag = check_builtins(cmd_args[0], env_table, 0);
+    }
     dup2(fd1, 0);
     dup2(fd2, 1);
     if (flag == 0)

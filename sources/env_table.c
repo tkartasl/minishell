@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:54:18 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/01 17:37:06 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/10 09:30:44 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int get_value(t_env *env, char *envp, t_env **env_table)
     }
     env->name = name;
     env->value = value;
+    env->status = 0;
     if (table_insert(env, env_table) == -1)
         return(-1);
     return (1);

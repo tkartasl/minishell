@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/09 09:58:55 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:44:45 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	echo(char **args, int fd, int *flag)
 	}
     if (flag_nl == 0)
         write(fd, "\n", 1);
+    close(0);
+    close(1);
 }
 
 void	pwd(int *flag)
