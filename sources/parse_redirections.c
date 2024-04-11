@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:47 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 09:41:27 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:49:01 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	parse_line(char	*line, t_env **env_table)
     (void)env_table;
 	heredocs = 0;
 	redirs = 0;
-    if (check_pipe_repetition(line) == 1)
+    if (check_pipe_repetition(line, env_table) == 1)
         return ;
 	cmd_lines = ft_split_remix(line, '|');
     if (cmd_lines == 0)

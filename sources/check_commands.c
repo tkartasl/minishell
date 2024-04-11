@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 12:46:24 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:44:13 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,20 @@ int	check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call)
 	return (flag);
 }
 
+int	find_correct_index(t_env **env)
+{
+	int	i;
+
+	i = 0;
+	while (i < TABLE_SIZE)
+	{
+		if (env[i] != NULL && env[i] != DELETED_NODE)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
 int	check_cmd_syntax(t_cmd_args **cmd_args, t_env **env_table)
 {
 	int	flag;
@@ -99,5 +113,4 @@ void	check_cmds(t_cmd_args **cmd_args, t_env **env_table)
 	if (flag == 0)
 		run_commands(cmd_args, (*cmd_args)->pipe_count, env_table);
 	free_struct_array(cmd_args);
-
 }

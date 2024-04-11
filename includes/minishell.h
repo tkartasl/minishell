@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 12:45:43 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:24:29 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			build_list(t_redir **head, char *lim, int index);
 t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe);
 char		**parse_arguments(char *line, char *line2);
 char		*skip_redirs(char *cmd_line);
-void		syntax_error(char **cmd_line, t_env **env);
+void    	syntax_error(char **cmd_line, t_env **env, char token);
 int			check_syntax(char **cmd_lines, int pipe_count, t_env **env);
 void		list_free(t_redir **hdoc, t_redir **redir, char **cmd, int flag);
 void		redir_lstclear(t_redir **lst, void (*del)(void *));
@@ -75,7 +75,7 @@ void        run_pipes(t_cmd_args **cmd_args, int pipe_count, char **envp, t_env 
 int			get_cmd_len(char *str, char quote);
 char		*skip_quotes(char *str, char quote);
 char		**ft_split_remix(char *s, char c);
-int         check_pipe_repetition(char *line);
+int         check_pipe_repetition(char *line, t_env **env);
 void        run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_table);
 char		*skip_arg(char *str);
 int         get_arg_len(char *str);
@@ -128,5 +128,6 @@ void		print_error_filename(char *file, int *flag);
 char		*expand_all_env(char *old, char *expanded_str, int i, t_env **env);
 char		*count_expand_cmd(char *cmd, int i, t_env **env);
 void		change_cmd_status(t_env **env_t, int status);
+int			find_correct_index(t_env **env);
 
 #endif

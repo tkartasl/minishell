@@ -6,17 +6,29 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:46:01 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 10:02:52 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:41:51 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    syntax_error(char **cmd_line, t_env **env)
+void    syntax_error(char **cmd_line, t_env **env, char token)
 {
-	(*env)->status = 258;
-    ft_free_pointer_array(cmd_line);
-    ft_putendl_fd("minishell: syntax error near unexpected token", 2);
+	change_cmd_status(env, 66048);
+	if (cmd_line != 0)
+    	ft_free_pointer_array(cmd_line);
+	if (token == 'X')
+	{	
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd("newline", 2);
+		ft_putstr_fd("'\n", 2);
+	}
+	else
+   	{	
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putchar_fd(token, 2);
+		ft_putstr_fd("'\n", 2);
+	}
 }
 
 void	list_free(t_redir **hdoc, t_redir **redir, char **line, int flag)

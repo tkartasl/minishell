@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:46:47 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/10 10:20:31 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:43:54 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static char	*expand_env_variable(char *temp, int len, int *error, t_env **env)
 {
 	char	*expanded_var;
-	char    *env_var;
-
-	if (*temp == '$' && (*(temp + 1) == ' ' || *(temp + 1) == 0))
-		return (temp);
+	char	*env_var;
+	int		i;
+	
+	i = find_correct_index(env);
 	if (*temp == '?')
 	{
-		expanded_var = ft_itoa((*env)->status);
+		expanded_var = ft_itoa(env[i]->status);
 		if (expanded_var == 0)
 		{
 			*error = 1;
@@ -51,6 +51,8 @@ static char	*check_env_variable(char *str, int *error_flag, t_env **env)
 	{
 		if (*temp == '$')
 		{
+			if (*temp == '$' && (*(temp + 1) == ' ' || *(temp + 1) == 0))
+				return (temp);
 			temp++;
 			len++;
 			while (temp[len] != 0 && ft_strchr(" ?'\"$/", temp[len]) == 0)
@@ -120,7 +122,7 @@ char	*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env)
 	if (expanded_str == 0)
 		return (0);
 	*i += 1;
-	while (str[*i] != 0 && ft_strchr(" '\"$?/", str[*i]) == 0)
+	while (str[*i] != 0 && ft_strchr(" '\"$/", str[*i]) == 0)
 		*i += 1;
 	return (expanded_str);
 }

@@ -6,50 +6,61 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 11:16:43 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:45:22 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_empty_line(char *lines, int pipe_count, int i)
+static int	check_empty_line(char **lines, int pipe_count, int i, t_env **env)
 {
 	char	*temp;
 
-	temp = lines;
+	temp = lines[i];
 	temp = ft_skip_whitespace(temp);
 	if (*temp == '&')
+	{
+		syntax_error(lines, env, *temp);
 		return (1);
+	}
 	if (*temp == 0 && i < pipe_count)
+	{
+		syntax_error(lines, env, '|');
 		return (1);
+	}
 	return (0);
 }
 
-int	check_after_redir(char *cmd_lines)
+static int	check_after_redir(char **cmd_lines, int i, t_env **env)
 {
 	char	*temp;
 
-	temp = cmd_lines;
+	temp = cmd_lines[i];
 	while (*temp)
 	{
 		if (*temp == '\'' || *temp == '\"')
 			temp = skip_quotes(temp, *temp);
 		if ((*temp == '<' && *(temp + 1) == '>')
 			|| (*temp == '>' && *(temp + 1) == '<'))
+		{
+			syntax_error(cmd_lines, env, 'X');
 			return (1);
+		}
 		if (*temp == '<' || *temp == '>')
 		{
 			temp = skip_redirs(temp);
-			if (*temp == '|' || *temp == '&' || *temp == 0
-				|| *temp == '>' || *temp == '<')
+			if (*temp == 0 || ft_strchr("|&><", *temp) != 0)
+			{
+				syntax_error(cmd_lines, env, *temp);
 				return (1);
+			}
 		}
 		temp++;
 	}
 	return (0);
 }
 
-int	check_unclosed_quotes(char *line)
+static int	check_unclosed_quotes(char *line, t_env **env)
 {
 	char	*cmd;
 	char	quote;
@@ -66,7 +77,8 @@ int	check_unclosed_quotes(char *line)
 		}
 		if (*cmd == 0)
 		{
-			ft_putstr_fd("unclosed quotes\n", 2);
+			change_cmd_status(env, 256);
+			ft_putstr_fd("minihell: unclosed quotes\n", 2);
 			return (-1);
 		}
 		cmd++;
@@ -81,21 +93,12 @@ int	check_syntax(char **cmd_lines, int pipe_count, t_env **env)
 	i = -1;
 	while (cmd_lines[++i])
 	{
-		if (check_empty_line(cmd_lines[i], pipe_count, i) == 1)
-		{
-			syntax_error(cmd_lines, env);
+		if (check_empty_line(cmd_lines, pipe_count, i, env) == 1)
 			return (0);
-		}
-		if (check_after_redir(cmd_lines[i]) == 1)
-		{
-			syntax_error(cmd_lines, env);
+		if (check_after_redir(cmd_lines, i, env) == 1)
+			return (0);	
+		if (check_unclosed_quotes(cmd_lines[i], env) == -1)
 			return (0);
-		}
-		if (check_unclosed_quotes(cmd_lines[i]) == -1)
-		{
-			syntax_error(cmd_lines, env);
-			return (0);
-		}
 		cmd_lines[i] = check_null_cmd(cmd_lines[i], env);
 		if (cmd_lines[i] == 0)
 			return (0);
@@ -103,13 +106,11 @@ int	check_syntax(char **cmd_lines, int pipe_count, t_env **env)
 	return (i);
 }
 
-int	check_pipe_repetition(char *temp)
+int	check_pipe_repetition(char *temp, t_env **env)
 {
 	if (*temp == '|' || *temp == '&')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		ft_putchar_fd(*temp, 2);
-		ft_putchar_fd('\n', 2);
+		syntax_error(0, env, *temp);
 		return (1);
 	}
 	while (*temp)
@@ -122,8 +123,7 @@ int	check_pipe_repetition(char *temp)
 			temp = ft_skip_whitespace(temp);
 			if (*temp == 0 || *temp == '|')
 			{
-				ft_putstr_fd("minishell: ", 2);
-				ft_putendl_fd("syntax error near unexpected token `|'\n", 2);
+				syntax_error(0, env, '|');
 				return (1);
 			}
 		}
