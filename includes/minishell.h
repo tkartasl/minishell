@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 10:17:33 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:45:43 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int         remove_file_quotes(t_redir **redirs);
 char        *clean_arg(char *arg);
 int         check_h_docs(t_redir *head_redir, int i, char **filename);
 void        free_env_table(t_env **env_table);
-void		ft_exit(char *status, t_env **env_table, t_cmd_args **cmd_args);
+void		ft_exit(t_env **env_table, t_cmd_args **cmd_args);
 void        export(t_cmd_args *cmd_args, t_env **env_table, int *flag);
 void        pwd(int *flag);
 void        echo(char **args, int fd, int *flag);
@@ -127,5 +127,6 @@ void		print_error(t_cmd_args **arr, int flag);
 void		print_error_filename(char *file, int *flag);
 char		*expand_all_env(char *old, char *expanded_str, int i, t_env **env);
 char		*count_expand_cmd(char *cmd, int i, t_env **env);
+void		change_cmd_status(t_env **env_t, int status);
 
 #endif

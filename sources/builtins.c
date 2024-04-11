@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 10:30:32 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:50:08 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void	echo(char **args, int fd, int *flag)
 	}
 	if (flag_nl == 0)
 		write(fd, "\n", 1);
+    if (flag_nl == 0)
+        write(fd, "\n", 1);
+    close(0);
+    close(1);
 }
 
 void	pwd(int *flag)

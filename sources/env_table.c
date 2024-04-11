@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_table.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:54:18 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 11:19:57 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:49:01 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,26 @@ int	get_value(t_env *env, char *envp, t_env **env_table)
 	int		len_name;
 	int		len;
 
+    len_name = 0;
+    len = ft_strlen(envp);
+    while(envp[len_name] != '=')
+        len_name++;
+    name = ft_strndup(envp, len_name + 1);
+    if (name == NULL)
+        return (-1);
+    len_name++;
+    value = ft_strndup((envp + len_name), len);
+    if (value == NULL)
+    {
+        free(name);
+        return (-1);
+    }
+    env->name = name;
+    env->value = value;
+    env->status = 0;
+    if (table_insert(env, env_table) == -1)
+        return(-1);
+    return (1);
 	len_name = 0;
 	len = ft_strlen(envp);
 	while (envp[len_name] != '=')

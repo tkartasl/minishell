@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 12:04:32 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:48:00 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,13 @@ void	cd(t_cmd_args *cmd_args, t_env **env_table, int *flag)
 	}
 }
 
-void	ft_exit(char *status, t_env **env_table, t_cmd_args **cmd_args)
+void	ft_exit(t_env **env_table, t_cmd_args **cmd_args)
 {
-	char	*temp;
-	int		i;
-
-	i = 0;
-	temp = status;
-	while (*temp != 0 && ft_isdigit(*temp) == 1)
-		temp++;
-	if (*temp == 0)
-		i = ft_atoi(status);
-	ft_putstr_fd("exit\n", 1);
-	free_env_table(env_table);
-	free_struct_array(cmd_args);
-	exit(i);
+    ft_putstr_fd("exit\n", 1);
+    rl_clear_history();
+    free_env_table(env_table);
+    free_struct_array(cmd_args);
+	exit(0);
 }
 
 void	env(t_env **env_table, int *flag)
@@ -104,17 +96,17 @@ void	export_env(t_env **env, int *flag)
 {
 	int	i;
 
-	i = 0;
-	*flag = 1;
-	if (ft_get_env("PATH", env) == NULL)
-	{
-		ft_putstr_fd("minishell: env: No such file or directory\n", 2);
-		return ;
-	}
-	while (i < TABLE_SIZE)
-	{
-		if (env[i] != NULL && env[i] != DELETED_NODE)
-			ft_printf("declare -x %s%s\n", env[i]->name, env[i]->value);
-		i++;
-	}
+    i = 0;
+    *flag = 1;
+    if (ft_get_env("PATH", env) == NULL)
+    {
+        printf("minishell: env: No such file or directory\n");
+        return ;
+    }
+    while(i < TABLE_SIZE)
+    {
+        if (env[i] != NULL && env[i] != DELETED_NODE)
+            printf("declare -x %s%s\n", env[i]->name, env[i]->value);
+        i++;
+    }
 }

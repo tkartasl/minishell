@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 11:07:19 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:46:24 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,5 @@ void	check_cmds(t_cmd_args **cmd_args, t_env **env_table)
 	if (flag == 0)
 		run_commands(cmd_args, (*cmd_args)->pipe_count, env_table);
 	free_struct_array(cmd_args);
+
 }
