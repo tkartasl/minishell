@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:25:50 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/04 12:11:24 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:46:52 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ void    run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_table)
     run_pipes(cmd_args, pipe_count, envp, env_table);
     dup2(original_stdin, 0);
     dup2(original_stdout, 1);
+    close(original_stdin);
+    close(original_stdout);
     ft_free_pointer_array(envp);
 }

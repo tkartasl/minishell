@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/09 14:38:35 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 08:54:19 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ int check_open_fd(char  *filename, char arrow, int fd, int flag)
         if (ft_strncmp(filename, "here_doc", 9) != 0)
             fd = open(filename, O_RDONLY, 0777);
         if (fd == -1)
-        {
             printf("minishell: %s: No such file or directory\n", filename);
-            return (-1);
-        }
         dup2(fd, 0);
     }
     else if (flag == 2)
@@ -57,12 +54,10 @@ int check_open_fd(char  *filename, char arrow, int fd, int flag)
         else if (arrow == '!')
             fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
         if (fd == -1)
-        {
             printf("minishell: %s: No such file or directory\n", filename);
-            return (-1);
-        }
         dup2(fd, 1);
     }
+    close(fd);
     return (fd);
 }
 
@@ -85,6 +80,7 @@ int check_fd_redirection(t_redir *temp, char arrow, int fd)
             return (-1);
         }
         dup2(fd, temp->fd);
+        close(fd);
         return (1);
     }
     if (arrow == '>' && (temp->arrow == '>' || temp->arrow == '!'))
@@ -144,9 +140,8 @@ int    check_out_redir(t_redir **head_redir, int i, int fd2, int *fl)
     }
     if (filename != NULL && flag == 0)
     {
-        if (check_open_fd(filename, arrow, fd2, 2) == -1)
-            return (-1);
+        fd2 = check_open_fd(filename, arrow, fd2, 2);
         *fl = 1;
     }
-    return (0);
+    return (fd2);
 }
