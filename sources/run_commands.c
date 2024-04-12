@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 10:25:50 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 19:46:52 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:25:17 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void    run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_table)
     envp = get_env_list(env_table);
     if (envp == NULL)
     {
-        printf("minishell: error allocating memory\n");
+        ft_putstr_fd("minishell: error allocating memory\n", 2);
         return ;
     }
     original_stdin = dup(0);

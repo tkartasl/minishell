@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:45:03 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/08 08:59:13 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:30:48 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ void sig_handler_heredoc(int signum)
 	ft_memset(&raw, 0, sizeof(struct termios));
 	if (signum == SIGTSTP)
 	{
-		if (tcgetattr(STDIN_FILENO, &raw) < 0)
-			exit(1);
+		tcgetattr(STDIN_FILENO, &raw);
 		raw.c_lflag |= (ECHOCTL);
-		if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0)
-			exit(1);
+		tcsetattr(STDIN_FILENO, TCSANOW, &raw);
 		exit(0);
 	}
 	if (signum == SIGINT)
@@ -37,11 +35,9 @@ void sig_handler_before(int signum)
 	ft_memset(&raw, 0, sizeof(struct termios));
 	if (signum == SIGTSTP)
 	{
-		if (tcgetattr(STDIN_FILENO, &raw) < 0)
-			exit(1);
+		tcgetattr(STDIN_FILENO, &raw);
 		raw.c_lflag |= (ECHOCTL);
-		if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0)
-			exit(1);
+		tcsetattr(STDIN_FILENO, TCSANOW, &raw);
 		exit(0);
 	}
 	if (signum == SIGINT)
@@ -74,11 +70,11 @@ void	signals_before_rl(int flag)
 		act_sigint.sa_handler = &sig_handler_heredoc;
 	act_sigquit.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &act_sigquit, NULL) < 0)
-		exit(1);
+		return ;
 	if (sigaction(SIGINT, &act_sigint, NULL) < 0)
-		exit(1);
+		return ;
 	if (sigaction(SIGTSTP, &act_sigint, NULL) < 0)
-		exit(1);
+		return ;
 }
 
 void	signals_after_rl(void)
@@ -91,7 +87,7 @@ void	signals_after_rl(void)
 	act_sigint.sa_handler = &sig_handler_after;
 	act_sigquit.sa_handler = &sig_handler_after;
 	if (sigaction(SIGQUIT, &act_sigquit, NULL) < 0)
-		exit(1);
+		return ;
 	if (sigaction(SIGINT, &act_sigint, NULL) < 0)
-		exit(1);
+		return ;
 }

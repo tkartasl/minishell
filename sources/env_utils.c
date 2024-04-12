@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:24:07 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/02 14:40:19 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:06:28 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int table_insert(t_env *env, t_env **env_table)
         }
         i++;
     }
-    printf("minishell: env table is full");
+    ft_putendl_fd("minishell: env table is full", 2);
     return (-1);
 }
 

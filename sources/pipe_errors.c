@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_errors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:20:45 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 16:34:35 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 13:05:58 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ void    pipe_error(int error_nbr, char *cmd, char **cmds)
 
 void    pipe_error_cmd(char *cmd, char **cmds)
 {
-    int len;
-
-    len = ft_strlen(cmd);
     if (ft_strchr(cmd, '/') == NULL)
     {
         ft_putstr_fd("minishell: ", 2);

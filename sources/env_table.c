@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_table.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:54:18 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 12:49:01 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:31:24 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,12 @@ int	create_envs(char **envp, t_env **env_table)
         env = malloc(sizeof(t_env));
         if (env == NULL)
         {
-            printf("minishell: error allocating memory");
+            ft_putendl_fd("minishell: error allocating memory", 2);
             return (-1);
         }
         if (get_value(env, envp[i], env_table) == -1)
         {
-            printf("minishell: error allocating memory");
+            ft_putendl_fd("minishell: error allocating memory", 2);
             return (-1);
         }
         i++;

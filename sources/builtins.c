@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 19:28:04 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:03:27 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void	echo(char **args, int fd, int *flag, t_env **env_table)
 {
-	int	i;	
-	int	j;
+	int	i;
 	int	flag_nl;
 
 	*flag = 1;
 	flag_nl = 0;
 	i = 0;
-	j = 0;
 	if (!(ft_strncmp(args[i], "-n", 3)))
 	{
 		flag_nl = 1;
@@ -73,7 +71,7 @@ int	add_to_table(t_cmd_args *c_a, t_env **env_table, int i, t_env *env)
 	{
 		free(name);
 		free(env);
-		printf("minishell: error allocating memory\n");
+		ft_putstr_fd("minishell: error allocating memory\n", 2);
 		return (-1);
 	}
 	return (1);
@@ -120,7 +118,7 @@ void	unset(t_cmd_args *c_a, t_env **env_table, int *flag)
 		name = ft_strjoin(c_a->args[i], "=");
 		if (name == NULL)
 		{
-			printf("minishell: error allocating memory");
+			ft_putendl_fd("minishell: error allocating memory", 2);
 			return ;
 		}
 		table_delete(name, env_table);

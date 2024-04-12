@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 13:43:25 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:25:42 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char    **get_cmd(t_cmd_args *cmd_args)
     cmd = malloc(sizeof(char *) * (i + 1));
     if (cmd == NULL)
     {
-        printf("minishell: error allocating memory\n");
+        ft_putstr_fd("minishell: error allocating memory\n", 2);
         return (NULL);
     }
     cmd[0] = cmd_args->cmd;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 13:06:22 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:24:42 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,15 @@ int check_fd_redirection(t_redir *temp, char arrow, int fd)
         if (temp->fd > 255)
         {
             if (temp->fd > 2147483647)
-                printf("minishell: file descriptor out of reach\n");
+               ft_putstr_fd("minishell: file descriptor out of reach\n", 2);
             else
-                printf("minishell: bad file descriptor\n");
+                ft_putstr_fd("minishell: bad file descriptor\n", 2);
             return (-1);
         }
         fd = open(temp->filename, O_CREAT | O_RDWR | O_TRUNC, 0777);
         if (fd == -1)
         {
-            printf("minishell: %s: can't open file", temp->filename);
+            print_error_filename(temp->filename, &fd);
             return (-1);
         }
         dup2(fd, temp->fd);

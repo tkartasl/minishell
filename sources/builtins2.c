@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/12 11:39:58 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:04:26 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	change_to_parent_directory(void)
 	}
 	if (path == NULL)
 	{
-		ft_printf("minishell: getcwd: path not found\n");
+		ft_putstr_fd("minishell: getcwd: path not found\n", 2);
 		return ;
 	}
 	current_d = ft_strrchr(path, '/');
@@ -48,7 +48,7 @@ void	cd(t_cmd_args *cmd_args, t_env **env_table, int *flag)
 		home = ft_get_env("HOME", env_table);
 		if (home == NULL)
 		{
-			printf("minishell: cd: HOME not set\n");
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			return ;
 		}
 		chdir(home);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 14:34:02 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 10:40:54 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:22:51 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 int create_file(char *filename)
 {
+    int flag;
     int fd;
+    
+    flag = -1;
     fd = open(filename, O_CREAT | O_WRONLY, 0777);
     if (fd == -1)
     {
-        printf("minishell: %s: can't open file", filename);
+        print_error_filename(filename, &flag);
         return (-1);
     }
     close(fd);

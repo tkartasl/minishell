@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:02:18 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/12 11:47:10 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:22:38 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 void	print_error_filename(char *file, int *flag)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(file, 2);
-	ft_putendl_fd(": ambiguous redirect", 2);
-	*flag = 1;
+	if (*flag == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putendl_fd(": can't open file", 2);
+	}
+	else
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putendl_fd(": ambiguous redirect", 2);
+		*flag = 1;
+	}
 }
 
 void	print_error(t_cmd_args **arr, int flag)
