@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 12:45:09 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:47:20 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
     char    *path;
     int     flag;
     
-    flag = check_builtins(ca, env_t, 1);
+    flag = check_builtins(ca, env_t, 1, 0);
     if (flag == 1)
         exit (0);
     else if (flag == 0)
@@ -117,7 +117,7 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
     }
 }
 
-void    pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_t)
+void pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_t)
 {
     pid_t   pid;
     int     pipe_fd[2];
@@ -129,20 +129,20 @@ void    pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_t)
     pid = fork();
 	if (pid == -1)
         flag = 4;
-    if (flag == 3 || flag == 4)
-        pipe_error(flag, NULL, cmd);
-    if (flag == 3 || flag == 4 || cmd == NULL)
+    if (check_flag(flag, cmd) == -1)
         return ;
     if (pid == 0)
 	{
         close(pipe_fd[0]);
         if (flag == 1)
 		    dup2(pipe_fd[1], 1);
+        close(pipe_fd[1]);
 		run_cmd_pipe(cmd, envp, env_t, cmd_arg);
 	}
         waitpid(pid, &flag, 0);
         close(pipe_fd[1]);
         dup2(pipe_fd[0], 0);
+        close(pipe_fd[0]);
         change_cmd_status(env_t, flag);
 }
 
@@ -153,22 +153,23 @@ void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
     int         fd2;
     int         redir_flag;
     
-    i = 0;
+    i = -1;
     fd1 = 0;
-    while(i < pipe_count)
+    while(++i < pipe_count)
     {
         fd2 = dup(1);
         redir_flag = 0;
-        check_in_redir(cmd_arg[i]->head_redir, i, fd1);
-        check_out_redir(cmd_arg[i]->head_redir, i, fd2, &redir_flag);
+        if (check_in_redir(cmd_arg[i]->head_redir, i, fd1) == -1)
+            continue ;
+        if (check_out_redir(cmd_arg[i]->head_redir, i, fd2, &redir_flag) == -1)
+            continue ;
         if ((i + 1) == pipe_count || redir_flag == 1)
             pipe_init(0, en, cmd_arg[i], et);
         else
             pipe_init(1, en, cmd_arg[i], et);
-        if (redir_flag == 1)
+        if (redir_flag == 1)    
             dup2(fd2, 1);
-        //if (i != (pipe_count - 1) && (*et)->status != 0)
-          //  change_cmd_status(et, 0);
-        i++;
+        close(fd2);
     }
+
 }

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:20:45 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/10 12:32:36 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:34:35 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,9 @@ void    pipe_error(int error_nbr, char *cmd, char **cmds)
         exit(1);
     }
     else if (error_nbr == 3)
-    {
         ft_putstr_fd("minishell: pipe failure\n", 2);
-        ft_free_pointer_array(cmds);
-    }
     else if (error_nbr == 4)
-    {
         ft_putstr_fd("minishell: fork failure\n", 2);
-        ft_free_pointer_array(cmds);
-    }
     else if (error_nbr == 5)
     {
         ft_putstr_fd("minishell: ", 2);

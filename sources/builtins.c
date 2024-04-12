@@ -6,13 +6,13 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 12:58:57 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:28:04 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	echo(char **args, int fd, int *flag)
+void	echo(char **args, int fd, int *flag, t_env **env_table)
 {
 	int	i;	
 	int	j;
@@ -36,9 +36,10 @@ void	echo(char **args, int fd, int *flag)
 	}
 	if (flag_nl == 0)
 		write(fd, "\n", 1);
+	change_cmd_status(env_table, 0);
 }
 
-void	pwd(int *flag)
+void	pwd(int *flag, t_env **env_table)
 {
 	char	buffer[PATH_MAX + 1];
 	char	*path;
@@ -46,9 +47,10 @@ void	pwd(int *flag)
 	*flag = 1;
 	path = getcwd(buffer, sizeof(buffer));
 	if (path == NULL)
-		ft_printf("Error\n");
+		ft_putstr_fd("minishell: getcwd failed\n", 2);
 	ft_putstr_fd(path, 1);
 	ft_putstr_fd("\n", 1);
+	change_cmd_status(env_table, 0);
 }
 
 int	add_to_table(t_cmd_args *c_a, t_env **env_table, int i, t_env *env)
@@ -63,7 +65,7 @@ int	add_to_table(t_cmd_args *c_a, t_env **env_table, int i, t_env *env)
 	if (name == NULL)
 	{
 		free(env);
-		printf("minishell: error allocating memory\n");
+		ft_putstr_fd("minishell: error allocating memory\n", 2);
 		return (-1);
 	}
 	table_delete(name, env_table);
@@ -77,13 +79,11 @@ int	add_to_table(t_cmd_args *c_a, t_env **env_table, int i, t_env *env)
 	return (1);
 }
 
-void	export(t_cmd_args *c_a, t_env **env_table, int *flag)
+void	export(t_cmd_args *c_a, t_env **env_table, int *flag, int i)
 {
 	t_env	*env;
 	int		len;
-	int		i;
 
-	i = -1;
 	*flag = 1;
 	if (c_a->args[0] == NULL)
 		export_env(env_table, flag);
@@ -91,9 +91,12 @@ void	export(t_cmd_args *c_a, t_env **env_table, int *flag)
 	{
 		len = 0;
 		env = malloc(sizeof(t_env));
-		if (env == NULL)
+		if (env == NULL || word_count(c_a->args[i]) != 1)
 		{
-			printf("minishell: error allocating memory\n");
+			if (env == NULL)
+				ft_putstr_fd("minishell: error allocating memory\n", 2);
+			else
+				export_error(c_a->args[i], env_table);
 			return ;
 		}
 		while (c_a->args[i][len] != '\0' && c_a->args[i][len] != '=')
@@ -102,6 +105,7 @@ void	export(t_cmd_args *c_a, t_env **env_table, int *flag)
 			if (add_to_table(c_a, env_table, i, env) == -1)
 				return ;
 	}
+	change_cmd_status(env_table, 0);
 }
 
 void	unset(t_cmd_args *c_a, t_env **env_table, int *flag)
@@ -123,4 +127,5 @@ void	unset(t_cmd_args *c_a, t_env **env_table, int *flag)
 		free(name);
 		i++;
 	}
+	change_cmd_status(env_table, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 12:45:43 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:47:29 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,15 @@ char        *clean_arg(char *arg);
 int         check_h_docs(t_redir *head_redir, int i, char **filename);
 void        free_env_table(t_env **env_table);
 void		ft_exit(t_env **env_table, t_cmd_args **cmd_args);
-void        export(t_cmd_args *cmd_args, t_env **env_table, int *flag);
-void        pwd(int *flag);
-void        echo(char **args, int fd, int *flag);
+void        export(t_cmd_args *cmd_args, t_env **env_table, int *flag, int i);
+void        pwd(int *flag, t_env **env_table);
+void        echo(char **args, int fd, int *flag, t_env **env_table);
 void        unset(t_cmd_args *c_a, t_env **env_table, int *flag);
 void        cd(t_cmd_args *cmd_args, t_env **env_table, int *flag);
 void        env(t_env **env_table, int *flag);
 void        export_env(t_env **env_table, int *flag);
 void        pipe_error(int error_nbr, char *cmd, char **cmds);
-int         check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call);
+int         check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call, int flag);
 void		signals_before_rl(int flag);
 void		signals_after_rl(void);
 int			termios_before_rl(void);
@@ -128,5 +128,7 @@ void		print_error_filename(char *file, int *flag);
 char		*expand_all_env(char *old, char *expanded_str, int i, t_env **env);
 char		*count_expand_cmd(char *cmd, int i, t_env **env);
 void		change_cmd_status(t_env **env_t, int status);
+void		export_error(char *str, t_env **env_table);
+int			check_flag(int flag, char **cmd);
 
 #endif

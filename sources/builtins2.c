@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 12:56:03 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:39:58 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	cd(t_cmd_args *cmd_args, t_env **env_table, int *flag)
 		if (chdir(cmd_args->args[0]) == -1)
 			print_error(&cmd_args, 2);
 	}
+	change_cmd_status(env_table, 0);
 }
 
 void	ft_exit(t_env **env_table, t_cmd_args **cmd_args)
@@ -90,6 +91,7 @@ void	env(t_env **env_table, int *flag)
 			ft_printf("%s%s\n", env_table[i]->name, env_table[i]->value);
 		i++;
 	}
+	change_cmd_status(env_table, 0);
 }
 
 void	export_env(t_env **env, int *flag)
@@ -98,11 +100,6 @@ void	export_env(t_env **env, int *flag)
 
     i = 0;
     *flag = 1;
-    if (ft_get_env("PATH", env) == NULL)
-    {
-        ft_putendl_fd("minishell: env: No such file or directory", 2);
-        return ;
-    }
     while(i < TABLE_SIZE)
     {
         if (env[i] != NULL && env[i] != DELETED_NODE)
@@ -110,7 +107,7 @@ void	export_env(t_env **env, int *flag)
             ft_printf("declare -x %s", env[i]->name);
             ft_printf("\"");
             ft_printf("%s", env[i]->value);
-            ft_printf("\"\n");
+            ft_printf("\n");
         }
         i++;
     }
