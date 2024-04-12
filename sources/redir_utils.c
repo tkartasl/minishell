@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 08:54:19 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 13:06:22 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int check_fd_rights(t_redir *redir, char **filename, char *arrow, int flag)
     {
         if (access(redir->filename, R_OK) != 0)
         {
-            printf("minishell: %s: Permission denied\n", *filename);
+            printf("minishell: %s: Permission denied\n", redir->filename);
             return (-1);
         }
         *filename = redir->filename;
@@ -28,7 +28,7 @@ int check_fd_rights(t_redir *redir, char **filename, char *arrow, int flag)
         if (access(redir->filename, F_OK) == 0)
             if (access(redir->filename, W_OK) != 0)
             {
-                printf("minishell: %s: Permission denied\n", *filename);
+                printf("minishell: %s: Permission denied\n", redir->filename);
                 return (-1);
             }
         *filename = redir->filename;

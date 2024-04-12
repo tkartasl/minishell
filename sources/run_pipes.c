@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 11:47:20 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 13:43:25 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
     fd1 = 0;
     while(++i < pipe_count)
     {
+        close(fd2);
         fd2 = dup(1);
         redir_flag = 0;
         if (check_in_redir(cmd_arg[i]->head_redir, i, fd1) == -1)
@@ -169,7 +170,7 @@ void    run_pipes(t_cmd_args **cmd_arg, int pipe_count, char **en, t_env **et)
             pipe_init(1, en, cmd_arg[i], et);
         if (redir_flag == 1)    
             dup2(fd2, 1);
-        close(fd2);
     }
+    close(fd2);
 
 }

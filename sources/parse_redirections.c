@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:47 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 15:49:01 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:43:31 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

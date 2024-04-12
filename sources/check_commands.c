@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 12:02:56 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:59:29 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,31 @@ int	check_cmd_syntax(t_cmd_args **cmd_args, t_env **env_table)
 	return (0);
 }
 
-void	close_original_fds(t_cmd_args **cmd_args)
+void	close_original_fds(t_cmd_args **cmd_args, int i)
 {
-	if (cmd_args[0]->head_redir[0] != NULL)
-		close(cmd_args[0]->head_redir[0]->original_input);
-	if (cmd_args[0]->head_redir[0] != NULL)
-		close(cmd_args[0]->head_redir[0]->original_output);
-	if (cmd_args[0]->head_hdocs[0] != NULL)
-		close(cmd_args[0]->head_hdocs[0]->original_input);
-	if (cmd_args[0]->head_hdocs[0] != NULL)
-		close(cmd_args[0]->head_hdocs[0]->original_output);
+	while (cmd_args[i] != NULL)
+	{
+		t_redir **temp;
+		temp = cmd_args[i]->head_redir;
+		while(*temp != NULL)
+		{
+			if ((*temp)->original_input)
+				close((*temp)->original_input);
+			if ((*temp)->original_output)
+				close((*temp)->original_output);
+			*temp = (*temp)->next;
+		}
+		temp = cmd_args[i]->head_hdocs;
+		while(*temp != NULL)
+		{
+			if ((*temp)->original_input)
+				close((*temp)->original_input);
+			if ((*temp)->original_output)
+				close((*temp)->original_output);
+			*temp = (*temp)->next;
+		}
+		i++;
+	}
 }
 
 void	check_cmds(t_cmd_args **cmd_args, t_env **env_table)
@@ -110,6 +125,6 @@ void	check_cmds(t_cmd_args **cmd_args, t_env **env_table)
 	close(fd2);
 	if (flag == 0)
 		run_commands(cmd_args, (*cmd_args)->pipe_count, env_table);
-	close_original_fds(cmd_args);
+	close_original_fds(cmd_args, 0);
 	free_struct_array(cmd_args);
 }
