@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/15 09:27:44 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:54:29 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,6 @@ int			find_correct_index(t_env **env);
 int			check_flag(int flag, char **cmd);
 void		export_error(char *str, t_env **env_table);
 int			check_newline(char *line, t_env **env);
+int			check_redir_syntax(char *line);
 
 #endif

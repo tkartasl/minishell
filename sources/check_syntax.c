@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/15 09:26:35 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:16:21 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static int	check_after_redir(char **cmd_lines, int i, t_env **env)
 		}
 		if (*temp == '<' || *temp == '>')
 		{
-			temp = skip_redirs(temp);
-			if (*temp == 0 || ft_strchr("|&><", *temp) != 0)
+
+			if (check_redir_syntax(temp) == 1)
 			{
 				syntax_error(cmd_lines, env, *temp);
 				return (1);

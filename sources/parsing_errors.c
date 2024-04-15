@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:46:01 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/15 09:28:04 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:17:36 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,6 @@ void    syntax_error(char **cmd_line, t_env **env, char token)
 		ft_putchar_fd(token, 2);
 		ft_putstr_fd("'\n", 2);
 	}
-}
-
-int	check_newline(char *line, t_env **env)
-{
-	while (*line != 0)
-	{
-		if (*line == '\n')
-		{
-			syntax_error(0, env, 'X');
-			return (1);
-		}
-		line++;
-	}
-	return (0);
 }
 
 void	list_free(t_redir **hdoc, t_redir **redir, char **line, int flag)
