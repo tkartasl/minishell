@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:43:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/15 14:41:09 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:47:12 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@ int	check_newline(char *line, t_env **env)
 		}
 		line++;
 	}
+	return (0);
+}
+
+static int	check_last_char(char *temp)
+{
+	int	i;
+	
+	i = 1;
+	while(temp[i] != 0 && ft_strchr(" \"'$?/", temp[i]) == 0)
+		i++;
+	if (temp[i] != ' ' && temp[i] != 0)
+		return (1);
 	return (0);
 }
 
