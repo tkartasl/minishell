@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 16:45:22 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:26:35 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int	check_syntax(char **cmd_lines, int pipe_count, t_env **env)
 		if (check_after_redir(cmd_lines, i, env) == 1)
 			return (0);	
 		if (check_unclosed_quotes(cmd_lines[i], env) == -1)
+			return (0);
+		if (check_newline(cmd_lines[i], env) == 1)
 			return (0);
 		cmd_lines[i] = check_null_cmd(cmd_lines[i], env);
 		if (cmd_lines[i] == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 12:12:52 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:27:44 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ void		change_cmd_status(t_env **env_t, int status);
 int			find_correct_index(t_env **env);
 int			check_flag(int flag, char **cmd);
 void		export_error(char *str, t_env **env_table);
+int			check_newline(char *line, t_env **env);
 
 #endif
