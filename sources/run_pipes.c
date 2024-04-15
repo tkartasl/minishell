@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 13:43:25 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/15 08:46:28 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void    run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
         if (split_path == NULL)
             pipe_error(1, NULL, NULL);
         cmd_path = find_path(cmd[0], split_path);
+        if (ft_strncmp(cmd_path, "exit", 5) == 0)
+            pipe_error(6, cmd_path, cmd);
         if (ft_strchr(cmd_path, '/') != NULL)
             check_path(cmd_path);
         ft_free_pointer_array(split_path);

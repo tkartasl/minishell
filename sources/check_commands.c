@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 12:59:29 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/15 08:51:04 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	check_builtins(t_cmd_args *cmd_args, t_env **env_table, int call, int flag)
 {
+	char	*filename;
+	
 	if (call == 0 && cmd_args->head_hdocs[0] != 0)
 	{
-		char	*filename;
-
 		flag = check_h_docs(cmd_args->head_hdocs[0], 0, &filename);
 		if (flag > 0)
 			close(flag);
@@ -103,7 +103,7 @@ void	close_original_fds(t_cmd_args **cmd_args, int i)
 	}
 }
 
-void	check_cmds(t_cmd_args **cmd_args, t_env **env_table)
+void	check_cmds(t_cmd_args **ca, t_env **env_table)
 {
 	int	flag;
 	int	fd1;
@@ -111,20 +111,22 @@ void	check_cmds(t_cmd_args **cmd_args, t_env **env_table)
 
 	fd1 = dup(0);
 	fd2 = dup(1);
-	flag = check_cmd_syntax(cmd_args, env_table);
+	flag = check_cmd_syntax(ca, env_table);
 	if (flag < 0)
 	{
-		print_error(cmd_args, flag);
+		print_error(ca, flag);
 		return ;
 	}
-	if ((*cmd_args)->pipe_count == 1)
-		flag = check_builtins(cmd_args[0], env_table, 0, 0);
+	if ((*ca)->pipe_count == 1 && (ft_strncmp((*ca)->cmd, "exit", 5) == 0))
+		ft_exit(env_table, ca);
+	if ((*ca)->pipe_count == 1)
+		flag = check_builtins(ca[0], env_table, 0, 0);	
 	dup2(fd1, 0);
 	dup2(fd2, 1);
 	close(fd1);
 	close(fd2);
 	if (flag == 0)
-		run_commands(cmd_args, (*cmd_args)->pipe_count, env_table);
-	close_original_fds(cmd_args, 0);
-	free_struct_array(cmd_args);
+		run_commands(ca, (*ca)->pipe_count, env_table);
+	close_original_fds(ca, 0);
+	free_struct_array(ca);
 }

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:20:45 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/11 16:34:35 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/15 08:46:18 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ void    pipe_error(int error_nbr, char *cmd, char **cmds)
         ft_putendl_fd(": No such file or directory", 2);
         ft_free_pointer_array(cmds);
         exit(1);
+    }
+    else if (error_nbr == 6)
+    {
+        free(cmd);
+        exit(0);
     }
 }
 
