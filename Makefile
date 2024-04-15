@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
+#    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 13:15:50 by vsavolai          #+#    #+#              #
-#    Updated: 2024/04/11 10:18:42 by tkartasl         ###   ########.fr        #
+#    Updated: 2024/04/15 08:58:22 by vsavolai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CC = cc
 
 RL_FLAGS = -lreadline -L ~/.brew/opt/readline/lib 
 
-CFLAGS = -Wall -Wextra -Werror -g -Iincludes -I ~/.brew/opt/readline/include #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g -Iincludes -I ~/.brew/opt/readline/include
 
 SRCS = sources/minishell.c \
 		sources/parse_commands.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_errors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:20:45 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 13:05:58 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 08:55:03 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ void    pipe_error(int error_nbr, char *cmd, char **cmds)
         ft_putendl_fd(": No such file or directory", 2);
         ft_free_pointer_array(cmds);
         exit(1);
+    }
+    else if (error_nbr == 6)
+    {
+        free(cmd);
+        exit(0);
     }
 }
 
