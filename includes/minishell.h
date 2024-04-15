@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/15 11:54:29 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:41:18 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,6 @@ int			check_flag(int flag, char **cmd);
 void		export_error(char *str, t_env **env_table);
 int			check_newline(char *line, t_env **env);
 int			check_redir_syntax(char *line);
+int			variable_word_count(char *str);
 
 #endif

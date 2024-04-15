@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:54 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 12:54:40 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:40:59 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,27 @@ static int	check_last_char(char *temp)
 	return (0);
 }
 
-char	*check_null_cmd(char *line, t_env **env)
-{
-	char	*temp;	
-	char	*newline;
 
-	newline = 0;
-	temp = line;
-	temp = ft_skip_whitespace(temp);
-	if (*temp == '$')
+
+int	variable_word_count(char *str)
+{
+	int		count;
+	char	*temp;
+
+	count = 0;
+	if (str == 0)
+		return (count);
+	temp = str;
+	while (*temp != 0 && *temp != '=')
 	{
-		if (check_last_char(temp) > 0)
-			return (line);
-		if (ft_get_env(&temp[1], env) == 0)
-		{
+		if (*temp != ' ' && *temp != 0)
+			count++;
+		while (*temp != ' ' && *temp != 0 && *temp != '=')
 			temp++;
-			while (*temp != 0 && ft_strchr(" \"'$?/", *temp) == 0)
-				temp++;
-			newline = ft_strndup(temp, ft_strlen(temp));
-			if (newline == 0)
-				return (0);
-			free(line);
-			return (newline);
-		}
+		if (*temp != 0 && *temp != '=')
+			temp++;
 	}
-	return (line);
+	return (count);
 }
 
 int	word_count(char *str)

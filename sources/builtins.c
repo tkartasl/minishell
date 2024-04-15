@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/12 14:03:27 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:38:18 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	export(t_cmd_args *c_a, t_env **env_table, int *flag, int i)
 	{
 		len = 0;
 		env = malloc(sizeof(t_env));
-		if (env == NULL || word_count(c_a->args[i]) != 1)
+		if (env == NULL || variable_word_count(c_a->args[i]) != 1)
 		{
 			if (env == NULL)
 				ft_putstr_fd("minishell: error allocating memory\n", 2);
