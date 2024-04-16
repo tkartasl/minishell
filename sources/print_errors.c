@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:02:18 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/12 14:22:38 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:52:50 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ void	export_error(char *str, t_env **env_table)
 	ft_putendl_fd(": not a valid identifier", 2);
 }
 
-int check_flag(int flag, char **cmd)
+int	check_flag(int flag, char **cmd)
 {
-    if (flag == 3 || flag == 4)
-    {
-        pipe_error(flag, NULL, cmd);
-        return (-1);
-    }
-    if (cmd == NULL)
-        return (-1);
-    return (1);
+	if (flag == 3 || flag == 4)
+	{
+		pipe_error(flag, NULL, cmd);
+		return (-1);
+	}
+	if (cmd == NULL)
+		return (-1);
+	return (1);
 }

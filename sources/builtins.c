@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/12 14:03:27 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:35:50 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	echo(char **args, int fd, int *flag, t_env **env_table)
 	*flag = 1;
 	flag_nl = 0;
 	i = 0;
+	if (args[0] == NULL)
+		return ;
 	if (!(ft_strncmp(args[i], "-n", 3)))
 	{
 		flag_nl = 1;

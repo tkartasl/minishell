@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:54 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 12:54:40 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:09:29 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static int	check_last_char(char *temp)
 {
 	int	i;
-	
+
 	i = 1;
-	while(temp[i] != 0 && ft_strchr(" \"'$?/", temp[i]) == 0)
+	while (temp[i] != 0 && ft_strchr(" \"'$?/", temp[i]) == 0)
 		i++;
 	if (temp[i] != ' ' && temp[i] != 0)
 		return (1);
@@ -99,9 +99,9 @@ void	change_cmd_status(t_env **env_t, int status)
 	i = 0;
 	if (status > 0)
 		status = status / 256;
-	while(i < TABLE_SIZE)
-    {
-		if (env_t[i] != DELETED_NODE && env_t[i] != NULL)
+	while (i < TABLE_SIZE)
+	{
+		if (env_t[i] != (t_env *)(DELETED_NODE) && env_t[i] != NULL)
 			env_t[i]->status = status;
 		i++;
 	}

@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parse_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:31:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/10 13:50:07 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:57:29 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *find_cmd(char *cmd_line, int *len)
+char	*find_cmd(char *cmd_line, int *len)
 {
 	char	*cmd;
 
 	while (1)
 	{
 		cmd_line = skip_redirs(cmd_line);
-		while(*cmd_line != ' ' && *cmd_line != 0)
+		while (*cmd_line != ' ' && *cmd_line != 0)
 			cmd_line++;
 		cmd_line = ft_skip_whitespace(cmd_line);
 		if (*cmd_line != '<' && *cmd_line != '>')
@@ -50,7 +50,7 @@ char	*parse_command(char *cmd_line, int *len, t_redir **redir)
 	}
 	else
 		cmd = find_cmd(cmd_line, len);
-	return (cmd);	
+	return (cmd);
 }
 
 t_cmd_args	*struct_new(t_redir **redir, t_redir **hdoc, int pipe)
@@ -67,19 +67,17 @@ t_cmd_args	*struct_new(t_redir **redir, t_redir **hdoc, int pipe)
 	new->args = 0;
 	new->cmd_count = 0;
 	return (new);
-}	
+}
 
-
-
-t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
+t_cmd_args	*get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
 {
-    t_cmd_args    *new;
-    char        *temp;
-    int            len;
-    char        *temp2;
+	t_cmd_args		*new;
+	char			*temp;
+	int				len;
+	char			*temp2;
 
 	len = 0;
-  	new = struct_new(redir, hdoc, pc);
+	new = struct_new(redir, hdoc, pc);
 	if (new == 0)
 		return (0);
 	temp = line;
@@ -92,15 +90,15 @@ t_cmd_args    *get_structs(t_redir **redir, t_redir **hdoc, char *line, int pc)
 		temp++;
 		len--;
 	}
-    temp = ft_skip_whitespace(temp);
+	temp = ft_skip_whitespace(temp);
 	temp2 = temp;
-    new->args = parse_arguments(temp, temp2);
+	new->args = parse_arguments(temp, temp2);
 	if (new->args == 0)
 		return (0);
-    return (new);
+	return (new);
 }
 
-t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)
+t_cmd_args	**get_array(t_redir **redr, t_redir **hdoc, char **line, int pipe)
 {
 	t_cmd_args	**array;
 	int			i;
@@ -108,10 +106,10 @@ t_cmd_args	**get_array(t_redir **redir, t_redir **hdoc, char **line, int pipe)
 	i = 0;
 	array = malloc((pipe + 1) * sizeof(t_cmd_args *));
 	if (array == 0)
-		list_free(hdoc, redir, line, 1);
+		list_free(hdoc, redr, line, 1);
 	while (line[i] != 0)
 	{
-		array[i] = get_structs(redir, hdoc, line[i], pipe);
+		array[i] = get_structs(redr, hdoc, line[i], pipe);
 		if (ft_strlen(array[i]->cmd) > 0)
 			array[i]->cmd_count = 1;
 		if (array[i] == 0)

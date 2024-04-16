@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 12:52:10 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/02 08:54:39 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:19:12 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	get_len(char *str)
 	}
 	while (str[i] != ' ' && str[i] != 0 && str[i] != '<' && str[i] != '>')
 	{
-		if (str[i] ==  '\'' || str[i] == '"')
+		if (str[i] == '\'' || str[i] == '"')
 		{
 			quote = str[i];
 			i++;
 			while (str[i] != quote && str[i] != 0)
-			i++;
+				i++;
 		}
 		if (str[i] != 0)
 			i++;
@@ -56,7 +56,7 @@ int	get_pipe_count(char **cmd_lines)
 	int	i;
 
 	i = 0;
-	while(cmd_lines[i] != 0)
+	while (cmd_lines[i] != 0)
 		i++;
 	return (i);
 }
@@ -64,25 +64,25 @@ int	get_pipe_count(char **cmd_lines)
 static int	loop_over_cmd(char *s, char quote, int i)
 {
 	while (s[i] != 0)
+	{
+		while (s[i] != quote && s[i] != 0)
+			i++;
+		if (s[i] == 0 || (s[i] == quote && s[++i] == ' '))
+			break ;
+		if (s[i] == '\'' || s[i] == '\"')
 		{
+			quote = s[i];
 			while (s[i] != quote && s[i] != 0)
 				i++;
-			if (s[i] == 0 || (s[i] == quote && s[++i] == ' '))
-				break ;
-			if (s[i] == '\'' || s[i] == '\"')
-			{
-				quote = s[i];
-				while (s[i] != quote && s[i] != 0)
-					i++;
-			}
-			else
-			{
-				while (s[i] != ' ' && s[i] != 0 && s[i] != '\'' && s[i] != '\"')
-					i++;
-			}
-			if (s[i] != 0)
+		}
+		else
+		{
+			while (s[i] != ' ' && s[i] != 0 && s[i] != '\'' && s[i] != '\"')
 				i++;
 		}
+		if (s[i] != 0)
+			i++;
+	}
 	return (i);
 }
 
@@ -105,5 +105,3 @@ int	get_cmd_len(char *s, char quote)
 		i = loop_over_cmd(s, quote, i);
 	return (i);
 }
-
-
