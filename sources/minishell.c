@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/12 14:17:18 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/16 08:37:42 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	termios_before_rl(void)
 	return (0);
 }
 
-int	termios_after_rl(void)
+static int	termios_after_rl(void)
 {
 	struct termios	raw;
 
@@ -38,16 +38,36 @@ int	termios_after_rl(void)
 	return (0);
 }
 
-int main(int argc, char **argv, char **envp)
+static void	parse_line(char	*line, t_env **env_table)
 {
-	char				*line;
-	t_env               *env_table[TABLE_SIZE];
-	
-    (void)argc;
-    (void)argv;
+	char		**cmd_lines;
+	int			pipe_count;
+	t_redir		*heredocs;
+	t_redir		*redirs;
+	t_cmd_args	**cmd_args;
+
+	heredocs = 0;
+	redirs = 0;
+	cmd_lines = split_line(line, env_table, &heredocs, &redirs);
+	if (cmd_lines == 0)
+		return ;
+	pipe_count = get_pipe_count(cmd_lines);
+	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
+	if (cmd_args == 0)
+		return ;
+	check_cmds(cmd_args, env_table);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char	*line;
+	t_env	*env_table[TABLE_SIZE];
+
+	(void)argc;
+	(void)argv;
 	rl_clear_history();
 	if (create_envs(envp, env_table) == -1)
-        return (-1);
+		return (-1);
 	while (1)
 	{
 		termios_before_rl();
@@ -57,7 +77,7 @@ int main(int argc, char **argv, char **envp)
 			add_history(line);
 		termios_after_rl();
 		if (line == 0)
-			break;
+			break ;
 		signals_after_rl();
 		parse_line(line, env_table);
 		free(line);

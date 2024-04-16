@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:54 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/15 14:47:15 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/16 08:39:24 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	change_cmd_status(t_env **env_t, int status)
 	i = 0;
 	if (status > 0)
 		status = status / 256;
-	while(i < TABLE_SIZE)
-    {
+	while (i < TABLE_SIZE)
+	{
 		if (env_t[i] != DELETED_NODE && env_t[i] != NULL)
 			env_t[i]->status = status;
 		i++;

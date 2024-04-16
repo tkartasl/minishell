@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/15 14:41:18 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 15:24:07 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_env
 	int		status;
 }			t_env;
 
-void		parse_line(char	*line, t_env **env_table);
 char    	*find_redir(char *str);
 int			get_len(char *str);
 char		*find_limiter(char *str);
@@ -134,5 +133,6 @@ void		export_error(char *str, t_env **env_table);
 int			check_newline(char *line, t_env **env);
 int			check_redir_syntax(char *line);
 int			variable_word_count(char *str);
+char		**split_line(char *line, t_env **env, t_redir **hdoc, t_redir **redir);
 
 #endif

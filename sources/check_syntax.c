@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/15 14:12:07 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/16 08:38:50 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	check_after_redir(char **cmd_lines, int i, t_env **env)
 		}
 		if (*temp == '<' || *temp == '>')
 		{
-
 			if (check_redir_syntax(temp) == 1)
 			{
 				syntax_error(cmd_lines, env, *temp);
@@ -78,7 +77,7 @@ static int	check_unclosed_quotes(char *line, t_env **env)
 		if (*cmd == 0)
 		{
 			change_cmd_status(env, 256);
-			ft_putstr_fd("minihell: unclosed quotes\n", 2);
+			ft_putstr_fd("minishell: unclosed quotes\n", 2);
 			return (-1);
 		}
 		cmd++;
@@ -96,7 +95,7 @@ int	check_syntax(char **cmd_lines, int pipe_count, t_env **env)
 		if (check_empty_line(cmd_lines, pipe_count, i, env) == 1)
 			return (0);
 		if (check_after_redir(cmd_lines, i, env) == 1)
-			return (0);	
+			return (0);
 		if (check_unclosed_quotes(cmd_lines[i], env) == -1)
 			return (0);
 		if (check_newline(cmd_lines[i], env) == 1)

@@ -3,60 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:47 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/12 12:43:31 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 08:47:18 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    put_arrow_lst(char *s, t_redir **new)
+void	put_arrow_lst(char *s, t_redir **new)
 {
-    while(*s != '\0')
-    {
+	while (*s != '\0')
+	{
 		while ((*s == '\'' || *s == '"') && *s != 0)
 			s = skip_quotes(s, *s);
-        if (*s == '<')
-        {
-            if (*(s + 1) == '<')
-                (*new)->arrow = 'h';
-            else
-                (*new)->arrow = '<';
-            (*new) = (*new)->next;
-        }
-        else if (*s == '>')
-        {
-            if (*(s + 1) == '>')
-                (*new)->arrow = '!';	
-            else
-                (*new)->arrow = '>';
-            (*new) = (*new)->next;
-        }
-        if ((*s == '>' && *(s + 1) == '>') || (*s == '<' && *(s + 1) == '<'))
-                s++;
+		if (*s == '<')
+		{
+			if (*(s + 1) == '<')
+				(*new)->arrow = 'h';
+			else
+				(*new)->arrow = '<';
+			(*new) = (*new)->next;
+		}
+		else if (*s == '>')
+		{
+			if (*(s + 1) == '>')
+				(*new)->arrow = '!';
+			else
+				(*new)->arrow = '>';
+			(*new) = (*new)->next;
+		}
+		if ((*s == '>' && *(s + 1) == '>') || (*s == '<' && *(s + 1) == '<'))
+			s++;
 		if (*s != 0)
 			s++;
-    }
+	}
 }
 
-void    add_redirs(t_redir **redirs, char **cmd_lines)
+void	add_redirs(t_redir **redirs, char **cmd_lines)
 {
-    int		i;
-    t_redir	*new;
+	int		i;
+	t_redir	*new;
 	t_redir	*new2;	
-	
-    new = *redirs;
+
+	new = *redirs;
 	new2 = *redirs;
-    i =	0;
-    while(cmd_lines[i] != 0)
-    {
-        put_arrow_lst(cmd_lines[i], &new);
+	i = 0;
+	while (cmd_lines[i] != 0)
+	{
+		put_arrow_lst(cmd_lines[i], &new);
 		if ((*redirs) != 0)
 			put_fd_lst(cmd_lines[i], &new2);
-        i++;
-    }
+		i++;
+	}
 }
 
 static int	get_redirs(t_redir **redirs, char **cmd_lines)
@@ -82,7 +82,7 @@ static int	get_redirs(t_redir **redirs, char **cmd_lines)
 					return (-1);
 				if (build_list(redirs, file, i) < 0)
 					return (-1);
-			}	
+			}
 		}
 	}
 	return (0);
@@ -117,83 +117,29 @@ static int	get_heredocs(t_redir **heredocs, char **cmd_lines)
 	return (0);
 }
 
-void	parse_line(char	*line, t_env **env_table)
+char	**split_line(char *line, t_env **env, t_redir **hdoc, t_redir **redir)
 {
-	char		**cmd_lines;
-	int			pipe_count;
-	t_redir		*heredocs;
-	t_redir		*redirs;
-	t_cmd_args	**cmd_args;
-	
-    (void)env_table;
-	heredocs = 0;
-	redirs = 0;
-    if (check_pipe_repetition(line, env_table) == 1)
-        return ;
-	cmd_lines = ft_split_remix(line, '|');
-    if (cmd_lines == 0)
-        return ;
-	pipe_count = get_pipe_count(cmd_lines);
-	if (check_syntax(cmd_lines, pipe_count, env_table) == 0)
-        return ;
-	if (get_heredocs(&heredocs, cmd_lines) < 0)
-	{
-		list_free(&heredocs, &redirs, cmd_lines, 1);
-		return ;
-	}
-	if (get_redirs(&redirs, cmd_lines) < 0)
-	{
-		list_free(&heredocs, &redirs, cmd_lines, 1);
-		return ;	
-	}
-	add_redirs(&redirs, cmd_lines);
-	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
-    if (cmd_args == 0)
-        return ;
-   /* int i = 0;
-    int j;
-   t_cmd_args	**temp;
-    temp = cmd_args;
-    while(temp[i])
-    {
-        printf("Command: %s\n", temp[i]->cmd);
-        j = 0;
-        while(temp[i]->args[j])
-        {
-            printf("command %d argument: %s\n", i, temp[i]->args[j]);
-            j++;
-        }
-        printf("pipe count: %d\n", temp[i]->pipe_count);
-        i++;
-    }
-    i = 0;
-    while(temp[i]->head_redir[i])
-    {
-        write(2, "loop start\n", 11);
-        printf("redir nbr: %d\n", temp[i]->head_redir[i]->index);
-        printf("redir: %c\n", temp[i]->head_redir[i]->arrow);
-        printf("filename: %s\n", temp[i]->head_redir[i]->filename);
-		printf("fd: %d\n", temp[i]->head_redir[i]->fd);
-		printf("flag: %d\n", temp[i]->head_redir[i]->flag);
-        temp[i]->head_redir[i] = temp[i]->head_redir[i]->next;
-        write(2, "loop end\n", 9);
-    }
+	char	**cmd_lines;
+	int		pipe_count;
 
-    i = 0;
-    while(temp[i]->head_hdocs[i])
-    {
-        write(2, "here_doc start\n", 15);
-        printf("redir nbr: %d\n", temp[i]->head_hdocs[i]->index);
-        printf("redir: %c\n", temp[i]->head_hdocs[i]->arrow);
-        printf("filename: %s\n", temp[i]->head_hdocs[i]->filename);
-        temp[i]->head_hdocs[i] = temp[i]->head_hdocs[i]->next;
-        write(2, "here_doc end\n", 13);
-    }
-    i = 0;*/
-	
-	//if (get_envs(cmd_args, env_table, &i) == 0)
-	//	ft_printf("ERROR");
-	//free_struct_array(cmd_args);
-    //printf("enviroment variables\n");
-    check_cmds(cmd_args, env_table);
+	if (check_pipe_repetition(line, env) == 1)
+		return (0);
+	cmd_lines = ft_split_remix(line, '|');
+	if (cmd_lines == 0)
+		return (0);
+	pipe_count = get_pipe_count(cmd_lines);
+	if (check_syntax(cmd_lines, pipe_count, env) == 0)
+		return (0);
+	if (get_heredocs(hdoc, cmd_lines) < 0)
+	{
+		list_free(hdoc, redir, cmd_lines, 1);
+		return (0);
+	}
+	if (get_redirs(redir, cmd_lines) < 0)
+	{
+		list_free(hdoc, redir, cmd_lines, 1);
+		return (0);
+	}
+	add_redirs(redir, cmd_lines);
+	return (cmd_lines);
 }
