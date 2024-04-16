@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 09:01:08 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:19:37 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int			check_pipe_repetition(char *line, t_env **env);
 void		run_commands(t_cmd_args **cmd_args, int pipe_count, t_env **env_t);
 char		*skip_arg(char *str);
 int			get_arg_len(char *str);
-int			check_in_redir(t_redir **head_redir, int i, int fd1, int pipe_count);
+int			check_in_redir(t_redir **head_redir, int i, int fd1);
 int			check_out_redir(t_redir **head_redir, int i, int fd2, int *fl);
 char		*check_if_digit(char *str, t_redir **redir);
 void		put_fd_lst(char *line, t_redir **new);
@@ -103,7 +103,7 @@ int			remove_arg_quotes(t_cmd_args **cmd_args);
 int			remove_cmd_quotes(t_cmd_args **cmd_args);
 int			remove_file_quotes(t_redir **redirs);
 char		*clean_arg(char *arg);
-int			check_h_docs(t_redir *head_redir, int i, char **filename, int pipe_count);
+int			check_h_docs(t_redir *head_redir, int i, char **filename);
 void		free_env_table(t_env **env_table);
 void		ft_exit(t_env **env_table, t_cmd_args **cmd_args);
 void		export(t_cmd_args *cmd_args, t_env **env_table, int *flag, int i);

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 08:28:48 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:19:42 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	check_fd_redirection(t_redir *temp, char arrow, int fd)
 	return (0);
 }
 
-int	check_in_redir(t_redir **head_redir, int i, int fd1, int pipe_count)
+int	check_in_redir(t_redir **head_redir, int i, int fd1)
 {
 	t_redir	*temp;
 	char	*filename;
@@ -108,7 +108,7 @@ int	check_in_redir(t_redir **head_redir, int i, int fd1, int pipe_count)
 			if (check_fd_rights(temp, &filename, NULL, 1) == -1)
 				return (-1);
 		if (temp->index == i && temp->arrow == 'h')
-			fd1 = check_h_docs(temp, i, &filename, pipe_count);
+			fd1 = check_h_docs(temp, i, &filename);
 		if (fd1 == -1)
 			return (-1);
 		flag = check_fd_redirection(temp, '<', fd1);

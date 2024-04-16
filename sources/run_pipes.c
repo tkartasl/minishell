@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 08:28:01 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:19:48 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	run_pipes(t_cmd_args **cmd_arg, int pc, char **en, t_env **et)
 		close(fd2);
 		fd2 = dup(1);
 		redir_flag = 0;
-		if (check_in_redir(cmd_arg[i]->head_redir, i, fd1, pc) == -1)
+		if (check_in_redir(cmd_arg[i]->head_redir, i, fd1) == -1)
 			continue ;
 		if(check_out_redir(cmd_arg[i]->head_redir, i, fd2, &redir_flag) == -1)
 			continue ;

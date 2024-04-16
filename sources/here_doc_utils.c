@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 14:34:02 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 08:30:04 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:19:03 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	run_h_doc(int *pipe_fd, t_redir *temp)
 	return (1);
 }
 
-int	check_h_docs(t_redir *head_redir, int i, char **filename, int pipe_count)
+int	check_h_docs(t_redir *head_redir, int i, char **filename)
 {
 	int	pipe_fd[2];
 
@@ -71,7 +71,7 @@ int	check_h_docs(t_redir *head_redir, int i, char **filename, int pipe_count)
 			return (-1);
 		}
 		close(pipe_fd[1]);
-		if ((head_redir + 1) != NULL && pipe_count > 0)
+		if (head_redir->next != NULL)
 			close(pipe_fd[0]);
 		return (pipe_fd[0]);
 	}

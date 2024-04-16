@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:54 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/16 08:58:05 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:07:13 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	change_cmd_status(t_env **env_t, int status)
 		status = status / 256;
 	while (i < TABLE_SIZE)
 	{
-		if (env_t[i] != DELETED_NODE && env_t[i] != NULL)
+		if (env_t[i] != (t_env *)DELETED_NODE && env_t[i] != NULL)
 			env_t[i]->status = status;
 		i++;
 	}
