@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_remix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 17:27:48 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/03/05 10:05:54 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:17:03 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,53 +24,53 @@ static size_t	ft_arrsize(char *s, char c)
 		if (*s)
 			i++;
 		while (*s != c && *s)
-        {
-            if (*s == '\'' || *s == '"')
-                s = skip_quotes(s, *s);
+		{
+			if (*s == '\'' || *s == '"')
+				s = skip_quotes(s, *s);
 			s++;
-        }
+		}
 	}
 	return (i);
 }
 
-static int split_quotes(char *s, int j)
+static int	split_quotes(char *s, int j)
 {
-    int tmp;
+	int	tmp;
 
-    tmp = j;
-    if (s[j] == '\'')
-    {
-        j++;
-        while(s[j] != '\'' && s[j] && s[j])
-        {   
-            j++;
-        }
-    }
-    else if (s[j] == '"')
-    {
-        j++;
-        while(s[j] != '"' && s[j] && s[j])
-            j++;
-    }
-    if (s[j] == 0)
-        return(tmp);
-    return (j - tmp);
+	tmp = j;
+	if (s[j] == '\'')
+	{
+		j++;
+		while (s[j] != '\'' && s[j] && s[j])
+		{
+			j++;
+		}
+	}
+	else if (s[j] == '"')
+	{
+		j++;
+		while (s[j] != '"' && s[j] && s[j])
+			j++;
+	}
+	if (s[j] == 0)
+		return (tmp);
+	return (j - tmp);
 }
 
 static int	ft_get_length(char *s, int i, char c)
 {
-    int tmp;
+	int	tmp;
 
-    tmp = i;
+	tmp = i;
 	while (s[i] != c && s[i] != '\0')
 	{
-        if (s[i] == '\'' || s[i] == '"')
-        {
-            i += split_quotes(s, i) + 1;
-        }
-        else
-            i++;     
-    }
+		if (s[i] == '\'' || s[i] == '"')
+		{
+			i += split_quotes(s, i) + 1;
+		}
+		else
+			i++;
+	}
 	return (i - tmp);
 }
 
@@ -109,7 +109,7 @@ char	**ft_split_remix(char *s, char c)
 	if (!s)
 		return (0);
 	arr = (char **)malloc(sizeof(char *) * (ft_arrsize(s, c) + 1));
-    if (arr == 0)
+	if (arr == 0)
 		return (0);
 	k = 0;
 	k = ft_fillarr(arr, s, c, k);
@@ -119,18 +119,3 @@ char	**ft_split_remix(char *s, char c)
 		arr[k] = 0;
 	return (arr);
 }
-
-/*int main()
-{
-    char s[] = "echo mo'|''|'echo moi       |             moi\"|\"    '|moi' -l";
-    char **r;
-
-    r = ft_split_remix(s, '|');
-    int i = 0;
-    while(r[i] != 0)
-    {
-        printf("%s\n", r[i]);
-        i++;
-    }
-
-}*/

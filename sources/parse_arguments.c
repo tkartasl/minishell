@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:15:41 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/03/25 14:30:21 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:53:52 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static char	*find_next_arg(char *cmd_line)
 {
 	while (*cmd_line != 0 && (*cmd_line == '>' || *cmd_line == '<'))
 	{
-		if ((*cmd_line == '<' || *cmd_line == '>') &&
-			(*(cmd_line + 1) == '<' || *(cmd_line + 1) == '>'))
+		if ((*cmd_line == '<' || *cmd_line == '>') && (*(cmd_line + 1)
+				== '<' || *(cmd_line + 1) == '>'))
 			cmd_line = cmd_line + 2;
 		if (*cmd_line == '<' || *cmd_line == '>')
 			cmd_line++;
@@ -34,7 +34,7 @@ static void	get_arg_count(char *line, int *count)
 	while (*line != 0)
 	{
 		if (ft_isdigit(*line) == 1 && *(line - 1) == ' ')
-	    {
+		{
 			while (*line != 0 && ft_isdigit(*line) == 1)
 				line++;
 			if (*line == ' ')
@@ -45,7 +45,7 @@ static void	get_arg_count(char *line, int *count)
 			&& ft_isdigit(*line) != 1)
 		{
 			*count += 1;
-            line = skip_arg(line);
+			line = skip_arg(line);
 			line = ft_skip_whitespace(line);
 		}
 		else
@@ -59,7 +59,7 @@ static char	*skip_digit(char *str)
 
 	temp = str;
 	while (*temp != 0 && ft_isdigit(*temp) == 1)
-				temp++;
+		temp++;
 	if (*temp != '<' && *temp != '>')
 		return (str);
 	else
@@ -71,11 +71,11 @@ static char	*get_args(char *cmd_line, int i)
 	while (*cmd_line != 0)
 	{
 		cmd_line = ft_skip_whitespace(cmd_line);
-        if (i != 0)
-		{  
-            cmd_line = skip_arg(cmd_line);
-		    cmd_line = ft_skip_whitespace(cmd_line);
-        }
+		if (i != 0)
+		{
+			cmd_line = skip_arg(cmd_line);
+			cmd_line = ft_skip_whitespace(cmd_line);
+		}
 		if (ft_isdigit(*cmd_line) == 1 && *(cmd_line - 1) == ' ')
 			cmd_line = skip_digit(cmd_line);
 		if (*cmd_line != '<' && *cmd_line != '>')

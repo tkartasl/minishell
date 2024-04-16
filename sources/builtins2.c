@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/12 14:04:26 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:38:13 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	cd(t_cmd_args *cmd_args, t_env **env_table, int *flag)
 
 void	ft_exit(t_env **env_table, t_cmd_args **cmd_args)
 {
-    ft_putstr_fd("exit\n", 1);
-    rl_clear_history();
-    free_env_table(env_table);
-    free_struct_array(cmd_args);
+	ft_putstr_fd("exit\n", 1);
+	rl_clear_history();
+	free_env_table(env_table);
+	free_struct_array(cmd_args);
 	exit(0);
 }
 
@@ -87,7 +87,7 @@ void	env(t_env **env_table, int *flag)
 	}
 	while (i < TABLE_SIZE)
 	{
-		if (env_table[i] != NULL && env_table[i] != DELETED_NODE)
+		if (env_table[i] != NULL && env_table[i] != (t_env *)(DELETED_NODE))
 			ft_printf("%s%s\n", env_table[i]->name, env_table[i]->value);
 		i++;
 	}
@@ -98,17 +98,18 @@ void	export_env(t_env **env, int *flag)
 {
 	int	i;
 
-    i = 0;
-    *flag = 1;
-    while(i < TABLE_SIZE)
-    {
-        if (env[i] != NULL && env[i] != DELETED_NODE)
-        {
-            ft_printf("declare -x %s", env[i]->name);
-            ft_printf("\"");
-            ft_printf("%s", env[i]->value);
-            ft_printf("\n");
-        }
-        i++;
-    }
+	i = 0;
+	*flag = 1;
+	while (i < TABLE_SIZE)
+	{
+		if (env[i] != NULL && env[i] != (t_env *)(DELETED_NODE))
+		{
+			ft_printf("declare -x %s", env[i]->name);
+			ft_printf("\"");
+			ft_printf("%s", env[i]->value);
+			ft_printf("\"");
+			ft_printf("\n");
+		}
+		i++;
+	}
 }

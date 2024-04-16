@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:46:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 10:15:54 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:11:48 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
- char	*expand_all_env(char *old, char *expanded_str, int i, t_env **env)
+char	*expand_all_env(char *old, char *expanded_str, int i, t_env **env)
 {
 	int		flag;
 	char	*str;
@@ -31,7 +31,7 @@
 			expanded_str = cpy_quote_to_quote(str, expanded_str, &i);
 		else if (*str == '$')
 			expanded_str = cpy_expanded(str, expanded_str, &i, env);
-		else		
+		else
 			expanded_str = cpy_line(str, expanded_str, &i, &flag);
 		if (expanded_str == 0)
 			return (0);
@@ -70,10 +70,10 @@ static int	expand_filename(t_redir **redir, t_env **env, int i, int *flag)
 }
 
 static int	expand_command(t_cmd_args **cmd_arg, t_env **env, int i)
-{	
+{
 	int	flag;
 	int	len;
-	
+
 	len = 0;
 	while (cmd_arg[i] != 0)
 	{
@@ -89,14 +89,14 @@ static int	expand_command(t_cmd_args **cmd_arg, t_env **env, int i)
 				return (0);
 		}
 		i++;
-	}	
+	}
 	return (1);
 }
 
 static int	expand_arguments(t_cmd_args **arr, t_env **env, char *str, int i)
 {
 	int		j;
-	
+
 	i = -1;
 	j = 0;
 	while (arr[++i] != 0)
@@ -111,7 +111,7 @@ static int	expand_arguments(t_cmd_args **arr, t_env **env, char *str, int i)
 				arr[i]->args[j] = expand_all_env(arr[i]->args[j], str, i, env);
 				if (arr[i]->args[j] == 0)
 				{
-					free(str);	
+					free(str);
 					return (0);
 				}
 			}
