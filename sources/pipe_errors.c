@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:20:45 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/15 11:51:41 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:53:37 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,20 @@ void	pipe_error_cmd(char *cmd, char **cmds)
 		ft_free_pointer_array(cmds);
 		exit(127);
 	}
+	else if (ft_strncmp(cmd, "cd", 2) == 0)
+	{
+		ft_putstr_fd("minishell:", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		exit(126);
+	}
 	else
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": No such file or directory", 2);
 		ft_free_pointer_array(cmds);
-		exit(1);
+		exit(127);
 	}
 }
 
@@ -69,7 +76,6 @@ void	file_error(int error_nbr, char *cmd)
 	}
 	else if (error_nbr == 2)
 	{
-		write(2, "t\n", 2);
 		ft_putstr_fd("minishell:", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": is a directory\n", 2);

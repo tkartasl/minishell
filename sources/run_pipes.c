@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 09:19:48 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:59:33 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	check_path(char *cmd_path)
 	if (cmd_path[len - 1] == '/' && cmd_path[0] == '/')
 		file_error(3, cmd_path);
 	if (ft_strnstr(cmd_path, "/bin", len) != NULL)
-		if (access(cmd_path, X_OK) == -1)
+		if (access(cmd_path, X_OK) == -1 && ft_strchr(cmd_path, ' ') == 0)
 			file_error(1, cmd_path);
 }
 
@@ -132,9 +132,9 @@ void	run_pipes(t_cmd_args **cmd_arg, int pc, char **en, t_env **et)
 		redir_flag = 0;
 		if (check_in_redir(cmd_arg[i]->head_redir, i, fd1) == -1)
 			continue ;
-		if(check_out_redir(cmd_arg[i]->head_redir, i, fd2, &redir_flag) == -1)
+		if (check_out_redir(cmd_arg[i]->head_redir, i, fd2, &redir_flag) == -1)
 			continue ;
-		if((i + 1) == pc || redir_flag == 1)
+		if ((i + 1) == pc || redir_flag == 1)
 			pipe_init(0, en, cmd_arg[i], et);
 		else
 			pipe_init(1, en, cmd_arg[i], et);

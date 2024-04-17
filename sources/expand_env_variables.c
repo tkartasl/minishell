@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env_variables.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:46:47 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/11 13:43:54 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:53:06 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*expand_env_variable(char *temp, int len, int *error, t_env **env)
 	char	*expanded_var;
 	char	*env_var;
 	int		i;
-	
+
 	i = find_correct_index(env);
 	if (*temp == '?')
 	{
@@ -55,7 +55,7 @@ static char	*check_env_variable(char *str, int *error_flag, t_env **env)
 				return (temp);
 			temp++;
 			len++;
-			while (temp[len] != 0 && ft_strchr(" ?'\"$/", temp[len]) == 0)
+			while (temp[len] != 0 && ft_strchr(" ?'\"$/=", temp[len]) == 0)
 				len++;
 			if (len == 1 && *temp != '?')
 				temp--;
@@ -72,7 +72,7 @@ static char	*check_env_variable(char *str, int *error_flag, t_env **env)
 char	*cpy_quote_to_quote(char *str, char *expanded_str, int *i)
 {
 	char	*temp;
-	
+
 	temp = 0;
 	*i += 1;
 	while (str[*i] != '\'' && str[*i] != 0)
@@ -122,7 +122,7 @@ char	*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env)
 	if (expanded_str == 0)
 		return (0);
 	*i += 1;
-	while (str[*i] != 0 && ft_strchr(" '\"$/", str[*i]) == 0)
+	while (str[*i] != 0 && ft_strchr(" '\"$/=", str[*i]) == 0)
 		*i += 1;
 	return (expanded_str);
 }

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 14:34:02 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 09:19:03 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:11:26 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	create_file(char *filename)
 {
-	int	flag;
 	int	fd;
 
-	flag = -1;
 	fd = open(filename, O_CREAT | O_WRONLY, 0777);
 	if (fd == -1)
 		return (-1);

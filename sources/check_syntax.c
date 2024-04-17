@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 08:58:57 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:41:37 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ static int	check_empty_line(char **lines, int pipe_count, int i, t_env **env)
 
 	temp = lines[i];
 	temp = ft_skip_whitespace(temp);
+	if (*temp == 0 && pipe_count == 1)
+	{
+		if (lines != 0)
+			ft_free_pointer_array(lines);
+		return (1);
+	}
 	if (*temp == '&')
 	{
 		syntax_error(lines, env, *temp);

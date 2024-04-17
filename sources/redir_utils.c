@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 09:19:42 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:52:25 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_open_fd(char *filename, char arrow, int fd, int flag)
 		if (ft_strncmp(filename, "here_doc", 9) != 0)
 			fd = open(filename, O_RDONLY, 0777);
 		if (fd == -1)
-			printf("minishell: %s: No such file or directory\n", filename);
+			ft_printf("minishell: %s: No such file or directory\n", filename);
 		dup2(fd, 0);
 	}
 	else if (flag == 2)
@@ -58,7 +58,7 @@ int	check_open_fd(char *filename, char arrow, int fd, int flag)
 		else if (arrow == '!')
 			fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (fd == -1)
-			printf("minishell: %s: No such file or directory\n", filename);
+			ft_printf("minishell: %s: No such file or directory\n", filename);
 		dup2(fd, 1);
 	}
 	close(fd);

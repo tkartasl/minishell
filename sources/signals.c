@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:45:03 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/12 14:30:48 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:30:01 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void sig_handler_heredoc(int signum)
+void	sig_handler_heredoc(int signum)
 {
 	struct termios	raw;
-	
+
 	ft_memset(&raw, 0, sizeof(struct termios));
 	if (signum == SIGTSTP)
 	{
@@ -28,10 +28,10 @@ void sig_handler_heredoc(int signum)
 		write(1, "\n", 1);
 }
 
-void sig_handler_before(int signum)
+void	sig_handler_before(int signum)
 {
 	struct termios	raw;
-	
+
 	ft_memset(&raw, 0, sizeof(struct termios));
 	if (signum == SIGTSTP)
 	{
@@ -49,7 +49,7 @@ void sig_handler_before(int signum)
 	}
 }
 
-void sig_handler_after(int signum)
+void	sig_handler_after(int signum)
 {
 	if (signum == SIGINT)
 		write(1, "\n", 1);

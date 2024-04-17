@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 09:19:37 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/17 09:31:35 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <termios.h>
 # include <dirent.h>
 
-# define NAME_MAX 255
 # define PATH_MAX 1024
 # define TABLE_SIZE 64
 # define DELETED_NODE 0xFFFFFFFFFFFFFFFFUL
@@ -105,7 +104,7 @@ int			remove_file_quotes(t_redir **redirs);
 char		*clean_arg(char *arg);
 int			check_h_docs(t_redir *head_redir, int i, char **filename);
 void		free_env_table(t_env **env_table);
-void		ft_exit(t_env **env_table, t_cmd_args **cmd_args);
+void		ft_exit(t_env **env_table, t_cmd_args **cmd_args, int flag);
 void		export(t_cmd_args *cmd_args, t_env **env_table, int *flag, int i);
 void		pwd(int *flag, t_env **env_table);
 void		echo(char **args, int fd, int *flag, t_env **env_table);
@@ -133,7 +132,7 @@ void		export_error(char *str, t_env **env_table);
 int			check_newline(char *line, t_env **env);
 int			check_redir_syntax(char *line);
 int			variable_word_count(char *str);
-char		**split_line(char *line, t_env **env, t_redir **hdoc, t_redir **redir);
+char		**split_line(char *s, t_env **env, t_redir **hdoc, t_redir **rdir);
 char		**get_cmd(t_cmd_args *cmd_args);
 void		close_fds_parent(int *pipe_fd, t_env **env_t, int flag);
 

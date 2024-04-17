@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/15 09:38:13 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/17 09:38:20 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,33 @@ void	cd(t_cmd_args *cmd_args, t_env **env_table, int *flag)
 	change_cmd_status(env_table, 0);
 }
 
-void	ft_exit(t_env **env_table, t_cmd_args **cmd_args)
+void	ft_exit(t_env **env_table, t_cmd_args **c, int flag)
 {
-	ft_putstr_fd("exit\n", 1);
+	int	i;
+
+	i = 0;
+	flag = 0;
+	ft_putstr_fd("exit", 1);
+	if ((*c)->args[0] != NULL)
+	{
+		while ((*c)->args[i])
+		{
+			if (ft_isdigit((*c)->args[0][i]) == 0)
+			{
+				ft_printf(": ");
+				ft_printf("%s:  numeric argument required", (*c)->args[0], 1);
+				flag = 255;
+				break ;
+			}
+			i++;
+			flag = ft_atoi((*c)->args[0]);
+		}
+	}
+	ft_putstr_fd("\n", 1);
 	rl_clear_history();
 	free_env_table(env_table);
-	free_struct_array(cmd_args);
-	exit(0);
+	free_struct_array(c);
+	exit(flag);
 }
 
 void	env(t_env **env_table, int *flag)

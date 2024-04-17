@@ -6,24 +6,33 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:02:18 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/15 11:52:50 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:09:52 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_error_filename(char *file, int *flag)
+void	print_error_filename(char *s, int *flag)
 {
+	int	i;
+
+	i = 1;
 	if (*flag == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(file, 2);
+		ft_putstr_fd(s, 2);
 		ft_putendl_fd(": can't open file", 2);
 	}
 	else
 	{
+		while (s[i] != 0 && s[i] != '$' && s[i] != '=' && s[i] != '"'
+			&& s[i] != '\'' && s[i] != ' ' && s[i] != '?' && s[i] != '/')
+			i++;
+		if (s[i] == '$' || s[i] == '=' || s[i] == '"'
+			|| s[i] == '\'' || s[i] == '/')
+			return ;
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(file, 2);
+		ft_putstr_fd(s, 2);
 		ft_putendl_fd(": ambiguous redirect", 2);
 		*flag = 1;
 	}

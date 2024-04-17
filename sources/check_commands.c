@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 09:19:40 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:20:35 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	check_cmds(t_cmd_args **ca, t_env **env_table)
 		return ;
 	}
 	if ((*ca)->pipe_count == 1 && (ft_strncmp((*ca)->cmd, "exit", 5) == 0))
-		ft_exit(env_table, ca);
+		ft_exit(env_table, ca, flag);
 	if ((*ca)->pipe_count == 1)
 		flag = check_builtins(ca[0], env_table, 0, 0);
 	dup2(fd1, 0);

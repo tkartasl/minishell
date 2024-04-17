@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:43:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/15 14:47:12 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/16 09:27:42 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int	check_newline(char *line, t_env **env)
 static int	check_last_char(char *temp)
 {
 	int	i;
-	
+
 	i = 1;
-	while(temp[i] != 0 && ft_strchr(" \"'$?/", temp[i]) == 0)
+	while (temp[i] != 0 && ft_strchr(" \"'$?/", temp[i]) == 0)
 		i++;
 	if (temp[i] != ' ' && temp[i] != 0)
 		return (1);
@@ -55,7 +55,7 @@ static char	*check_env_cmd(char *line, char *temp, t_env **env, int *flag)
 	char	*cmd;
 	char	*newline;
 	char	*exp_cmd;
-	
+
 	newline = 0;
 	cmd = ft_strndup(&temp[1], get_len(&temp[1]));
 	if (cmd == 0)
@@ -98,4 +98,3 @@ char	*check_null_cmd(char *line, t_env **env)
 		return (newline);
 	return (line);
 }
-

@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:15:41 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/15 10:53:52 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/17 08:58:01 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	get_arg_count(char *line, int *count)
 		{
 			while (*line != 0 && ft_isdigit(*line) == 1)
 				line++;
-			if (*line == ' ')
+			if (*line != '<' && *line != '>')
 				*count += 1;
 		}
 		line = ft_skip_whitespace(line);
