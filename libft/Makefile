@@ -3,13 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
+#    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/01 13:14:17 by tkartasl          #+#    #+#              #
-#    Updated: 2024/02/14 10:30:03 by tkartasl         ###   ########.fr        #
+#    Updated: 2024/04/03 13:59:17 by vsavolai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME = libft.a
 
 SRCS = ft_atoi.c\
 	ft_memcmp.c \

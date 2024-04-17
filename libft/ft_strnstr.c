@@ -6,9 +6,10 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:44:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2023/11/06 16:29:54 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:12:46 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
@@ -32,7 +33,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 		return (NULL);
 	if (ft_strlen(needle) > ft_strlen(haystack))
 		return (NULL);
-	if (*needle == 0)
+	if (*needle == 0 || needle == 0)
 		return ((char *)haystack);
 	while (haystack[i] != 0 && i < len)
 	{

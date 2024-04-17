@@ -6,9 +6,10 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 14:22:24 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/01/19 14:23:05 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:16:56 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strndup(const char *s1, int len)

@@ -3,45 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/02/16 10:48:44 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:10:51 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	g_signum;
-
 #include "minishell.h"
 
-void sig_handler(int signum)
+int	termios_before_rl(void)
 {
-	if (signum == SIGINT)
-	g_signum = signum;
-	rl_on_new_line();
-	if (signum == SIGQUIT)
-		return ;
+	struct termios	raw;
+
+	ft_memset(&raw, 0, sizeof(struct termios));
+	if (tcgetattr(STDIN_FILENO, &raw) < 0)
+		return (-1);
+	raw.c_lflag &= ~(ECHOCTL);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0)
+		return (-1);
+	return (0);
 }
 
-int main()
+static int	termios_after_rl(void)
 {
-	struct sigaction	act;
-	char				*line;
-	
-	line = 0;
-	ft_memset(&act, 0, sizeof(struct sigaction));
-	act.sa_handler = &sig_handler;
-	if (sigaction(SIGQUIT, &act, NULL) < 0)
-		exit(1);
-	if (sigaction(SIGINT, &act, NULL) < 0)
-		exit(1);
+	struct termios	raw;
+
+	ft_memset(&raw, 0, sizeof(struct termios));
+	if (tcgetattr(STDIN_FILENO, &raw) < 0)
+		return (-1);
+	raw.c_lflag |= (ECHOCTL);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0)
+		return (-1);
+	return (0);
+}
+
+static void	parse_line(char	*line, t_env **env_table)
+{
+	char		**cmd_lines;
+	int			pipe_count;
+	t_redir		*heredocs;
+	t_redir		*redirs;
+	t_cmd_args	**cmd_args;
+
+	heredocs = 0;
+	redirs = 0;
+	cmd_lines = split_line(line, env_table, &heredocs, &redirs);
+	if (cmd_lines == 0)
+		return ;
+	pipe_count = get_pipe_count(cmd_lines);
+	cmd_args = get_array(&redirs, &heredocs, cmd_lines, pipe_count);
+	if (cmd_args == 0)
+		return ;
+	check_cmds(cmd_args, env_table);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char	*line;
+	t_env	*env_table[TABLE_SIZE];
+
+	(void)argc;
+	(void)argv;
+	rl_clear_history();
+	if (create_envs(envp, env_table) == -1)
+		return (-1);
 	while (1)
 	{
-		line = readline("prompt: ");
+		termios_before_rl();
+		signals_before_rl(0);
+		line = readline("minishell >: ");
 		if (line != 0 && *line != 0)
 			add_history(line);
-		parse_line(line);
+		termios_after_rl();
+		if (line == 0)
+			break ;
+		signals_after_rl();
+		parse_line(line, env_table);
 		free(line);
 	}
+	free_env_table(env_table);
+	ft_putstr_fd("exit\n", 1);
 	return (0);
 }
