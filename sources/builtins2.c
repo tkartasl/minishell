@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/17 09:38:20 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:35:18 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	change_to_parent_directory(void)
 	len = ft_strlen(path) - len_current;
 	path = ft_strndup(path, len);
 	chdir(path);
+	free(path);
 }
 
 void	cd(t_cmd_args *cmd_args, t_env **env_table, int *flag)
@@ -62,6 +63,8 @@ void	cd(t_cmd_args *cmd_args, t_env **env_table, int *flag)
 		if (chdir(cmd_args->args[0]) == -1)
 			print_error(&cmd_args, 2);
 	}
+	if (update_table(env_table) == -1)
+		return ;
 	change_cmd_status(env_table, 0);
 }
 

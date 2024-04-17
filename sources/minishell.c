@@ -6,11 +6,38 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/16 17:10:51 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:34:27 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int update_table(t_env **env_table)
+{
+	t_env	*env;
+	char	*value;
+	char	*old_pwd;
+
+	value = (char *)malloc(256);
+	if (getcwd(value, 256) == NULL)
+	{
+		ft_putstr_fd("minishell: getcwd: path not found\n", 2);
+		return (-1);
+	}
+	env = search_table("PWD", env_table);
+	old_pwd = ft_strdup(env->value);
+	if (old_pwd == NULL)
+	{
+		ft_putstr_fd("minishell: error allocating memory\n", 2);
+		return (-1);
+	}
+	free(env->value);
+	env->value = value;
+	env = search_table("OLDPWD", env_table);
+	free(env->value);
+	env->value = old_pwd;
+	return (1);
+}
 
 int	termios_before_rl(void)
 {
