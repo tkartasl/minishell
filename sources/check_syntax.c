@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 12:52:38 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 12:41:37 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:42:35 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ static int	check_after_redir(char **cmd_lines, int i, t_env **env)
 	return (0);
 }
 
-static int	check_unclosed_quotes(char *line, t_env **env)
+static int	check_unclosed_quotes(char **line, t_env **env, int i)
 {
 	char	*cmd;
 	char	quote;
 
-	cmd = line;
+	cmd = line[i];
 	while (*cmd != 0)
 	{
 		if (*cmd == '"' || *cmd == '\'')
@@ -82,6 +82,7 @@ static int	check_unclosed_quotes(char *line, t_env **env)
 		}
 		if (*cmd == 0)
 		{
+			ft_free_pointer_array(line);
 			change_cmd_status(env, 256);
 			ft_putstr_fd("minishell: unclosed quotes\n", 2);
 			return (-1);
@@ -102,9 +103,9 @@ int	check_syntax(char **cmd_lines, int pipe_count, t_env **env)
 			return (0);
 		if (check_after_redir(cmd_lines, i, env) == 1)
 			return (0);
-		if (check_unclosed_quotes(cmd_lines[i], env) == -1)
+		if (check_unclosed_quotes(cmd_lines, env, i) == -1)
 			return (0);
-		if (check_newline(cmd_lines[i], env) == 1)
+		if (check_newline(cmd_lines, env, i) == 1)
 			return (0);
 		cmd_lines[i] = check_null_cmd(cmd_lines[i], env);
 		if (cmd_lines[i] == 0)

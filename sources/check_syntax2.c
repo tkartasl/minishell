@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:43:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/17 13:43:00 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:31:31 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ int	check_redir_syntax(char *line)
 	return (0);
 }
 
-int	check_newline(char *line, t_env **env)
+int	check_newline(char **cmd_line, t_env **env, int i)
 {
+	char	*line;
+
+	line = cmd_line[i];
 	while (*line != 0)
 	{
 		if (*line == '\n')
@@ -42,6 +45,7 @@ int	check_newline(char *line, t_env **env)
 			line--;
 		if (*line == '<' || *line == '>')
 		{
+			ft_free_pointer_array(cmd_line);
 			syntax_error(0, env, 'X');
 			return (1);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 16:20:35 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:29:35 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,27 +78,27 @@ int	check_cmd_syntax(t_cmd_args **cmd_args, t_env **env_table)
 
 void	close_original_fds(t_cmd_args **cmd_args, int i)
 {
-	t_redir	**temp;
+	t_redir	*temp;
 
 	while (cmd_args[i] != NULL)
 	{
-		temp = cmd_args[i]->head_redir;
-		while (*temp != NULL)
+		temp = cmd_args[i]->head_redir[0];
+		while (temp != NULL)
 		{
-			if ((*temp)->original_input)
-				close((*temp)->original_input);
-			if ((*temp)->original_output)
-				close((*temp)->original_output);
-			*temp = (*temp)->next;
+			if ((temp)->original_input)
+				close((temp)->original_input);
+			if ((temp)->original_output)
+				close((temp)->original_output);
+			temp = temp->next;
 		}
-		temp = cmd_args[i]->head_hdocs;
-		while (*temp != NULL)
+		temp = cmd_args[i]->head_hdocs[0];
+		while (temp != NULL)
 		{
-			if ((*temp)->original_input)
-				close((*temp)->original_input);
-			if ((*temp)->original_output)
-				close((*temp)->original_output);
-			*temp = (*temp)->next;
+			if ((temp)->original_input)
+				close((temp)->original_input);
+			if ((temp)->original_output)
+				close((temp)->original_output);
+			temp = temp->next;
 		}
 		i++;
 	}
