@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:43:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/16 09:27:42 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:43:00 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,17 @@ int	check_newline(char *line, t_env **env)
 			return (1);
 		}
 		line++;
+	}
+	if (*line == 0)
+	{
+		line--;
+		while (*line == ' ')
+			line--;
+		if (*line == '<' || *line == '>')
+		{
+			syntax_error(0, env, 'X');
+			return (1);
+		}
 	}
 	return (0);
 }

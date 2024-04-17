@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:36:20 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/15 10:08:55 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:17:06 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int	count_env_variables(char *str)
 		if (*temp == '"')
 			flag++;
 		if (*temp == '\'' && flag % 2 == 0)
+		{
 			temp = skip_quotes(temp, *temp);
+			continue ;
+		}
 		if (*temp == '$')
 			env_count++;
 		temp++;
