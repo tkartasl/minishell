@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/17 15:38:18 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/18 09:32:36 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int			find_correct_index(t_env **env);
 int			check_flag(int flag, char **cmd);
 void		export_error(char *str, t_env **env_table);
 int			check_newline(char **cmd_line, t_env **env, int i);
-int			check_redir_syntax(char *line);
+int			check_redir_syntax(char **line);
 int			variable_word_count(char *str);
 char		**split_line(char *s, t_env **env, t_redir **hdoc, t_redir **rdir);
 char		**get_cmd(t_cmd_args *cmd_args);
