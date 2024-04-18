@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variable_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:54 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/16 09:07:13 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:18:37 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,28 @@ void	change_cmd_status(t_env **env_t, int status)
 			env_t[i]->status = status;
 		i++;
 	}
+}
+
+int	check_ambiguos_redirect_after(char *file)
+{
+	int		quote_count;
+
+	quote_count = 0;
+	if (*file == 0)
+		return (-1);
+	if (*file == '\'')
+		file = skip_quotes(file, *file);
+	if (*file == '"')
+	{
+		quote_count++;
+		while ((*file == '"' || *file == '\'') && *file != 0)
+		{
+			file++;
+			if (*file == '"')
+				quote_count++;
+		}
+	}
+	if (quote_count % 2 == 0 && word_count(file) > 1)
+		return (-1);
+	return (0);
 }

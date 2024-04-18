@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:02:18 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/16 15:09:52 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:25:52 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_error_filename(char *s, int *flag)
+void	print_error_filename(char *s, int *flag, int error)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ void	print_error_filename(char *s, int *flag)
 		ft_putstr_fd(s, 2);
 		ft_putendl_fd(": can't open file", 2);
 	}
-	else
+	else if (error == 0)
 	{
 		while (s[i] != 0 && s[i] != '$' && s[i] != '=' && s[i] != '"'
 			&& s[i] != '\'' && s[i] != ' ' && s[i] != '?' && s[i] != '/')
@@ -31,11 +31,11 @@ void	print_error_filename(char *s, int *flag)
 		if (s[i] == '$' || s[i] == '=' || s[i] == '"'
 			|| s[i] == '\'' || s[i] == '/')
 			return ;
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(s, 2);
-		ft_putendl_fd(": ambiguous redirect", 2);
-		*flag = 1;
 	}
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(s, 2);
+	ft_putendl_fd(": ambiguous redirect", 2);
+	*flag = 1;
 }
 
 void	print_error(t_cmd_args **arr, int flag)

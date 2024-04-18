@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:46:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/15 10:11:48 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:26:42 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ static int	expand_filename(t_redir **redir, t_env **env, int i, int *flag)
 	new = *redir;
 	while (new != 0)
 	{
-		if (new->filename[0] == '$')
-			if (ft_get_env(&new->filename[1], env) == 0)
-				print_error_filename(&new->filename[0], flag);
+		if (new->filename[0] == '$' && ft_get_env(&new->filename[1], env) == 0)
+			print_error_filename(new->filename, flag, 0);
 		if (count_env_variables(new->filename) > 0 && *flag == 0)
 		{
 			expanded = ft_strdup("");
@@ -63,6 +62,8 @@ static int	expand_filename(t_redir **redir, t_env **env, int i, int *flag)
 				free(expanded);
 				return (0);
 			}
+			if (check_ambiguos_redirect_after(new->filename) < 0)
+				print_error_filename(new->filename, flag, 1);
 		}
 		new = new->next;
 	}

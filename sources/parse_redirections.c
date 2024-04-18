@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:47 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/17 15:40:41 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:26:14 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ void	add_redirs(t_redir **redirs, char **cmd_lines)
 	t_redir	*new;
 	t_redir	*new2;	
 
-
 	if (!(*redirs))
-	 return ;
+		return ;
 	new = *redirs;
 	new2 = *redirs;
 	i = 0;
