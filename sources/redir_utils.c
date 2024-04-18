@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 14:52:25 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:32:47 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	check_fd_redirection(t_redir *temp, char arrow, int fd)
 		fd = open(temp->filename, O_CREAT | O_RDWR | O_TRUNC, 0777);
 		if (fd == -1)
 		{
-			print_error_filename(temp->filename, &fd);
+			print_error_filename(temp->filename, &fd, 1);
 			return (-1);
 		}
 		dup2(fd, temp->fd);
