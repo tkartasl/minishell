@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/18 15:17:26 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:05:03 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,10 @@ int			check_redir_syntax(char **line);
 int			variable_word_count(char *str);
 char		**split_line(char *s, t_env **env, t_redir **hdoc, t_redir **rdir);
 char		**get_cmd(t_cmd_args *cmd_args);
-void		close_fds_parent(int *pipe_fd, t_env **env_t, int flag);
 int			update_table(t_env **env_table);
 int			check_ambiguos_redirect_after(char *file);
+int			init_pipe_vars(int *i, int *fd1, int **process_ids, int pc);
+void		wait_children(int *process_ids, int fd2, t_env **et);
+void		null_cmd_hdoc(t_cmd_args *ca, int *flag);
 
 #endif

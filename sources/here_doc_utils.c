@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 14:34:02 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 15:11:26 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:59:13 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	check_h_docs(t_redir *head_redir, int i, char **filename)
 			return (-1);
 		}
 		close(pipe_fd[1]);
-		if (head_redir->next != NULL)
+		if (head_redir->next != NULL && (head_redir->next->arrow == 'h'
+				|| head_redir->next->arrow == '<'))
 			close(pipe_fd[0]);
 		return (pipe_fd[0]);
 	}

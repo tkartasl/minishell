@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/17 15:29:35 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:01:43 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,8 @@
 
 int	check_builtins(t_cmd_args *ca, t_env **et, int c, int flag)
 {
-	char	*filename;
-
 	if (c == 0 && ca->head_hdocs[0] != 0 && ft_strncmp(ca->cmd, "cat", 5) != 0)
-	{
-		flag = check_h_docs(ca->head_hdocs[0], 0, &filename);
-		if (flag > 0)
-			close(flag);
-	}
+		null_cmd_hdoc(ca, &flag);
 	if (c == 0 && ft_strncmp(ca->cmd, "echo", 5) == 0)
 		if (ca->head_redir[0] != NULL)
 			return (0);

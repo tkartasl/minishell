@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 08:24:07 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/15 10:03:19 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:34:28 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	table_delete(char *name, t_env **et)
 		{
 			free(et[try]->name);
 			free(et[try]->value);
+			free(et[try]);
 			et[try] = (t_env *)(DELETED_NODE);
 			return (1);
 		}

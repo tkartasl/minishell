@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:02:18 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/18 15:25:52 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:39:45 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ void	print_error(t_cmd_args **arr, int flag)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd((*arr)->args[0], 2);
-		ft_putendl_fd(": No such file or directory", 2);
+		if (access((*arr)->args[0], F_OK | X_OK) == 0)
+			ft_putendl_fd(": Not a directory", 2);
+		else
+			ft_putendl_fd(": No such file or directory", 2);
 	}
 }
 

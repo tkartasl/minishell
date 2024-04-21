@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/16 14:59:33 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:57:14 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,6 @@ void	check_path(char *cmd_path)
 	}
 	if (cmd_path[len - 1] == '/' && cmd_path[0] == '/')
 		file_error(3, cmd_path);
-	if (ft_strnstr(cmd_path, "/bin", len) != NULL)
-		if (access(cmd_path, X_OK) == -1 && ft_strchr(cmd_path, ' ') == 0)
-			file_error(1, cmd_path);
 }
 
 void	run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
@@ -90,9 +87,9 @@ void	run_cmd_pipe(char **cmd, char **envp, t_env **env_t, t_cmd_args *ca)
 	}
 }
 
-void	pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_t)
+int	pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_t)
 {
-	pid_t	pid;
+	int		pid;
 	int		pipe_fd[2];
 	char	**cmd;
 
@@ -103,7 +100,7 @@ void	pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_t)
 	if (pid == -1)
 		flag = 4;
 	if (check_flag(flag, cmd) == -1)
-		return ;
+		return (-1);
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
@@ -112,8 +109,11 @@ void	pipe_init(int flag, char **envp, t_cmd_args *cmd_arg, t_env **env_t)
 		close(pipe_fd[1]);
 		run_cmd_pipe(cmd, envp, env_t, cmd_arg);
 	}
-	waitpid(pid, &flag, 0);
-	close_fds_parent(pipe_fd, env_t, flag);
+	free(cmd);
+	close(pipe_fd[1]);
+	dup2(pipe_fd[0], 0);
+	close(pipe_fd[0]);
+	return (pid);
 }
 
 void	run_pipes(t_cmd_args **cmd_arg, int pc, char **en, t_env **et)
@@ -122,9 +122,10 @@ void	run_pipes(t_cmd_args **cmd_arg, int pc, char **en, t_env **et)
 	int	fd1;
 	int	fd2;
 	int	redir_flag;
+	int	*process_ids;
 
-	i = -1;
-	fd1 = 0;
+	if (init_pipe_vars(&i, &fd1, &process_ids, pc) == -1)
+		return ;
 	while (++i < pc)
 	{
 		close(fd2);
@@ -135,11 +136,11 @@ void	run_pipes(t_cmd_args **cmd_arg, int pc, char **en, t_env **et)
 		if (check_out_redir(cmd_arg[i]->head_redir, i, fd2, &redir_flag) == -1)
 			continue ;
 		if ((i + 1) == pc || redir_flag == 1)
-			pipe_init(0, en, cmd_arg[i], et);
+			process_ids[i] = pipe_init(0, en, cmd_arg[i], et);
 		else
-			pipe_init(1, en, cmd_arg[i], et);
+			process_ids[i] = pipe_init(1, en, cmd_arg[i], et);
 		if (redir_flag == 1)
 			dup2(fd2, 1);
 	}
-	close(fd2);
+	wait_children(process_ids, fd2, et);
 }

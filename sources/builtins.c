@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/16 09:42:41 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:37:48 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	add_to_table(t_cmd_args *c_a, t_env **env_table, int i, t_env *env)
 		return (-1);
 	}
 	table_delete(name, env_table);
+	free(name);
 	if (get_value(env, c_a->args[i], env_table) == -1)
 	{
-		free(name);
 		free(env);
 		ft_putstr_fd("minishell: error allocating memory\n", 2);
 		return (-1);
