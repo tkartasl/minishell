@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:02:18 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/22 16:01:36 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:22:39 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,10 @@ void	print_error_filename(char *s, int *flag, int error)
 
 void	print_error(t_cmd_args **arr, int flag)
 {
-	if (flag == -1)
-	{
-		ft_putendl_fd("minishell: error allocating memory", 2);
+	if (flag == -2)
 		free_struct_array(arr);
-	}
+	if (flag == -1)
+		ft_putendl_fd("minishell: error allocating memory", 2);
 	if (flag == 1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
