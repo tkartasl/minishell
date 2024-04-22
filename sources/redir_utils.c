@@ -6,34 +6,34 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:29:52 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/21 14:11:51 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:52:54 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_fd_rights(t_redir *redir, char **filename, char *arrow, int flag)
+int	check_fd_rights(t_redir *re, char **filename, char *arrow, int flag)
 {
 	if (flag == 1)
 	{
-		if (access(redir->filename, R_OK) != 0)
-			printf("minishell: %s: Permission denied\n", redir->filename);
-		if (access(redir->filename, R_OK) != 0)
+		if (access(re->filename, F_OK) == 0 && access(re->filename, R_OK) != 0)
+			printf("minishell: %s: Permission denied\n", re->filename);
+		if (access(re->filename, F_OK) == 0 && access(re->filename, R_OK) != 0)
 			return (-1);
 	}
 	else if (flag == 2)
 	{
-		if (access(redir->filename, F_OK) == 0)
+		if (access(re->filename, F_OK) == 0)
 		{
-			if (access(redir->filename, W_OK) != 0)
-				printf("minishell: %s: Permission denied\n", redir->filename);
-			if (access(redir->filename, W_OK) != 0)
+			if (access(re->filename, W_OK) != 0)
+				printf("minishell: %s: Permission denied\n", re->filename);
+			if (access(re->filename, W_OK) != 0)
 				return (-1);
 		}
-		*arrow = redir->arrow;
+		*arrow = re->arrow;
 	}
-	*filename = redir->filename;
-	if (redir->arrow == '>')
+	*filename = re->filename;
+	if (re->arrow == '>')
 	{
 		flag = open(*filename, O_CREAT | O_RDWR | O_TRUNC, 0777);
 		close(flag);
