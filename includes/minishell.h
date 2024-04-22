@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/21 15:05:03 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/22 09:31:02 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void		pipe_error_cmd(char *cmd, char **cmds);
 void		print_error(t_cmd_args **arr, int flag);
 void		print_error_filename(char *s, int *flag, int error);
 char		*expand_all_env(char *old, char *expanded_str, int i, t_env **env);
-char		*count_expand_cmd(char *cmd, int i, t_env **env);
+char		*count_expand_cmd(char *cmd, int i, t_env **env, int *flag);
 void		change_cmd_status(t_env **env_t, int status);
 int			find_correct_index(t_env **env);
 int			check_flag(int flag, char **cmd);

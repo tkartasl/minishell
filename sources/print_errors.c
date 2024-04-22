@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:02:18 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/21 16:39:45 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/22 09:23:45 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	print_error(t_cmd_args **arr, int flag)
 		else
 			ft_putendl_fd(": No such file or directory", 2);
 	}
+	free_struct_array(arr);
 }
 
 void	export_error(char *str, t_env **env_table)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env_variables.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:46:47 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/16 09:53:06 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:44:15 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static char	*expand_env_variable(char *temp, int len, int *error, t_env **env)
 			*error = 1;
 			return (0);
 		}
+		*error = 2;
 		return (expanded_var);
 	}
 	env_var = ft_strndup(temp, len);
@@ -119,6 +120,8 @@ char	*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env)
 		return (0);
 	if (temp != 0)
 		expanded_str = ft_strjoin_free(expanded_str, temp);
+	if (error_flag == 2)
+		free(temp);
 	if (expanded_str == 0)
 		return (0);
 	*i += 1;

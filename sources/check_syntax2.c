@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:43:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/18 09:31:18 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:31:42 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static char	*check_env_cmd(char *line, char *temp, t_env **env, int *flag)
 	if (cmd == 0)
 		return (0);
 	exp_cmd = ft_get_env(cmd, env);
+	free(cmd);
 	if (exp_cmd == 0)
 	{
 		temp++;

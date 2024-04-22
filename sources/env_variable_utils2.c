@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:54 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/18 15:18:37 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/22 09:57:37 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,23 @@ int	word_count(char *str)
 	return (count);
 }
 
-char	*count_expand_cmd(char *cmd, int i, t_env **env)
+char	*count_expand_cmd(char *cmd, int i, t_env **env, int *flag)
 {
 	char	*str;
 
 	str = 0;
 	if (count_env_variables(cmd) > 0)
 	{
+		*flag = 1;
 		str = ft_strdup("");
 		if (str == 0)
 			return (0);
 		cmd = expand_all_env(cmd, str, i, env);
-	}
-	if (cmd == 0)
-	{
-		free(str);
-		return (0);
+		if (cmd == 0)
+		{
+			free(str);
+			return (0);
+		}
 	}
 	return (cmd);
 }

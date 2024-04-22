@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 11:46:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/18 15:26:42 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/22 09:49:35 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,7 @@ static int	expand_command(t_cmd_args **cmd_arg, t_env **env, int i)
 	while (cmd_arg[i] != 0)
 	{
 		flag = 0;
-		if (cmd_arg[i]->cmd[0] == '$')
-			flag++;
-		cmd_arg[i]->cmd = count_expand_cmd(cmd_arg[i]->cmd, i, env);
+		cmd_arg[i]->cmd = count_expand_cmd(cmd_arg[i]->cmd, i, env, &flag);
 		if (cmd_arg[i]->cmd == 0)
 			return (0);
 		if (flag > 0 && word_count(cmd_arg[i]->cmd) > 1)
