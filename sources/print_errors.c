@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:02:18 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/22 09:23:45 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:01:36 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	print_error_filename(char *s, int *flag, int error)
 void	print_error(t_cmd_args **arr, int flag)
 {
 	if (flag == -1)
+	{
 		ft_putendl_fd("minishell: error allocating memory", 2);
+		free_struct_array(arr);
+	}
 	if (flag == 1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
@@ -52,12 +55,11 @@ void	print_error(t_cmd_args **arr, int flag)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd((*arr)->args[0], 2);
-		if (access((*arr)->args[0], F_OK | X_OK) == 0)
+		if (access((*arr)->args[0], F_OK) == 0)
 			ft_putendl_fd(": Not a directory", 2);
 		else
 			ft_putendl_fd(": No such file or directory", 2);
 	}
-	free_struct_array(arr);
 }
 
 void	export_error(char *str, t_env **env_table)

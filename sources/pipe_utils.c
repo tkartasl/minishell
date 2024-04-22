@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 12:32:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/21 16:00:00 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:06:28 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ void	wait_children(int *process_ids, int fd2, t_env **et)
 		i++;
 	}
 	free(process_ids);
-	change_cmd_status(et, status);
+	if (ft_get_env("PATH", et) == NULL)
+		change_cmd_status(et, 32512);
+	else
+		change_cmd_status(et, status);
 	close(fd2);
 }
 
@@ -79,4 +82,19 @@ void	null_cmd_hdoc(t_cmd_args *ca, int *flag)
 			close(*flag);
 		temp = temp->next;
 	}
+}
+
+int	redir_fail(void)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		pipe_error(4, NULL, NULL);
+		return (-1);
+	}
+	if (pid == 0)
+		exit(1);
+	return (pid);
 }

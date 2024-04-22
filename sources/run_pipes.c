@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 10:30:04 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/21 16:57:14 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:54:43 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	check_path(char *cmd_path)
 		closedir(dir);
 		file_error(2, cmd_path);
 	}
+	if (access(cmd_path, F_OK) == 0)
+		if (access(cmd_path, X_OK) == -1)
+			file_error(1, cmd_path);
 	if (cmd_path[len - 1] == '/' && cmd_path[0] == '/')
 		file_error(3, cmd_path);
 }
@@ -121,7 +124,7 @@ void	run_pipes(t_cmd_args **cmd_arg, int pc, char **en, t_env **et)
 	int	i;
 	int	fd1;
 	int	fd2;
-	int	redir_flag;
+	int	rflag;
 	int	*process_ids;
 
 	if (init_pipe_vars(&i, &fd1, &process_ids, pc) == -1)
@@ -130,16 +133,16 @@ void	run_pipes(t_cmd_args **cmd_arg, int pc, char **en, t_env **et)
 	{
 		close(fd2);
 		fd2 = dup(1);
-		redir_flag = 0;
+		rflag = 0;
 		if (check_in_redir(cmd_arg[i]->head_redir, i, fd1) == -1)
-			continue ;
-		if (check_out_redir(cmd_arg[i]->head_redir, i, fd2, &redir_flag) == -1)
-			continue ;
-		if ((i + 1) == pc || redir_flag == 1)
+			process_ids[i] = redir_fail();
+		else if (check_out_redir(cmd_arg[i]->head_redir, i, fd2, &rflag) == -1)
+			process_ids[i] = redir_fail();
+		else if ((i + 1) == pc || rflag == 1)
 			process_ids[i] = pipe_init(0, en, cmd_arg[i], et);
 		else
 			process_ids[i] = pipe_init(1, en, cmd_arg[i], et);
-		if (redir_flag == 1)
+		if (rflag == 1)
 			dup2(fd2, 1);
 	}
 	wait_children(process_ids, fd2, et);

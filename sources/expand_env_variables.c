@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env_variables.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:46:47 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/22 10:44:15 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:10:57 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*check_env_variable(char *str, int *error_flag, t_env **env)
 				return (temp);
 			temp++;
 			len++;
-			while (temp[len] != 0 && ft_strchr(" ?'\"$/=", temp[len]) == 0)
+			while (temp[len] != 0 && ft_strchr(" ?'\"$/=:", temp[len]) == 0)
 				len++;
 			if (len == 1 && *temp != '?')
 				temp--;
@@ -125,7 +125,7 @@ char	*cpy_expanded(char *str, char *expanded_str, int *i, t_env **env)
 	if (expanded_str == 0)
 		return (0);
 	*i += 1;
-	while (str[*i] != 0 && ft_strchr(" '\"$/=", str[*i]) == 0)
+	while (str[*i] != 0 && ft_strchr(" '\"$/=:", str[*i]) == 0)
 		*i += 1;
 	return (expanded_str);
 }
