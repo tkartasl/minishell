@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:54 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/22 09:57:37 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:19:05 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	variable_word_count(char *str)
 	if (str == 0)
 		return (count);
 	temp = str;
+	if (*temp == ' ' || *temp == '?')
+		return (0);
 	while (*temp != 0 && *temp != '=')
 	{
 		if (*temp != ' ' && *temp != 0)
