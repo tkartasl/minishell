@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+         #
+#    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/21 13:15:50 by vsavolai          #+#    #+#              #
-#    Updated: 2024/04/21 12:34:44 by vsavolai         ###   ########.fr        #
+#    Updated: 2024/04/23 12:14:19 by tkartasl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,8 @@ SRCS = sources/minishell.c \
 		sources/env_variable_utils2.c \
 		sources/print_errors.c \
 		sources/check_syntax2.c \
-		sources/pipe_utils.c
+		sources/pipe_utils.c \
+		sources/skip_functions.c
 
 OBJS = $(SRCS:.c=.o)
 

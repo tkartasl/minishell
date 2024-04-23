@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:15:41 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/17 08:58:01 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:17:04 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*find_next_arg(char *cmd_line)
+static char	*find_next_arg_count(char *cmd_line)
 {
 	while (*cmd_line != 0 && (*cmd_line == '>' || *cmd_line == '<'))
 	{
@@ -24,6 +24,26 @@ static char	*find_next_arg(char *cmd_line)
 		cmd_line = ft_skip_whitespace(cmd_line);
 		while (*cmd_line != 0 && *cmd_line != ' ')
 			cmd_line++;
+		cmd_line = ft_skip_whitespace(cmd_line);
+	}
+	return (cmd_line);
+}
+
+static char	*find_next_arg_parse(char *cmd_line)
+{
+	while (*cmd_line != 0 && (*cmd_line == '>' || *cmd_line == '<'))
+	{
+		if ((*cmd_line == '<' || *cmd_line == '>') && (*(cmd_line + 1)
+				== '<' || *(cmd_line + 1) == '>'))
+			cmd_line = cmd_line + 2;
+		if (*cmd_line == '<' || *cmd_line == '>')
+			cmd_line++;
+		cmd_line = ft_skip_whitespace(cmd_line);
+		while (*cmd_line != 0 && *cmd_line != ' ')
+			cmd_line++;
+		cmd_line = ft_skip_whitespace(cmd_line);
+		if (ft_isdigit(*cmd_line) == 1 && *(cmd_line - 1) == ' ')
+			cmd_line = skip_digit(cmd_line);
 		cmd_line = ft_skip_whitespace(cmd_line);
 	}
 	return (cmd_line);
@@ -49,46 +69,34 @@ static void	get_arg_count(char *line, int *count)
 			line = ft_skip_whitespace(line);
 		}
 		else
-			line = find_next_arg(line);
+			line = find_next_arg_count(line);
 	}
 }
 
-static char	*skip_digit(char *str)
+static char	*get_args(char *line, int i)
 {
-	char	*temp;
-
-	temp = str;
-	while (*temp != 0 && ft_isdigit(*temp) == 1)
-		temp++;
-	if (*temp != '<' && *temp != '>')
-		return (str);
-	else
-		return (temp);
-}
-
-static char	*get_args(char *cmd_line, int i)
-{
-	while (*cmd_line != 0)
+	while (*line != 0)
 	{
-		cmd_line = ft_skip_whitespace(cmd_line);
+		line = ft_skip_whitespace(line);
 		if (i != 0)
 		{
-			cmd_line = skip_arg(cmd_line);
-			cmd_line = ft_skip_whitespace(cmd_line);
+			line = skip_arg(line);
+			line = ft_skip_whitespace(line);
 		}
-		if (ft_isdigit(*cmd_line) == 1 && *(cmd_line - 1) == ' ')
-			cmd_line = skip_digit(cmd_line);
-		if (*cmd_line != '<' && *cmd_line != '>')
-			return (cmd_line);
+		if (ft_isdigit(*line) == 1 && *(line - 1) == ' ')
+		{
+			line = skip_digit(line);
+			if (*line != '<' && *line != '>')
+				return (line);
+		}
+		line = ft_skip_whitespace(line);
+		if (*line != '<' && *line != '>' && *line != 0
+			&& ft_isdigit(*line) != 1)
+			return (line);
 		else
 		{
-			cmd_line = skip_redirs(cmd_line);
-			while (*cmd_line != 0 && *cmd_line != ' ')
-				cmd_line++;
-			cmd_line = ft_skip_whitespace(cmd_line);
-			if (*cmd_line != '<' && *cmd_line != '>')
-				return (cmd_line);
-			cmd_line = skip_redirs(cmd_line);
+			line = find_next_arg_parse(line);
+			return (line);
 		}
 	}
 	return (0);

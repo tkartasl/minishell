@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/22 11:49:30 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:12:55 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,5 +140,6 @@ int			init_pipe_vars(int *i, int *fd1, int **process_ids, int pc);
 void		wait_children(int *process_ids, int fd2, t_env **et);
 void		null_cmd_hdoc(t_cmd_args *ca, int *flag);
 int			redir_fail(void);
+char		*skip_digit(char *str);
 
 #endif
