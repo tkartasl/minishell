@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:43:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/22 10:31:42 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/30 09:19:59 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ static char	*check_env_cmd(char *line, char *temp, t_env **env, int *flag)
 		temp++;
 		while (*temp != 0 && ft_strchr(" \"'$?/", *temp) == 0)
 			temp++;
+		if (*temp == 0)
+			return (0);
 		newline = ft_strndup(temp, ft_strlen(temp));
 		if (newline == 0)
 			return (0);
@@ -98,7 +100,7 @@ static char	*check_env_cmd(char *line, char *temp, t_env **env, int *flag)
 	return (line);
 }
 
-char	*check_null_cmd(char *line, t_env **env)
+char	*check_null_cmd(char **line, int i, t_env **env)
 {
 	char	*temp;	
 	char	*newline;
@@ -106,17 +108,20 @@ char	*check_null_cmd(char *line, t_env **env)
 
 	flag = 0;
 	newline = 0;
-	temp = line;
+	temp = line[i];
 	temp = ft_skip_whitespace(temp);
 	if (*temp == '$')
 	{
 		if (check_last_char(temp) > 0)
-			return (line);
-		newline = check_env_cmd(line, temp, env, &flag);
+			return (line[i]);
+		newline = check_env_cmd(line[i], temp, env, &flag);
 		if (newline == 0)
+		{
+			ft_free_pointer_array(line);
 			return (0);
+		}
 	}
 	if (flag == 1)
 		return (newline);
-	return (line);
+	return (line[i]);
 }

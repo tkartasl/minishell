@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:19 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/23 12:12:55 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/30 09:19:38 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void		signals_before_rl(int flag);
 void		signals_after_rl(void);
 int			termios_before_rl(void);
 void		file_error(int error_nbr, char *cmd);
-char		*check_null_cmd(char *line, t_env **env);
+char		*check_null_cmd(char **line, int i, t_env **env);
 int			create_file(char *filename);
 void		pipe_error_cmd(char *cmd, char **cmds);
 void		print_error(t_cmd_args **arr, int flag);
@@ -128,7 +128,7 @@ char		*count_expand_cmd(char *cmd, int i, t_env **env, int *flag);
 void		change_cmd_status(t_env **env_t, int status);
 int			find_correct_index(t_env **env);
 int			check_flag(int flag, char **cmd);
-void		export_error(char *str, t_env **env_table);
+void		export_error(char *str, t_env **env_table, t_env *env);
 int			check_newline(char **cmd_line, t_env **env, int i);
 int			check_redir_syntax(char **line);
 int			variable_word_count(char *str);
