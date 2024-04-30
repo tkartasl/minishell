@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:15:41 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/23 12:17:04 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:59:58 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ static void	get_arg_count(char *line, int *count)
 				line++;
 			if (*line != '<' && *line != '>')
 				*count += 1;
+			if (*line != '<' && *line != '>' && *line != ' ')
+				while (*line != 0 && *line != '<'
+					&& *line != '>' && *line != ' ')
+					line++;
 		}
 		line = ft_skip_whitespace(line);
 		if (*line != '<' && *line != '>' && *line != 0
