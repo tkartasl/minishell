@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:05 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/21 15:37:48 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/30 09:52:47 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ void	pwd(int *flag, t_env **env_table)
 	*flag = 1;
 	path = getcwd(buffer, sizeof(buffer));
 	if (path == NULL)
+	{
+		change_cmd_status(env_table, 256);
 		ft_putstr_fd("minishell: getcwd failed\n", 2);
+	}
 	ft_putstr_fd(path, 1);
 	ft_putstr_fd("\n", 1);
 	change_cmd_status(env_table, 0);
@@ -59,10 +62,11 @@ int	add_to_table(t_cmd_args *c_a, t_env **env_table, int i, t_env *env)
 	len = 0;
 	while (c_a->args[i][len] != '\0' && c_a->args[i][len] != '=')
 		len++;
+	if (c_a->args[i][len] == '\0')
+		return (-1);
 	name = ft_strndup(c_a->args[i], (len + 1));
 	if (name == NULL)
 	{
-		free(env);
 		ft_putstr_fd("minishell: error allocating memory\n", 2);
 		return (-1);
 	}
@@ -70,7 +74,6 @@ int	add_to_table(t_cmd_args *c_a, t_env **env_table, int i, t_env *env)
 	free(name);
 	if (get_value(env, c_a->args[i], env_table) == -1)
 	{
-		free(env);
 		ft_putstr_fd("minishell: error allocating memory\n", 2);
 		return (-1);
 	}
@@ -94,14 +97,14 @@ void	export(t_cmd_args *c_a, t_env **env_table, int *flag, int i)
 			if (env == NULL)
 				ft_putstr_fd("minishell: error allocating memory\n", 2);
 			else
-				export_error(c_a->args[i], env_table);
+				export_error(c_a->args[i], env_table, env);
 			return ;
 		}
-		while (c_a->args[i][len] != '\0' && c_a->args[i][len] != '=')
-			len++;
-		if (c_a->args[i][len] != '\0')
-			if (add_to_table(c_a, env_table, i, env) == -1)
-				return ;
+		if (add_to_table(c_a, env_table, i, env) == -1)
+		{
+			free(env);
+			return ;
+		}
 	}
 	change_cmd_status(env_table, 0);
 }

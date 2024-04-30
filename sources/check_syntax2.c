@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:43:42 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/30 09:19:59 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/30 09:41:49 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

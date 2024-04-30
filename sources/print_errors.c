@@ -6,7 +6,7 @@
 /*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 10:02:18 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/22 16:22:39 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/30 08:43:28 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,16 @@ void	print_error_filename(char *s, int *flag, int error)
 	*flag = 1;
 }
 
-void	print_error(t_cmd_args **arr, int flag)
+void	print_error(t_cmd_args **arr, int flag, t_env **env_table)
 {
+	change_cmd_status(env_table, 256);
 	if (flag == -2)
 		free_struct_array(arr);
 	if (flag == -1)
+	{
 		ft_putendl_fd("minishell: error allocating memory", 2);
+		free_struct_array(arr);
+	}
 	if (flag == 1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
@@ -52,7 +56,7 @@ void	print_error(t_cmd_args **arr, int flag)
 	}
 	if (flag == 2)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd("1ßminishell: cd: ", 2);
 		ft_putstr_fd((*arr)->args[0], 2);
 		if (access((*arr)->args[0], F_OK) == 0)
 			ft_putendl_fd(": Not a directory", 2);
@@ -61,8 +65,9 @@ void	print_error(t_cmd_args **arr, int flag)
 	}
 }
 
-void	export_error(char *str, t_env **env_table)
+void	export_error(char *str, t_env **env_table, t_env *env)
 {
+	free(env);
 	change_cmd_status(env_table, 256);
 	ft_putstr_fd("minishell: export: ", 2);
 	ft_putstr_fd("`", 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 09:45:08 by vsavolai          #+#    #+#             */
-/*   Updated: 2024/04/23 10:37:12 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/04/30 08:25:03 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	check_cmds(t_cmd_args **ca, t_env **env_table)
 	flag = check_cmd_syntax(ca, env_table);
 	if (flag < 0)
 	{
-		print_error(ca, flag);
+		print_error(ca, flag, env_table);
 		return ;
 	}
 	if ((*ca)->pipe_count == 1 && (ft_strncmp((*ca)->cmd, "exit", 5) == 0))
