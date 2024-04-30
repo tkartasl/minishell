@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:53:36 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/30 08:26:47 by vsavolai         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:25:46 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_exit(t_env **env_table, t_cmd_args **c, int flag)
 	ft_putstr_fd("exit", 1);
 	if ((*c)->args[0] != NULL)
 	{
-		while ((*c)->args[i])
+		while ((*c)->args[0][i])
 		{
 			if (ft_isdigit((*c)->args[0][i]) == 0)
 			{
