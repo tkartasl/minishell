@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vsavolai <vsavolai@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:37:37 by tkartasl          #+#    #+#             */
-/*   Updated: 2024/04/18 15:26:28 by tkartasl         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:19:57 by vsavolai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	update_table(t_env **env_table)
 		return (-1);
 	}
 	env = search_table("PWD", env_table);
+	if (env == NULL)
+		return (-1);
 	old_pwd = ft_strdup(env->value);
 	if (old_pwd == NULL)
 	{
