@@ -24,4 +24,6 @@ Input redirection (<)
 Signal handling: Handle Ctrl+C, Ctrl+\, and Ctrl+D gracefully.
 Environment variables: Use and manage $VARIABLES.
 
+![minishell gif](gif/minishell_trimmed-ezgif.com.gif)
+
 This was a Hive Helsinki group project that I did with www.github.com/svolain
