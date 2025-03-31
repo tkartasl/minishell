@@ -17,6 +17,7 @@ Built-in commands: Implemented commands such as:
 - unset
 - env
 - exit
+
 Pipelines: Chain commands with |, e.g., ls | grep "file" | wc -l.
 Redirection:
 Output redirection (> and >>)
