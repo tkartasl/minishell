@@ -27,4 +27,4 @@ Environment variables: Use and manage $VARIABLES.
 
 ![minishell gif](gif/minishell_trimmed-ezgif.com.gif)
 
-This was a Hive Helsinki group project that I did with www.github.com/svolain
+This was a Hive Helsinki group project that I did with [Ville Savolainen](https://www.github.com/svolain)
